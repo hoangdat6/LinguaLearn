@@ -12,6 +12,7 @@ headers = {
 }
 
 def process_course(course):
+
     if course['id'] != 16 and course['id'] != 17:
         return
     """Xử lý từng course: upload ảnh và lưu vào database."""
@@ -23,6 +24,18 @@ def process_course(course):
             uploaded_image = cloudinary.uploader.upload(image_url, folder="courses")
         except Exception as e:
             print(f"❌ Lỗi upload ảnh {image_url}: {e}")
+
+    # Lưu vào database
+    Course.objects.update_or_create(
+        id=course["id"],
+        defaults={
+            "title": course["title"],
+            "en_title": course["en_title"],
+            "description": course.get("description", ""),
+            "image": uploaded_image["secure_url"] if uploaded_image else None,
+        }
+    )
+
     try:
         print(f"🔹 Đang xử lý khóa học: {course['title']}")
         Course.objects.update_or_create(
@@ -38,6 +51,7 @@ def process_course(course):
     except Exception as e:
         print(f"❌ Lỗi xử lý khóa học {course['title']}: {e}")
         return
+
     print(f"✅ Đã xử lý xong khóa học: {course['title']}")
 
 def fetch_courses():
