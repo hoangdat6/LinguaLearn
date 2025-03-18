@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 201 96% 32%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 60 94% 56%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 201 96% 32%;
+    --radius: 0.75rem;
+
+    /* Vocabulary level colors */
+    --level-1: 6 77% 57%;
+    --level-2: 45 93% 47%;
+    --level-3: 190 90% 50%;
+    --level-4: 217 91% 50%;
+    --level-5: 224 76% 24%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 201 96% 32%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 60 94% 56%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .skill-tree {
+    @apply relative py-8 px-4;
+  }
+
+  .skill-node {
+    @apply relative z-10 w-24 h-24 rounded-2xl shadow-lg transition-all duration-300 flex flex-col items-center justify-center;
+  }
+
+  .skill-node.completed {
+    @apply bg-primary text-primary-foreground shadow-primary/25;
+  }
+
+  .skill-node.current {
+    @apply bg-secondary text-secondary-foreground shadow-secondary/25;
+  }
+
+  .skill-node.locked {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .skill-icon {
+    @apply text-4xl mb-2;
+  }
+
+  .skill-title {
+    @apply text-xs font-medium text-center px-1;
+  }
+
+  .vocabulary-level {
+    @apply relative h-32 flex items-end gap-4;
+  }
+
+  .vocabulary-level-bar {
+    @apply relative flex-1 rounded-t-lg transition-all duration-300 ease-out;
+  }
+
+  .vocabulary-level-bar-1 {
+    @apply bg-[hsl(var(--level-1))];
+  }
+
+  .vocabulary-level-bar-2 {
+    @apply bg-[hsl(var(--level-2))];
+  }
+
+  .vocabulary-level-bar-3 {
+    @apply bg-[hsl(var(--level-3))];
+  }
+
+  .vocabulary-level-bar-4 {
+    @apply bg-[hsl(var(--level-4))];
+  }
+
+  .vocabulary-level-bar-5 {
+    @apply bg-[hsl(var(--level-5))];
+  }
+
+  .vocabulary-level-label {
+    @apply absolute -bottom-6 left-1/2 -translate-x-1/2 text-sm font-medium;
+  }
+
+  .vocabulary-level-count {
+    @apply absolute -top-6 left-1/2 -translate-x-1/2 text-sm font-bold;
+  }
+}
+
+.flashcard {
+  @apply relative w-full h-64 perspective-1000;
+}
+
+.flashcard-inner {
+  @apply relative w-full h-full transition-transform duration-500 transform-style-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  @apply rotate-y-180;
+}
+
+.flashcard-front,
+.flashcard-back {
+  @apply absolute w-full h-full backface-hidden rounded-xl p-6 flex items-center justify-center;
+}
+
+.flashcard-back {
+  @apply rotate-y-180;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.progress-bar {
+  @apply h-2.5 bg-muted rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-primary transition-all duration-300 ease-in-out;
+}
+
+.owl-shadow {
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Animation for correct/incorrect answers */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.answer-feedback {
+  animation: pulse 0.5s ease-in-out;
+}
+
+.answer-feedback.correct {
+  @apply text-green-500;
+}
+
+.answer-feedback.incorrect {
+  @apply text-red-500;
+}
+
+/* Improve button hover effects */
+.btn-hover-effect {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.btn-hover-effect:hover {
+  @apply transform scale-105 shadow-md;
+}
+
+/* Add a subtle background pattern */
+.bg-pattern {
+  background-color: #f0f0f0;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .bg-pattern {
+  background-color: #1a1a1a;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Add a subtle text shadow for better readability */
+.text-shadow {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark .text-shadow {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Add these styles to your existing globals.css */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.duolingo-green {
+  color: #58cc02;
+}
+
+.duolingo-blue {
+  color: #1cb0f6;
+}
+
+.duolingo-orange {
+  color: #ff9600;
+}
+
+.duolingo-red {
+  color: #ff4b4b;
+}
+
