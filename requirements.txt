@@ -1,0 +1,7 @@
+Django
+cloudinary
+django-dotenv
+requests
+djangorestframework
+concurrent.futures
+pytz
