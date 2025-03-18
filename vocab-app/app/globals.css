@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 @layer base {
   :root {
@@ -126,14 +125,14 @@
   .vocabulary-level-count {
     @apply absolute -top-6 left-1/2 -translate-x-1/2 text-sm font-bold;
   }
-}
+} 
 
 .flashcard {
-  @apply relative w-full h-64 perspective-1000;
+  @apply relative w-full h-64 perspective-[1000];
 }
 
 .flashcard-inner {
-  @apply relative w-full h-full transition-transform duration-500 transform-style-3d;
+  @apply relative w-full h-full transition-transform duration-500 transform-3d;
 }
 
 .flashcard.flipped .flashcard-inner {
