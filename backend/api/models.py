@@ -2,6 +2,8 @@ from django.db import models
 import cloudinary
 from cloudinary.models import CloudinaryField
 from django.utils.timezone import now
+from django.contrib.auth.models import AbstractUser
+import uuid
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
@@ -41,3 +43,8 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
+    
+
+class CustomUser (AbstractUser):
+    email_verified = models.BooleanField(default=False)
+    verification_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
