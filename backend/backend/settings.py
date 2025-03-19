@@ -35,6 +35,14 @@ DEBUG = True  # Đặt thành False trong môi trường production
 ALLOWED_HOSTS = [
 ]
 
+AUTH_USER_MODEL = 'api.CustomUser'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUD_NAME"),
@@ -60,9 +68,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'api',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
