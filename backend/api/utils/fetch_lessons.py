@@ -3,7 +3,8 @@ import cloudinary.uploader
 from concurrent.futures import ThreadPoolExecutor
 from api.models import Lesson, Course
 
-lesson_url = "https://learn.mochidemy.com/_next/data/ouwiOobiRDrduRfgjGBFT/vi/learn/{course_id}.json?courseId={course_id}"
+# lesson_url = "https://learn.mochidemy.com/_next/data/ouwiOobiRDrduRfgjGBFT/vi/learn/{course_id}.json?courseId={course_id}"
+lesson_url = "https://learn.mochidemy.com/_next/data/jqRIFJk7WgjBGC9nBJxa0/vi/learn/{course_id}.json?courseId={course_id}"
 
 headers = {
     "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA",
@@ -41,33 +42,36 @@ def process_lesson(lesson):
 
 def fetch_lessons():
     """Lấy danh sách bài học và xử lý chúng bằng đa luồng."""
-    response = requests.get(lesson_url, headers=headers)
+    course_ids = [16, 17, 11]  # ID của các course cần lấy bài học
+    for course_id in course_ids:
+        url = lesson_url.format(course_id=course_id)
+        response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
-        lessons_data = response.json()["pageProps"]["courseData"]
+        if response.status_code == 200:
+            lessons_data = response.json()["pageProps"]["courseData"]
 
-        with ThreadPoolExecutor(max_workers=5) as executor:  # Sử dụng tối đa 5 luồng
-            executor.map(process_lesson, lessons_data)
+            with ThreadPoolExecutor(max_workers=5) as executor:  # Sử dụng tối đa 5 luồng
+                executor.map(process_lesson, lessons_data)
 
-        print("✅ Tất cả bài học đã được xử lý xong!")
-    else:
-        print(f"❌ Lỗi lấy dữ liệu Lesson: {response.status_code} - {response.text}")
+            print("✅ Tất cả bài học đã được xử lý xong!")
+        else:
+            print(f"❌ Lỗi lấy dữ liệu Lesson: {response.status_code} - {response.text}")
 
 
 
 def process_lessons_course(lesson, course):
 
-    if course.id != 16 and course.id != 17:
-        print(f"⚠️ Bỏ qua Course {course.title}")
-        return
+    # if course.id != 16 and course.id != 17:
+    #     print(f"⚠️ Bỏ qua Course {course.title}")
+    #     return
 
     # print(f"🔄 DEBUG: Đang vào process_lessons_course() với bài học ID: {lesson.get('id', 'N/A')}")
-    # print(f"🔹 Đang xử lý bài học: {lesson['title']}")
+    print(f"🔹 Đang xử lý bài học: {lesson['title']}")
 
     try:
         lesson_db = Lesson.objects.get(id=lesson["id"])
         if lesson_db.course:
-            # print(f"⚠️ Bài học {lesson['title']} đã có course {lesson_db.course.title}. Bỏ qua!")
+            print(f"⚠️ Bài học {lesson['title']} đã có course {lesson_db.course.title}. Bỏ qua!")
             return
         lesson_db.course = course
         lesson_db.save()
@@ -80,22 +84,28 @@ def process_lessons_course(lesson, course):
 
 def update_lessons_course():
     """Cập nhật course cho từng lesson."""
-    for _ in range(3):
-        for course in Course.objects.all():
-            url = lesson_url.format(course_id=course.id)
-            response = requests.get(url, headers=headers)
-            
-            if response.status_code != 200:
-                print(f"❌ Lỗi API: {response.status_code} - {response.text}")
-                continue
-            
-            lessons_data = response.json()["pageProps"]["courseData"]
-            print(f"📌 Course {course.title} có {len(lessons_data)} bài học.\n")
+    course_ids = [16, 17, 11]  # ID của các course cần cập nhật
+    course_id = 8
+    # for _ in range(3):
+    for course_id in course_ids:
+        course = Course.objects.get(id=course_id)
+    #     for course in Course.objects.all():
+        url = lesson_url.format(course_id=course.id)
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code != 200:
+            print(f"❌ Lỗi API: {response.status_code} - {response.text}")
+        
+        lessons_data = response.json()["pageProps"]["courseData"]
+        print(f"📌 Course {course.title} có {len(lessons_data)} bài học.\n")
 
-            if not lessons_data:
-                continue  # Không có bài học nào để xử lý
+        if not lessons_data:
+            pass
+            # continue  # Không có bài học nào để xử lý
 
-            with ThreadPoolExecutor(max_workers=10) as executor:
-                executor.map(process_lessons_course, lessons_data, [course]*len(lessons_data))
-            
-            print(f"✅ Hoàn thành cập nhật cho Course {course.title}!")
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            executor.map(process_lessons_course, lessons_data, [course]*len(lessons_data))
+        
+        print(f"✅ Hoàn thành cập nhật cho Course {course.title}!")
+
+
