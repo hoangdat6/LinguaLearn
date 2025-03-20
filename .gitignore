@@ -7,3 +7,6 @@ __pycache__/
 
 # Bỏ qua database SQLite
 db.sqlite3
+
+**/.venv/
+.idea

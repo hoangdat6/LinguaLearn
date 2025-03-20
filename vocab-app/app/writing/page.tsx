@@ -1,17 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { PenLine, CheckCircle, XCircle, ArrowRight, Lightbulb, Sparkles, BookOpen, Clock, BarChart } from 'lucide-react'
-import { motion, AnimatePresence } from "framer-motion"
-import { WritingSentenceBuilder } from "@/components/writing/sentence-builder"
-import { WritingTextCompletion } from "@/components/writing/text-completion"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { WritingFreeform } from "@/components/writing/freeform"
 import { WritingProgress } from "@/components/writing/progress"
+import { WritingSentenceBuilder } from "@/components/writing/sentence-builder"
+import { WritingTextCompletion } from "@/components/writing/text-completion"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowRight, BarChart, BookOpen, CheckCircle, Clock, Lightbulb, PenLine, Sparkles } from 'lucide-react'
+import { useState } from "react"
 
 
 export default function WritingPage() {
