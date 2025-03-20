@@ -2,8 +2,11 @@ from rest_framework import viewsets, generics, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Lesson, Course, CustomUser as User
+from .models import Lesson, Course, CustomUser as User, UserWord, UserLesson
+from .utils.calculate_next_review import calculate_next_review
+from .utils.get_review_ready_words import get_review_ready_words
 from .serializers import LessonSerializer, WordSerializer, CourseSerializer, OnlyLessonSerializer, UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer, ResetPasswordSerializer, LogoutSerializer
+from .serializers import UserCourseSerializer, UserLessonSerializer, UserWordInputSerializer, UserWordOutputSerializer, LessonWordsInputSerializer
 from django.contrib.auth import authenticate
 from django.db.models import Count
 from django.core.mail import send_mail
@@ -12,6 +15,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from .pagination import CustomPagination
+from django.utils import timezone
 
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all().select_related('course').annotate(word_count=Count('word')).order_by('id')
@@ -69,6 +74,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer = CourseSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
     
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -399,3 +405,194 @@ class UserViewSet(viewsets.ModelViewSet):
     @permission_classes([IsAuthenticated])
     def test(self, request):
         return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
+    
+
+@permission_classes([IsAuthenticated])
+class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Course.objects.all().order_by('id').annotate(lesson_count=Count('lesson'))
+    serializer_class = UserCourseSerializer
+    pagination_class = CustomPagination
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+    
+    @action(detail=True, methods=['get'], url_path='lessons')
+    def get_lessons(self, request, pk=None):
+        """
+        Lấy danh sách các bài học của khóa học cụ thể (có phân trang).
+        URL mẫu: /api/user-courses/<course_id>/lessons/
+        """
+        course = self.get_object()  
+        lessons = course.lesson_set.all().order_by('id').annotate(word_count=Count('word'))
+        page = self.paginate_queryset(lessons)
+        if page is not None:
+            serializer = UserLessonSerializer(page, many=True, context={'request': request})
+            return self.get_paginated_response(serializer.data)
+        serializer = UserLessonSerializer(lessons, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+
+@permission_classes([IsAuthenticated])
+class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Lesson.objects.all().order_by('id').annotate(word_count=Count('word'))
+    serializer_class = UserLessonSerializer
+    pagination_class = CustomPagination
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+    
+    @action(detail=True, methods=['get'], url_path='words')
+    def get_words(self, request, pk=None):
+        """
+        Lấy danh sách từ vựng của bài học cụ thể mà không phân trang.
+        URL mẫu: /api/user-lessons/<lesson_id>/words/
+        """
+        lesson = self.get_object()
+        words = lesson.word_set.all()
+        serializer = WordSerializer(words, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
+class UserWordViewSet(viewsets.ModelViewSet):
+    queryset = UserWord.objects.all()
+    # Chúng ta không dùng serializer_class mặc định cho action này
+    # vì action sẽ sử dụng LessonWordsInputSerializer để validate input
+    # và UserWordOutputSerializer để trả về dữ liệu output.
+
+    def get_queryset(self):
+        return UserWord.objects.filter(user=self.request.user)
+
+    @action(detail=False, methods=['post'], url_path='submit-lesson-words')
+    def submit_lesson_words(self, request):
+        """
+        Dữ liệu nhận từ frontend có cấu trúc:
+        {
+            "is_review": true,
+            "lesson_id": 12,          // Chỉ bắt buộc khi is_review là false
+            "words": [
+                {
+                    "word_id": 123,
+                    "level": 2,
+                    "streak": 3,
+                    "is_correct": true,
+                    "question_type": "L2"
+                },
+                {
+                    "word_id": 124,
+                    "level": 3,
+                    "streak": 2,
+                    "is_correct": false,
+                    "question_type": "L1"
+                }
+            ]
+        }
+        Logic xử lý:
+         - Nếu is_review = false: đặt new_level = 1, new_streak = 1.
+         - Nếu is_review = true:
+               • Nếu is_correct = false: new_streak = 1, new_level = max(level - 1, 1).
+               • Nếu is_correct = true: new_streak = min(10, streak + 1), new_level = min(level + 1, 5).
+         - Tính next_review dựa trên new_level, new_streak và question_type.
+         - Tạo hoặc cập nhật bản ghi UserWord.
+         - Nếu is_review = false, yêu cầu lesson_id để cập nhật UserLesson cho lesson đó.
+        """
+        parent_serializer = LessonWordsInputSerializer(data=request.data)
+        parent_serializer.is_valid(raise_exception=True)
+        validated_data = parent_serializer.validated_data
+
+        is_review = validated_data['is_review']
+        # lesson_id chỉ có khi is_review == false
+        lesson_id = validated_data.get('lesson_id', None)
+        words_data = validated_data['words']
+        user = request.user
+
+        processed_words = []
+        for word_data in words_data:
+            word_id = word_data['word_id']
+            level = word_data['level']
+            streak = word_data['streak']
+            question_type = word_data['question_type']
+            # Nếu is_review ở cấp cha là true, ta sẽ xử lý is_correct từ mỗi word
+            is_correct = word_data.get('is_correct', None)
+
+            if not is_review:
+                # Khi is_review = false: reset new_level, new_streak
+                new_level = 1
+                new_streak = 1
+            else:
+                # is_review = true
+                if is_correct is False:
+                    new_streak = 1
+                    new_level = max(level - 1, 1)
+                else:
+                    new_streak = min(10, streak + 1)
+                    new_level = min(level + 1, 5)
+
+            next_review_value = calculate_next_review(new_level, new_streak, question_type)
+
+            user_word, created = UserWord.objects.get_or_create(
+                user=user,
+                word_id=word_id,
+                defaults={
+                    'level': new_level,
+                    'streak': new_streak,
+                    'next_review': next_review_value,
+                }
+            )
+            if not created:
+                user_word.level = new_level
+                user_word.streak = new_streak
+                user_word.next_review = next_review_value
+                user_word.save()
+
+            processed_words.append(user_word)
+
+        # Nếu is_review = false, thì bắt buộc có lesson_id để cập nhật trạng thái cho lesson (đánh dấu là đã học)
+        if not is_review:
+            # Tạo hoặc cập nhật UserLesson
+            from django.utils import timezone
+            from .models import UserLesson
+            user_lesson, created_lesson = UserLesson.objects.get_or_create(
+                user=user,
+                lesson_id=lesson_id,
+                defaults={
+                    'date_started': timezone.now(),
+                    'date_completed': timezone.now(),
+                }
+            )
+            if not created_lesson:
+                user_lesson.date_completed = timezone.now()
+                user_lesson.save()
+
+        output_serializer = UserWordOutputSerializer(processed_words, many=True, context={'request': request})
+        response_data = {
+            "is_review": is_review,
+            "lesson_id": lesson_id,  # Có thể null nếu is_review = true
+            "words": output_serializer.data,
+        }
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['get'], url_path='get-words')
+    def get_words(self, request):
+        user = request.user
+        words = UserWord.objects.filter(user=user)
+        serializer = UserWordOutputSerializer(words, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'], url_path='due-words')
+    def due_words(self, request):
+        cutoff_time, due_words = get_review_ready_words(request.user)
+        delta = cutoff_time - timezone.now()
+        total_seconds = int(delta.total_seconds())
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+        serializer = UserWordOutputSerializer(due_words, many=True, context={'request': request})
+        return Response({
+            "review_word_count": due_words.count(),
+            "time_until_next_review": time_until_next_review,
+            "words": serializer.data
+        }, status=status.HTTP_200_OK)

@@ -26,6 +26,10 @@ def upload_to_cloudinary(url, folder, resource_type="image"):
         return None
 
 def process_lesson(lesson):
+    if lesson.course_id not in [16, 17, 11, 8]:
+        return
+    if lesson.words.count() > 0:
+        print(f"🔹 Bài học {lesson.title} đã có từ vựng, bỏ qua!")
     """Xử lý từ vựng cho từng bài học"""
     print(f"🔹 Đang xử lý bài học: {lesson.title}")
     word_url = word_api_template.format(lesson_id=lesson.id)
@@ -80,7 +84,7 @@ def process_lesson(lesson):
 
 def fetch_words():
     """Hàm chính để tải toàn bộ từ vựng"""
-    lessons = Lesson.objects.filter(course__id__in=[16, 17])  # Lấy tất cả bài học của khóa học 16 và 17
+    lessons = Lesson.objects.filter(course__id__in=[16, 17, 11, 8])  # Lấy tất cả bài học của khóa học 16 và 17
     with ThreadPoolExecutor(max_workers=10) as executor:  # Giới hạn 3 luồng tải bài học
         executor.map(process_lesson, lessons)
 

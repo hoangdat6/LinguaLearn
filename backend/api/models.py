@@ -4,6 +4,7 @@ from cloudinary.models import CloudinaryField
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser
 import uuid
+from django.utils import timezone
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
@@ -48,3 +49,51 @@ class Word(models.Model):
 class CustomUser (AbstractUser):
     email_verified = models.BooleanField(default=False)
     verification_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
+
+class UserCourse(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='course_progress')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    date_started = models.DateTimeField(auto_now_add=True)
+    date_completed = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'course'], name='unique_user_course')
+        ]
+        ordering = ['-date_started']  # Ví dụ: sắp xếp theo ngày bắt đầu giảm dần
+
+    def __str__(self):
+        return f"{self.user.username} - {self.course.title}"
+
+class UserLesson(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='lesson_progress')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    date_started = models.DateTimeField(auto_now_add=True)
+    date_completed = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'lesson'], name='unique_user_lesson')
+        ]
+        ordering = ['-date_started']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.lesson.title}"
+
+class UserWord(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_words')
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_words')
+    level = models.PositiveSmallIntegerField(default=1)  
+    next_review = models.DateTimeField(default=timezone.now) 
+    last_review = models.DateTimeField(auto_now=True)
+    streak = models.PositiveIntegerField(default=1)
+    learned_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'word'], name='unique_user_word')
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.word.word} (Level: {self.level})"
+
