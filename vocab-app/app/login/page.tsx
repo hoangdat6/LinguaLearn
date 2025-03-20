@@ -2,15 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import Link from "next/link"
+import { Owl } from "@/components/owl"
+import { ThemeToggle } from "@/components/theme/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ThemeToggle } from "@/components/theme/theme-toggle"
-import { Owl } from "@/components/owl"
+import Link from "next/link"
+import { useState } from "react"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -36,19 +36,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40">
-      <div className="absolute top-4 right-4">
+    <div className="flex flex-col bg-muted/40 justify-center items-center min-h-screen">
+      <div className="absolute right-4 top-4">
         <ThemeToggle />
       </div>
 
       <div className="flex flex-col items-center mb-8">
-        <Owl className="w-24 h-24 mb-2" />
-        <h1 className="text-3xl font-bold text-primary">LinguaLearn</h1>
+        <Owl className="h-24 w-24 mb-2" />
+        <h1 className="text-3xl text-primary font-bold">LinguaLearn</h1>
       </div>
 
       <Card className="w-full max-w-md">
         <Tabs defaultValue="login">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid grid-cols-2 w-full">
             <TabsTrigger value="login">Đăng nhập</TabsTrigger>
             <TabsTrigger value="register">Đăng ký</TabsTrigger>
           </TabsList>
@@ -65,9 +65,9 @@ export default function LoginPage() {
                   <Input id="email" type="email" placeholder="m@example.com" required />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex justify-between items-center">
                     <Label htmlFor="password">Mật khẩu</Label>
-                    <Link href="/forgot-password" className="text-xs text-primary hover:underline">
+                    <Link href="/forgot-password" className="text-primary text-xs hover:underline">
                       Quên mật khẩu?
                     </Link>
                   </div>
