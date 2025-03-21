@@ -49,6 +49,7 @@ class Word(models.Model):
 class CustomUser (AbstractUser):
     email_verified = models.BooleanField(default=False)
     verification_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
+    avatar = CloudinaryField('image', blank=True, null=True)
 
 class UserCourse(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='course_progress')
