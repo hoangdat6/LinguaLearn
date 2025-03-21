@@ -413,7 +413,7 @@ class UserViewSet(viewsets.ModelViewSet):
         Endpoint để refresh access token.
         Yêu cầu gửi refresh token trong header Authorization.
         """
-        refresh = request.META.get("HTTP_AUTHORIZATION").split()[1]
+        refresh = request.data.get("refresh")
         token = RefreshToken(refresh)
         access_token = str(token.access_token)
         refresh_token = str(token)
