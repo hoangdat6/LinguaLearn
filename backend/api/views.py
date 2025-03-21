@@ -406,6 +406,18 @@ class UserViewSet(viewsets.ModelViewSet):
     def test(self, request):
         return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
     
+    @action(detail=False, methods=["get"], url_path="refresh-token")
+    @permission_classes([AllowAny])
+    def refresh_token(self, request):
+        """
+        Endpoint để refresh access token.
+        Yêu cầu gửi refresh token trong header Authorization.
+        """
+        refresh = request.META.get("HTTP_AUTHORIZATION").split()[1]
+        token = RefreshToken(refresh)
+        access_token = str(token.access_token)
+        refresh_token = str(token)
+        return Response({"access": access_token, "refresh": refresh_token}, status=status.HTTP_200_OK)    
 
 @permission_classes([IsAuthenticated])
 class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
