@@ -418,6 +418,16 @@ class UserViewSet(viewsets.ModelViewSet):
         access_token = str(token.access_token)
         refresh_token = str(token)
         return Response({"access": access_token, "refresh": refresh_token}, status=status.HTTP_200_OK)    
+    
+    @action(detail=False, methods=["get"], url_path="profile")
+    @permission_classes([IsAuthenticated])
+    def profile(self, request):
+        user = request.user
+        return Response({"username": user.username, "avatar": user.avatar}, status=status.HTTP_200_OK)
+
+
+
+
 
 @permission_classes([IsAuthenticated])
 class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
@@ -596,15 +606,33 @@ class UserWordViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'], url_path='due-words')
     def due_words(self, request):
+
+        # thống kê các từ theo level đã học
+        word_level1 = UserWord.objects.filter(user=request.user, level=1).count()
+        word_level2 = UserWord.objects.filter(user=request.user, level=2).count()
+        word_level3 = UserWord.objects.filter(user=request.user, level=3).count()
+        word_level4 = UserWord.objects.filter(user=request.user, level=4).count()
+        word_level5 = UserWord.objects.filter(user=request.user, level=5).count()
+
         cutoff_time, due_words = get_review_ready_words(request.user)
         delta = cutoff_time - timezone.now()
         total_seconds = int(delta.total_seconds())
         hours, remainder = divmod(total_seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
+        if(hours < 0):
+            hours = 0
+            minutes = 0
+            seconds = 0
+            
         time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
         serializer = UserWordOutputSerializer(due_words, many=True, context={'request': request})
         return Response({
+            "word_level1": word_level1,
+            "word_level2": word_level2,
+            "word_level3": word_level3,
+            "word_level4": word_level4,
+            "word_level5": word_level5,
             "review_word_count": due_words.count(),
             "time_until_next_review": time_until_next_review,
-            "words": serializer.data
+            "words": serializer.data,
         }, status=status.HTTP_200_OK)
