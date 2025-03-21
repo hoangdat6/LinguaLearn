@@ -426,9 +426,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({"username": user.username, "avatar": user.avatar}, status=status.HTTP_200_OK)
 
 
-
-
-
 @permission_classes([IsAuthenticated])
 class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.all().order_by('id').annotate(lesson_count=Count('lesson'))
