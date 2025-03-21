@@ -822,7 +822,6 @@ export default function SettingsPage() {
                 <Separator />
 
                 <motion.div variants={staggerChildren} initial="hidden" animate="visible" transition={{ delay: 0.2 }}>
-                  <motion.div className="space-y-3" variants={cardAnimationdelay: 0.2}}>
                   <motion.div className="space-y-3" variants={cardAnimation}>
                     <h3 className="text-lg font-medium">API và Webhook</h3>
                     <div className="space-y-4">
@@ -942,7 +941,7 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <motion.div variants={staggerChildren} initial="hidden" animate="visible">
-                  <Alert className="mb-6" variant="warning">
+                  <Alert className="mb-6" variant="destructive">
                     <AlertTriangle className="h-4 w-4" />
                     <AlertTitle>Cảnh báo</AlertTitle>
                     <AlertDescription>
