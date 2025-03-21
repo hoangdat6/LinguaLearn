@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import api from "./api";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/users/";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 
 // Hàm đăng nhập
