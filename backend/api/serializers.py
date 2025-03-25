@@ -3,28 +3,46 @@ from .models import Lesson, Word, Course, CustomUser, UserCourse, UserLesson, Us
 from django.contrib.auth import password_validation
 
 class WordSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    audio = serializers.SerializerMethodField()
     class Meta:
         model = Word
-        fields = '__all__'  # Hoặc có thể chọn trường cụ thể
+        fields = '__all__' 
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
+    
+    def get_audio(self, obj):
+        return obj.audio.url if obj.audio else None
 
 class LessonSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True, source='word_set')  # Lấy danh sách Word của Lesson
-
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Lesson
         fields = '__all__'  # Hoặc ['id', 'title', 'description', 'words']
 
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
+
 class OnlyLessonSerializer(serializers.ModelSerializer):
     word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()
-
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Lesson
         fields = ['id', 'title', 'description', 'image', 'word_count']
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
 
 class CourseSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Course
         fields = '__all__' 
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
@@ -81,6 +99,7 @@ class LogoutSerializer(serializers.Serializer):
 class UserLessonSerializer(serializers.ModelSerializer):
     is_learned = serializers.SerializerMethodField()
     word_count = serializers.IntegerField(read_only=True)
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Lesson
         fields = [
@@ -93,6 +112,9 @@ class UserLessonSerializer(serializers.ModelSerializer):
             'is_learned',
             'word_count'
         ]
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
 
     def get_is_learned(self, obj):
         request = self.context.get('request')
@@ -108,7 +130,7 @@ class UserCourseSerializer(serializers.ModelSerializer):
     lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()
     # Lưu ý: 'lesson_set' là tên mặc định của reverse relation từ Lesson đến Course,
     # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.
-
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Course
         fields = [
@@ -121,6 +143,9 @@ class UserCourseSerializer(serializers.ModelSerializer):
             'is_learned', 
             'lesson_count'
         ]
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
 
     def get_is_learned(self, obj):
         request = self.context.get('request')
@@ -145,16 +170,24 @@ class UserWordInputSerializer(serializers.Serializer):
 
 class UserWordOutputSerializer(serializers.ModelSerializer):
     word_id = serializers.IntegerField(source='word.id')
-    
+    image = serializers.SerializerMethodField()
+    audio = serializers.SerializerMethodField()
+
     class Meta:
         model = UserWord
         fields = '__all__' 
+
+    def get_image(self, obj):
+        return obj.word.image.url if obj.word.image else None
+    
+    def get_audio(self, obj):
+        return obj.word.audio.url if obj.word.audio else None
 
 class LessonWordsInputSerializer(serializers.Serializer):
     is_review = serializers.BooleanField(required=True)
     lesson_id = serializers.IntegerField(required=False)  # Bắt buộc nếu is_review == false
     words = UserWordInputSerializer(many=True, required=True)
-
+    
     def validate(self, attrs):
         is_review = attrs.get("is_review")
         lesson_id = attrs.get("lesson_id")

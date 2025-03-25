@@ -82,10 +82,61 @@ def process_lesson(lesson):
 
     print(f"✅ Đã lưu {len(words_data)} từ vựng cho bài {lesson.title}")
 
+def add_pos_to_words(lesson):
+    word_url = word_api_template.format(lesson_id=lesson.id)
+    response = requests.get(word_url, headers=headers)
+    if response.status_code != 200:
+        print(f"❌ Lỗi API {response.status_code} - {response.text}")
+        return
+    try:
+        words_data = response.json().get("data", [])
+    except requests.exceptions.JSONDecodeError:
+        print("❌ Lỗi: API không trả về JSON hợp lệ!")
+        return
+    
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        futures = {}
+        for word in words_data:
+            pos = word.get("position")
+            word_obj = Word.objects.filter(lesson=lesson, word=word.get("content", "")).first()
+        
+            if word_obj:
+                word_obj.pos = pos
+                word_obj.save()
+                print(f"✅ Đã cập nhật POS cho từ {word_obj.word} trong bài {lesson.title}")
+            else:
+                image_url = word.get("picture")
+                audio_url = word.get("audio")
+                future_image = executor.submit(upload_to_cloudinary, image_url, "words", "image")
+                future_audio = executor.submit(upload_to_cloudinary, audio_url, "audio", "video")
+                futures[future_image] = ("image", word)
+                futures[future_audio] = ("audio", word)
+        uploaded_files = {}
+        for future in as_completed(futures):
+            file_type, word = futures[future]
+            uploaded_files[file_type] = future.result()
+            print(f"✅ Đã upload {file_type}: {uploaded_files[file_type]}")
+            Word.objects.update_or_create(
+                lesson=lesson,
+                word=word.get("content", ""),
+                defaults={
+                    "pronunciation": word.get("phonetic", ""),
+                    "meaning": word.get("trans", ""),
+                    "example": word.get("sentence1", ""),
+                    "example_vi": word.get("vi_sentence1", ""),
+                    "image": uploaded_files.get("image"),
+                    "audio": uploaded_files.get("audio"),
+                    "pos": word.get("position")
+                }
+            )
+
+
+
+
 def fetch_words():
     """Hàm chính để tải toàn bộ từ vựng"""
-    lessons = Lesson.objects.filter(course__id__in=[16, 17, 11, 8])  # Lấy tất cả bài học của khóa học 16 và 17
+    lessons = Lesson.objects.all()
     with ThreadPoolExecutor(max_workers=10) as executor:  # Giới hạn 3 luồng tải bài học
-        executor.map(process_lesson, lessons)
+        executor.map(add_pos_to_words, lessons)
 
 
