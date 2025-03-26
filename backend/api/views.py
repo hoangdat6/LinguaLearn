@@ -596,7 +596,11 @@ class UserWordViewSet(viewsets.ModelViewSet):
     def count_words_by_level(self, request):
         # Sử dụng annotate để đếm số từ cho mỗi level chỉ trong 1 truy vấn
         counts_qs = self.get_queryset().values('level').annotate(count=Count('id'))
+
         result = {f"count_level{level}": 0 for level in range(1, 6)}
+        result["basic"] = 0
+        result["intermediate"] = 0
+        result["advanced"] = 0
         for item in counts_qs:
             result[f"count_level{item['level']}"] = item['count']
         return Response(result, status=status.HTTP_200_OK)

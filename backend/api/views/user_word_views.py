@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Case, When, IntegerField
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
@@ -132,50 +132,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='count_words-by-level')
     def count_words_by_level(self, request):
-        # Sử dụng annotate để đếm số từ cho mỗi level chỉ trong 1 truy vấn
-        counts_qs = self.get_queryset().values('level').annotate(count=Count('id'))
-        result = {f"count_level{level}": 0 for level in range(1, 6)}
-        for item in counts_qs:
-            result[f"count_level{item['level']}"] = item['count']
-        return Response(result, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['get'], url_path='learned-words')
-    def learned_words(self, request):
-        # Lấy toàn bộ các UserWord của user hiện tại (đã tối ưu với select_related nếu cần)
-        user_words = self.get_queryset()
-        # Phân nhóm theo level (1 đến 5)
-        grouped = {level: [] for level in range(1, 6)}
-        for uw in user_words:
-            grouped[uw.level].append(uw)
-
-        result = {}
-        # Duyệt qua từng level và áp dụng phân trang riêng dựa trên tham số trang riêng
-        for level in range(1, 6):
-            paginator = LearnedWordsPagination()  # Sử dụng lớp phân trang đã định nghĩa
-            # Lấy số trang riêng cho mỗi level (mặc định là 1 nếu không có tham số)
-            page_number = request.query_params.get(f'page_level{level}', 1)
-
-            # Tạo dummy_request để paginator nhận giá trị 'page'
-            dummy_query_params = request.query_params.copy()
-            dummy_query_params['page'] = page_number  # Gán số trang riêng cho level này
-            dummy_request = type('DummyRequest', (), {'query_params': dummy_query_params})
-
-            # Phân trang cho nhóm từ của level đó
-            paginated_words = paginator.paginate_queryset(grouped[level], dummy_request)
-            serializer = LearnedWordsSerializer(paginated_words, many=True, context={'request': request})
-
-            result[f"words_by_level{level}"] = {
-                "data": serializer.data,
-                "total": len(grouped[level]),
-                "current_page": paginator.page.number,
-                "num_pages": paginator.page.paginator.num_pages
-            }
-
-        return Response(result, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['get'], url_path='review-words')
-    def review_words(self, request):
-        # Hàm get_review_ready_words() trả về cutoff_time và danh sách từ cần ôn
+        queryset = self.get_queryset()
         cutoff_time, due_words = get_review_ready_words(request.user)
         delta = cutoff_time - timezone.now()
         total_seconds = int(delta.total_seconds())
@@ -184,10 +141,76 @@ class UserWordViewSet(viewsets.ModelViewSet):
         if hours < 0:
             hours = minutes = seconds = 0
         time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+        # Đếm số từ theo từng level (trường 'level' của UserWord)
+        level_counts = queryset.values('level').annotate(count=Count('id'))
+        
+        # Tính nhóm CEFR dựa trên trường word__cefr của model Word:
+        #   basic: A1, A2
+        #   intermediate: B1, B2
+        #   advanced: C1, C2
+        cefr_group_counts = queryset.aggregate(
+            basic=Count(
+                Case(When(word__cefr__in=["A1", "A2"], then=1), output_field=IntegerField())
+            ),
+            intermediate=Count(
+                Case(When(word__cefr__in=["B1", "B2"], then=1), output_field=IntegerField())
+            ),
+            advanced=Count(
+                Case(When(word__cefr__in=["C1", "C2"], then=1), output_field=IntegerField())
+            )
+        )
+        
+        result = {
+            "level_counts": {f"count_level{item['level']}": item['count'] for item in level_counts},
+            "cefr_group_counts": cefr_group_counts,
+            "time_until_next_review": time_until_next_review,
+            "review_word_count": due_words.count()
+        }
+        
+        return Response(result, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='learned-words')
+    def learned_words(self, request):
+        queryset = self.get_queryset()
+
+        # Tính thời gian đến lượt ôn tiếp theo
+        cutoff_time, due_words = get_review_ready_words(request.user)
+        delta = cutoff_time - timezone.now()
+        total_seconds = int(delta.total_seconds())
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        if hours < 0:
+            hours = minutes = seconds = 0
+        time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+
+        # Đếm số từ theo từng level (1 đến 5)
+        level_counts_qs = queryset.values('level').annotate(count=Count('id'))
+        level_counts = {f"count_level{item['level']}": item['count'] for item in level_counts_qs}
+
+        # Chuẩn bị kết quả trả về, bao gồm thời gian ôn và số từ cần ôn
+        result = {
+            "time_until_next_review": time_until_next_review,
+            "review_word_count": due_words.count(),
+            "level_counts": level_counts,
+        }
+
+        # Với mỗi level, lấy 10 dữ liệu đầu tiên
+        for level in range(1, 6):
+            level_qs = queryset.filter(level=level).order_by('id')
+            words = level_qs[:10]
+            serializer = LearnedWordsSerializer(words, many=True, context={'request': request})
+            result[f"words_level{level}"] = serializer.data
+            # Nếu muốn thêm lại số đếm từng level riêng (nếu chưa có trong level_counts)
+            # result[f"count_level{level}"] = level_qs.count()
+
+        return Response(result, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='review-words')
+    def review_words(self, request):
+        # Hàm get_review_ready_words() trả về cutoff_time và danh sách từ cần ôn
+        cutoff_time, due_words = get_review_ready_words(request.user)
         serializer = UserWordOutputSerializer(due_words, many=True, context={'request': request})
         response_data = {
-            "review_word_count": due_words.count(),
-            "time_until_next_review": time_until_next_review,
             "words": serializer.data,
         }
         return Response(response_data, status=status.HTTP_200_OK)
