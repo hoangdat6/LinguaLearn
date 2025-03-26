@@ -189,7 +189,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Mặc định 5 phút, có thể thay đổi thành timedelta(minutes=30), timedelta(hours=1), v.v.
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),  # Mặc định 5 phút, có thể thay đổi thành timedelta(minutes=30), timedelta(hours=1), v.v.
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     # Các cấu hình khác...
 }

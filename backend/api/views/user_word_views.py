@@ -214,3 +214,15 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "words": serializer.data,
         }
         return Response(response_data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['get'], url_path='learned-words-pagination')
+    def learned_words_pagination(self, request):
+        queryset = self.get_queryset()
+        paginator = LearnedWordsPagination()
+        level = request.query_params.get('level', None)
+        if level is not None:
+            queryset = queryset.filter(level=level)
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = LearnedWordsSerializer(paginated_queryset, many=True, context={'request': request})
+        return paginator.get_paginated_response(serializer.data)
+
