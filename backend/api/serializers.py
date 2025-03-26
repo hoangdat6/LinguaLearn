@@ -128,7 +128,6 @@ class UserCourseSerializer(serializers.ModelSerializer):
     is_learned = serializers.SerializerMethodField()
     # lessons = LessonWithStatusSerializer(many=True, read_only=True, source='lesson_set')
     lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()
-    # Lưu ý: 'lesson_set' là tên mặc định của reverse relation từ Lesson đến Course,
     # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.
     image = serializers.SerializerMethodField()
     class Meta:
@@ -169,19 +168,12 @@ class UserWordInputSerializer(serializers.Serializer):
         return value
 
 class UserWordOutputSerializer(serializers.ModelSerializer):
-    word_id = serializers.IntegerField(source='word.id')
-    image = serializers.SerializerMethodField()
-    audio = serializers.SerializerMethodField()
+    word = WordSerializer()
 
     class Meta:
         model = UserWord
         fields = '__all__' 
 
-    def get_image(self, obj):
-        return obj.word.image.url if obj.word.image else None
-    
-    def get_audio(self, obj):
-        return obj.word.audio.url if obj.word.audio else None
 
 class LessonWordsInputSerializer(serializers.Serializer):
     is_review = serializers.BooleanField(required=True)
@@ -202,3 +194,9 @@ class LessonWordsInputSerializer(serializers.Serializer):
         if not Lesson.objects.filter(id=value).exists():
             raise serializers.ValidationError("Lesson với ID này không tồn tại.")
         return value
+    
+class LearnedWordsSerializer(serializers.ModelSerializer):
+    word = WordSerializer()
+    class Meta:
+        model = UserWord
+        fields = '__all__'
