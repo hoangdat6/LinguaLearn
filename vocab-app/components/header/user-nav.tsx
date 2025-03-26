@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "../theme/theme-toggle";
-import authService from "@/services/authService";
+import authService from "@/services/auth-service";
 
 
 export function UserNav() {

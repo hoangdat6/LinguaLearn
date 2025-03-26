@@ -1,105 +1,16 @@
 from rest_framework import serializers
-from .models import Lesson, Word, Course, CustomUser, UserCourse, UserLesson, UserWord
-from django.contrib.auth import password_validation
 
-class WordSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
-    audio = serializers.SerializerMethodField()
-    class Meta:
-        model = Word
-        fields = '__all__'
+from . import WordSerializer
+from ..models import Lesson, Course, UserCourse, UserLesson, UserWord
+from ..models import Word
+from ..models import Lesson
 
-    def get_image(self, obj):
-        return obj.image.url if obj.image else None
-
-    def get_audio(self, obj):
-        return obj.audio.url if obj.audio else None
-
-class LessonSerializer(serializers.ModelSerializer):
-    words = WordSerializer(many=True, read_only=True, source='word_set')  # Lấy danh sách Word của Lesson
-    image = serializers.SerializerMethodField()
-    class Meta:
-        model = Lesson
-        fields = '__all__'  # Hoặc ['id', 'title', 'description', 'words']
-
-    def get_image(self, obj):
-        return obj.image.url if obj.image else None
-
-class OnlyLessonSerializer(serializers.ModelSerializer):
-    word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()
-    image = serializers.SerializerMethodField()
-    class Meta:
-        model = Lesson
-        fields = ['id', 'title', 'description', 'image', 'word_count']
-
-    def get_image(self, obj):
-        return obj.image.url if obj.image else None
-
-class CourseSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
-    class Meta:
-        model = Course
-        fields = '__all__'
-
-    def get_image(self, obj):
-        return obj.image.url if obj.image else None
-
-class UserRegisterSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = CustomUser
-        fields = ["username", "email", "password", "password2"]
-
-    def validate(self, attrs):
-        if attrs["password"] != attrs["password2"]:
-            raise serializers.ValidationError({"password": "Mật khẩu không khớp!"})
-        if CustomUser.objects.filter(username=attrs['username']).exists():
-            raise serializers.ValidationError({"username": "Tên đăng nhập đã tồn tại!"})
-        if CustomUser.objects.filter(email=attrs["email"]).exists():
-            raise serializers.ValidationError({"email": "Email đã được sử dụng!"})
-        return attrs
-
-    def create(self, validated_data):
-        validated_data.pop("password2")  
-        user = CustomUser.objects.create_user(**validated_data, is_active=False)
-        user.is_active = False
-        user.save()
-        return user
-
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
-    confirm_new_password = serializers.CharField(required=True)
-
-    def validate_old_password(self, value):
-        user = self.context["request"].user
-        if not user.check_password(value):
-            raise serializers.ValidationError("Mật khẩu cũ không đúng!")
-        return value
-
-    def validate(self, attrs):
-        new_password = attrs.get("new_password")
-        confirm_new_password = attrs.get("confirm_new_password")
-        if new_password != confirm_new_password:
-            raise serializers.ValidationError("Mật khẩu mới và xác nhận mật khẩu không trùng khớp!")
-        password_validation.validate_password(new_password, self.context["request"].user)
-        return attrs
-    
-class ResetPasswordSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-
-class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
 
 class UserLessonSerializer(serializers.ModelSerializer):
     is_learned = serializers.SerializerMethodField()
     word_count = serializers.IntegerField(read_only=True)
     image = serializers.SerializerMethodField()
+
     class Meta:
         model = Lesson
         fields = [
@@ -122,6 +33,8 @@ class UserLessonSerializer(serializers.ModelSerializer):
             # Kiểm tra nếu có bản ghi UserLesson cho user và lesson này
             return UserLesson.objects.filter(user=request.user, lesson=obj).exists()
         return False
+
+
 # Serializer cho Course kèm danh sách bài học và trạng thái học của user
 class UserCourseSerializer(serializers.ModelSerializer):
     is_learned = serializers.SerializerMethodField()
@@ -129,6 +42,7 @@ class UserCourseSerializer(serializers.ModelSerializer):
     lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()
     # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.
     image = serializers.SerializerMethodField()
+
     class Meta:
         model = Course
         fields = [
@@ -152,6 +66,7 @@ class UserCourseSerializer(serializers.ModelSerializer):
             return UserCourse.objects.filter(user=request.user, course=obj).exists()
         return False
 
+
 class UserWordInputSerializer(serializers.Serializer):
     word_id = serializers.IntegerField(required=True)
     level = serializers.IntegerField(required=True, min_value=1, max_value=5)
@@ -161,10 +76,10 @@ class UserWordInputSerializer(serializers.Serializer):
     question_type = serializers.CharField(required=True)
 
     def validate_word_id(self, value):
-        from .models import Word
         if not Word.objects.filter(id=value).exists():
             raise serializers.ValidationError("Từ với ID này không tồn tại.")
         return value
+
 
 class UserWordOutputSerializer(serializers.ModelSerializer):
     word = WordSerializer()
@@ -172,6 +87,7 @@ class UserWordOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWord
         fields = '__all__'
+
 
 class LessonWordsInputSerializer(serializers.Serializer):
     is_review = serializers.BooleanField(required=True)
@@ -188,13 +104,14 @@ class LessonWordsInputSerializer(serializers.Serializer):
         return attrs
 
     def validate_lesson_id(self, value):
-        from .models import Lesson
         if not Lesson.objects.filter(id=value).exists():
             raise serializers.ValidationError("Lesson với ID này không tồn tại.")
         return value
 
+
 class LearnedWordsSerializer(serializers.ModelSerializer):
     word = WordSerializer()
+
     class Meta:
         model = UserWord
         fields = '__all__'

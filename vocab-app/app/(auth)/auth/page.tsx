@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-import authService from "@/services/authService"
+import authService from "@/services/auth-service"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)

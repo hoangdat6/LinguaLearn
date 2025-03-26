@@ -11,8 +11,22 @@ import { ThemesOverview } from "@/components/learn/learning-topics"
 import { SavedWords } from "@/components/homepage/saved-words"
 import { WordsLearnedCounter } from "@/components/homepage/words-learned-counter"
 import { DailyGoalTracker } from "@/components/homepage/daily-goal-tracker"
+import useHomePage from "@/hooks/useHomePage"
 
 export default function Home() {
+  const { 
+    totalWords,
+    countLevel1,
+    countLevel2,
+    countLevel3,
+    countLevel4,
+    countLevel5,
+    reviewWordCount,
+    timeUntilNextReview,
+    isLoading,
+    error
+  } = useHomePage();
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
@@ -32,7 +46,7 @@ export default function Home() {
                       <StreakCounter days={7} />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <WordsLearnedCounter totalWords={112} weeklyWords={23} />
+                      <WordsLearnedCounter totalWords={totalWords} weeklyWords={23} />
                       <DailyGoalTracker completed={3} total={5} streak={7} />
                     </div>
 
@@ -40,7 +54,16 @@ export default function Home() {
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="text-lg font-semibold">Cấp độ từ vựng</h3>
                       </div>
-                      <VocabularyLevels />
+                      <VocabularyLevels 
+                        wordLevel1={countLevel1} 
+                        wordLevel2={countLevel2} 
+                        wordLevel3={countLevel3} 
+                        wordLevel4={countLevel4} 
+                        wordLevel5={countLevel5}
+                        reviewWordCount={reviewWordCount}
+                        timeUntilNextReview={timeUntilNextReview}
+                        isLoading={isLoading}
+                      />
                     </div>
 
                     <div className="pt-4">
@@ -64,7 +87,7 @@ export default function Home() {
                 <CardContent className="p-6 flex flex-col items-center">
                   <Owl className="w-32 h-32 mb-4" />
                   <h3 className="text-lg font-bold mb-2">Chào mừng trở lại!</h3>
-                  <p className="text-center text-muted-foreground mb-4">Bạn đã học được 112 từ. Hãy tiếp tục!</p>
+                  <p className="text-center text-muted-foreground mb-4">Bạn đã học được {totalWords} từ. Hãy tiếp tục!</p>
                   <Button className="w-full">Tiếp tục học</Button>
                 </CardContent>
               </Card>

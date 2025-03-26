@@ -58,7 +58,7 @@ const register = async (username: string, email: string, password: string, passw
 
 const getUser = async (): Promise<User | null> => {
   try {
-    const response = await api.get<User>("/users/profile");
+    const response = await api.get<User>("users/profile");
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin người dùng:", error);
