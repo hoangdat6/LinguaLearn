@@ -9,7 +9,7 @@ from ..pagination import CustomPagination
 
 @permission_classes([IsAuthenticated])
 class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Lesson.objects.all().order_by('id').annotate(word_count=Count('word'))
+    queryset = Lesson.objects.all().order_by('id').annotate(word_count=Count('word')).prefetch_related('word_set')
     serializer_class = UserLessonSerializer
     pagination_class = CustomPagination
 
@@ -27,4 +27,10 @@ class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):
         lesson = self.get_object()
         words = lesson.word_set.all()
         serializer = WordSerializer(words, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(
+            {
+                'lesson_id': lesson.id,
+                'lesson_title': lesson.title,
+                'words': serializer.data
+            }
+        )

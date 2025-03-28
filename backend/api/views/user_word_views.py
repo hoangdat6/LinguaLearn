@@ -4,7 +4,7 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
-from ..models import UserWord, UserLesson
+from ..models import UserWord, UserLesson, UserCourse
 from ..pagination import LearnedWordsPagination
 from ..serializers import (
     UserWordInputSerializer, UserWordOutputSerializer, LessonWordsInputSerializer
@@ -22,8 +22,8 @@ class UserWordViewSet(viewsets.ModelViewSet):
         # Chỉ lấy dữ liệu của user hiện tại và lấy luôn thông tin của word
         return UserWord.objects.filter(user=self.request.user).select_related('word')
 
-    @action(detail=False, methods=['post'], url_path='submit-lesson-words')
-    def submit_lesson_words(self, request):
+    @action(detail=False, methods=['post'], url_path='submit-words')
+    def submit_words(self, request):
         """
         Input:
         {
@@ -114,6 +114,12 @@ class UserWordViewSet(viewsets.ModelViewSet):
             if not created_lesson:
                 user_lesson.date_completed = timezone.now()
                 user_lesson.save()
+
+            if not UserCourse.objects.filter(user=user, course=user_lesson.lesson.course).exists():
+                UserCourse.objects.create(
+                    user=user,
+                    course=user_lesson.lesson.course,
+                )
 
         output_serializer = UserWordOutputSerializer(processed_words, many=True, context={'request': request})
         response_data = {

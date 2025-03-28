@@ -8,7 +8,7 @@ class WordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = '__all__'
+        fields = ['id', 'word', 'pronunciation', 'pos', 'meaning', 'example', 'example_vi', 'image', 'audio', 'cefr']
 
     def get_image(self, obj):
         return obj.image.url if obj.image else None
@@ -23,7 +23,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = '__all__'  # Hoặc ['id', 'title', 'description', 'words']
+        fields = '__all__' 
 
     def get_image(self, obj):
         return obj.image.url if obj.image else None

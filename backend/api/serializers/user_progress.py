@@ -42,7 +42,8 @@ class UserCourseSerializer(serializers.ModelSerializer):
     lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()
     # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.
     image = serializers.SerializerMethodField()
-
+    progress = serializers.SerializerMethodField()
+    learner_count = serializers.IntegerField(read_only=True)
     class Meta:
         model = Course
         fields = [
@@ -53,18 +54,27 @@ class UserCourseSerializer(serializers.ModelSerializer):
             'image',
             'icon',
             'is_learned',
-            'lesson_count'
+            'lesson_count',
+            'progress',
+            'learner_count',
         ]
 
     def get_image(self, obj):
         return obj.image.url if obj.image else None
 
-    def get_is_learned(self, obj):
+    def get_progress(self, obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            # Kiểm tra nếu có bản ghi UserCourse cho user và course này
-            return UserCourse.objects.filter(user=request.user, course=obj).exists()
-        return False
+            total_lessons = obj.lesson_count
+            completed_lessons = UserLesson.objects.filter(user=request.user, lesson__course=obj).count()
+
+            if total_lessons > 0:
+                return (completed_lessons / total_lessons) * 100
+        return 0
+    
+    def get_is_learned(self, obj):
+        return self.get_progress(obj) == 100
+    
 
 
 class UserWordInputSerializer(serializers.Serializer):
