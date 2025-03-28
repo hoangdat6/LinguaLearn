@@ -15,8 +15,8 @@ export function MultipleChoiceQuestion({ vocabularyItem, options, onAnswer, onSk
       vocabularyItem={vocabularyItem}
       onAnswer={onAnswer}
       onSkip={onSkip}
-      validateAnswer={(answer) => answer === vocabularyItem.meaning}
-      correctAnswer={vocabularyItem.meaning}
+      validateAnswer={(answer) => answer === vocabularyItem.word}
+      correctAnswer={vocabularyItem.word}
     >
       <MultipleChoiceQuestionContent vocabularyItem={vocabularyItem} options={options} />
     </BaseQuestion>

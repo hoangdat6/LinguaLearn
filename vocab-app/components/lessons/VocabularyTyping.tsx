@@ -6,10 +6,10 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { motion, AnimatePresence } from "framer-motion"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 
 interface VocabularyTypingProps {
-  word: VocabularyItem
+  word: Word
   showFeedback: boolean
   isCorrect: boolean
   onAnswer: (correct: boolean) => void

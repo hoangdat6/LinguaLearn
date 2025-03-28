@@ -2,10 +2,10 @@ import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
 import { useEffect, useRef, useState } from "react"
 import { AudioButton } from "../audio-button"
 import { Input } from "@/components/ui/input"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 
 
-function ListeningQuestionContent({ vocabularyItem }: { vocabularyItem: VocabularyItem }) {
+function ListeningQuestionContent({ vocabularyItem }: { vocabularyItem: Word }) {
     const { answer, setAnswer, handleSubmit } = useBaseQuestion() // Lấy handleSubmit từ context
     const inputRef = useRef<HTMLInputElement>(null)
     useEffect(() => {

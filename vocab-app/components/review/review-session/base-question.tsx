@@ -4,12 +4,12 @@
 import { QuestionFeedback } from "@/components/review/review-session/question-feedback";
 import { Button } from "@/components/ui/button";
 import { BaseQuestionContext } from "@/contexts/BaseQuestionContext";
-import { VocabularyItem } from "@/types/lesson-types";
+import { Word } from "@/types/lesson-types";
 import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 
 export interface BaseQuestionProps {
-  vocabularyItem: VocabularyItem;
+  vocabularyItem: Word;
   onAnswer: (isCorrect: boolean, timeSpent: number) => void;
   onSkip: () => void;
 }
@@ -30,7 +30,6 @@ export function BaseQuestion({
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [startTime] = useState(Date.now());
-  console.log("Base")
 
   const handleSubmit = () => {
     const timeSpent = (Date.now() - startTime) / 1000;

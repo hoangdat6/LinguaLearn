@@ -4,10 +4,10 @@ import { useState } from "react"
 import { VocabularyFlashcard } from "./VocabularyFlashcard"
 import { VocabularyAudio } from "./VocabularyAudio"
 import { VocabularyTyping } from "./VocabularyTyping"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 
 interface VocabularyStageProps {
-  word: VocabularyItem
+  word: Word
   stage: number
   onCorrect: () => void
   onIncorrect: () => void

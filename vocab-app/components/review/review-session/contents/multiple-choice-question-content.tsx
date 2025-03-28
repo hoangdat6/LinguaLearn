@@ -3,11 +3,11 @@
 import { Label } from "@/components/ui/label"
 import { RadioGroup } from "@/components/ui/radio-group"
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 import { motion } from "framer-motion"
 
 interface MultipleChoiceQuestionContentProps {
-    vocabularyItem: VocabularyItem
+    vocabularyItem: Word
     options: string[]
 }
 
@@ -56,6 +56,7 @@ export function MultipleChoiceQuestionContent({ vocabularyItem, options }: Multi
                             className={`flex items-center space-x-3 rounded-lg border p-4 transition-colors hover:bg-accent ${
                                 answer === option ? "border-primary bg-primary/10 shadow-md" : ""
                             }`}
+                            onClick={() => setAnswer(option)}
                         >
                             {/* Hiển thị số thứ tự với Badge */}
                             <Badge

@@ -1,21 +1,55 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Heart, ArrowLeft, Volume2, CheckCircle, XCircle, Trophy } from "lucide-react"
 import { ReviewQuestion } from "@/components/review/review-question"
 import { ReviewSessionResults } from "@/components/review/review-session-results"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useVocabularyData } from "@/hooks/useVocabularyData"
-import { useReviewSession } from "@/hooks/useReviewSession"
+import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useReviewSession } from "@/hooks/useReviewSession"
+import { useReviewSessionData } from "@/hooks/useVocabularyData"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowLeft, CheckCircle, Heart, Trophy, Volume2, XCircle } from "lucide-react"
+import Link from "next/link"
+import { useEffect } from "react"
 
 export default function ReviewSessionPage() {
   // Fetch vocabulary data
-  const { vocabularyItems, isLoading, error } = useVocabularyData()
+  const { reviewWords, isLoading, error } = useReviewSessionData()
+
+  console.log("Review words:", reviewWords)
+  // Ensure this useEffect is always called in the same order
+  useEffect(() => {
+    const title = "Ôn tập từ vựng"
+    const description = "Ôn tập từ vựng tiếng Anh với các câu hỏi trắc nghiệm và nghe phát âm."
+    const metaTags = [
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: window.location.href },
+    ]
+
+    // Set document title
+    document.title = title
+    // Set meta tags
+    metaTags.forEach((tag) => {
+      const metaTag = document.createElement("meta")
+      metaTag.name = tag.name
+      metaTag.content = tag.content
+      document.head.appendChild(metaTag)
+    })
+    // Clean up meta tags on component unmount
+    return () => {
+      metaTags.forEach((tag) => {
+        const metaTag = document.querySelector(`meta[name="${tag.name}"]`)
+        if (metaTag) {
+          document.head.removeChild(metaTag)
+        }
+      })
+    }
+  }, [])
 
   // Initialize review session with vocabulary data
   const {
@@ -34,7 +68,7 @@ export default function ReviewSessionPage() {
     resetSession,
     learningQueue, // Add learningQueue to the destructured variables
   } = useReviewSession({
-    vocabularyItems,
+    words: reviewWords,
     totalQuestions: 10,
     maxHearts: 5,
   })
@@ -106,7 +140,8 @@ export default function ReviewSessionPage() {
                   <CardContent className="p-6">
                     <ReviewQuestion
                       questionType={currentQuestionType}
-                      vocabularyItem={currentVocabularyItem}
+                      vocabularyItem={currentVocabularyItem.word}
+                      reviewWords={reviewWords}
                       onAnswer={handleAnswer}
                       onSkip={handleSkip}
                     />
@@ -134,7 +169,7 @@ export default function ReviewSessionPage() {
                       <Trophy className="h-8 w-8 text-yellow-500" />
                     </div>
                     <p className="text-muted-foreground">
-                      Thời gian: {Math.floor((Date.now() - sessionStartTime) / 1000)} giây
+                      Thời gian: {new Date(Date.now() - sessionStartTime).toISOString().substr(11, 8)}
                     </p>
                   </div>
 
@@ -201,19 +236,19 @@ export default function ReviewSessionPage() {
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                   {learningQueue.map((wordIndex) => {
-                                    const word = vocabularyItems[wordIndex]
+                                    const word = reviewWords[wordIndex]
                                     return word ? (
                                       <div
                                         key={wordIndex}
                                         className="px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-amber-300 dark:border-amber-700 text-sm flex items-center gap-1.5"
                                       >
-                                        {word.word}
+                                        {word.word.word}
                                         <Button
                                           variant="ghost"
                                           size="icon"
                                           className="h-5 w-5 ml-1"
                                           onClick={() => {
-                                            const utterance = new SpeechSynthesisUtterance(word.word)
+                                            const utterance = new SpeechSynthesisUtterance(word.word.word)
                                             utterance.lang = "en-US"
                                             window.speechSynthesis.speak(utterance)
                                           }}

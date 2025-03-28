@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Lesson, VocabularyItem } from "@/types/lesson-types"
+import { Lesson, Word } from "@/types/lesson-types"
 import { fetchLessonById } from "@/services/course-service"
 
 interface SpacedRepetitionData {
@@ -14,7 +14,7 @@ interface SpacedRepetitionData {
 export function useVocabularyProgress(lessonId: string) {
     const [lesson, setLesson] = useState<Lesson | null>(null);
     const [loading, setLoading] = useState(true);
-    const [words, setWords] = useState<VocabularyItem[]>([])
+    const [words, setWords] = useState<Word[]>([])
     const [currentIndex, setCurrentIndex] = useState(0)
     const [currentStage, setCurrentStage] = useState(1)
     const [progress, setProgress] = useState(0)

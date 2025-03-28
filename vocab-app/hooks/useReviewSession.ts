@@ -1,17 +1,18 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import type { QuestionType, ReviewSessionResults, QuestionResult } from "@/types/review"
-import { ReviewService, QUESTION_TYPES } from "@/services/review-service"
-import { VocabularyItem } from "@/types/lesson-types"
+import { QUESTION_TYPES, ReviewService } from "@/services/review-service"
+import type { QuestionResult, QuestionType, ReviewSessionResults, ReviewWordState } from "@/types/review"
+import { useCallback, useEffect, useState } from "react"
 
 interface UseReviewSessionProps {
-  vocabularyItems: VocabularyItem[]
+  words: ReviewWordState[]
   totalQuestions?: number
   maxHearts?: number
 }
 
-export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHearts = 5 }: UseReviewSessionProps) {
+export function useReviewSession({ words, totalQuestions = 10, maxHearts = 5 }: UseReviewSessionProps) {
+  console.log("useReviewSession", words, totalQuestions, maxHearts)
+
   // Session state
   const [sessionState, setSessionState] = useState<"in-progress" | "completed">("in-progress")
   const [progress, setProgress] = useState(0)
@@ -33,18 +34,18 @@ export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHear
     // Level 3-4: Medium difficulty (translation, fill-in-blank)
     // Level 5: All question types
 
-    if (level <= 2) {
-      return Math.random() > 0.5 ? "multiple-choice" : "listening"
-    } else if (level <= 4) {
-      return Math.random() > 0.5 ? "translation" : "fill-in-blank"
-    } else {
+    // if (level <= 2) {
+    //   return Math.random() > 0.5 ? "multiple-choice" : "listening"
+    // } else if (level <= 4) {
+    //   return Math.random() > 0.5 ? "translation" : "fill-in-blank"
+    // } else {
       return QUESTION_TYPES[Math.floor(Math.random() * QUESTION_TYPES.length)]
-    }
+    // }
   }, [])
 
   // Update question type and word index when question index changes
   useEffect(() => {
-    if (vocabularyItems.length === 0) return
+    if (words.length === 0) return
 
     // Check if there are words in the learning queue
     if (learningQueue.length > 0 && currentQuestionIndex >= totalQuestions / 2) {
@@ -60,19 +61,19 @@ export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHear
         setLearningQueue((prev) => prev.filter((_, i) => i !== queueIndex))
       } else {
         // Use a regular word
-        setCurrentWordIndex(currentQuestionIndex % vocabularyItems.length)
+        setCurrentWordIndex(currentQuestionIndex % words.length)
       }
     } else {
       // Regular word selection
-      setCurrentWordIndex(currentQuestionIndex % vocabularyItems.length)
+      setCurrentWordIndex(currentQuestionIndex % words.length)
     }
 
     // Set question type based on word proficiency level
-    const wordLevel = vocabularyItems[currentWordIndex]?.level || 1
+    const wordLevel = words[currentWordIndex]?.level || 1
     setCurrentQuestionType(selectQuestionTypeByLevel(wordLevel))
   }, [
     currentQuestionIndex,
-    vocabularyItems,
+    words,
     learningQueue,
     totalQuestions,
     selectQuestionTypeByLevel,
@@ -80,20 +81,21 @@ export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHear
   ])
 
   // Get current vocabulary item
-  const currentVocabularyItem = vocabularyItems[currentWordIndex] || {
-    id: 0,
-    word: "",
-    meaning: "",
-    example: "",
-    pronunciation: "",
+  const currentVocabularyItem = words[currentWordIndex] || {
+    word: { word: "", meaning: "" },
     level: 1,
+    next_review: "",
+    last_review: "",
+    streak: 0,
+    learned_at: "",
+    user: 0,
   }
 
   // Handle answer
   const handleAnswer = (isCorrect: boolean, timeSpent: number) => {
     // Update results
     const newQuestionResult: QuestionResult = {
-      word: currentVocabularyItem.word,
+      word: currentVocabularyItem.word.word,
       correct: isCorrect,
       time: timeSpent,
     }
@@ -109,7 +111,7 @@ export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHear
     // If incorrect, add to learning queue
     if (!isCorrect) {
       setLearningQueue((prev) => [...prev, currentWordIndex])
-      setHearts((prev) => Math.max(0, prev - 1))
+      // setHearts((prev) => Math.max(0, prev - 1))
     }
 
     // Update progress
@@ -128,7 +130,7 @@ export function useReviewSession({ vocabularyItems, totalQuestions = 10, maxHear
   // Handle skip
   const handleSkip = () => {
     const newQuestionResult: QuestionResult = {
-      word: currentVocabularyItem.word,
+      word: currentVocabularyItem.word.word,
       correct: false,
       time: 0,
     }

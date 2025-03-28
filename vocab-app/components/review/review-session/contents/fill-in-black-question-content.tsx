@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"; // Replace with your custom Button component
 import { Input } from "@/components/ui/input";
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext";
-import { VocabularyItem } from "@/types/lesson-types";
+import { Word } from "@/types/lesson-types";
 import { useEffect, useRef } from "react";
 
-function FillInBlankQuestionContent({ vocabularyItem }: { vocabularyItem: VocabularyItem }) {
+function FillInBlankQuestionContent({ vocabularyItem }: { vocabularyItem: Word }) {
     const sentenceWithBlank = vocabularyItem.example.replace(vocabularyItem.word, "_".repeat(vocabularyItem.word.length));
     const { answer, setAnswer, handleSubmit } = useBaseQuestion() // Lấy handleSubmit từ context
     const inputRef = useRef<HTMLInputElement>(null)

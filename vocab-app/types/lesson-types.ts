@@ -1,4 +1,3 @@
-
 export interface Course {
   id: string
   title: string
@@ -29,11 +28,11 @@ export interface Lesson {
   themeFontColor: string
   difficulty: string
   estimatedTime: string
-  vocabulary: VocabularyItem[]
+  vocabulary: Word[]
 }
 
 
-export interface VocabularyItem {
+export interface Word {
   id: number
   word: string
   meaning: string
@@ -42,5 +41,9 @@ export interface VocabularyItem {
   audio: string
   image: string
   pronunciation: string
-  level: number
+  pos: string
+  created_at: string
+  updated_at: string
+  cefr: string
+  lesson: number
 }

@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Volume2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 
 interface VocabularyAudioProps {
-  word: VocabularyItem
+  word: Word
   showFeedback: boolean
   isCorrect: boolean
   onAnswer: (correct: boolean) => void

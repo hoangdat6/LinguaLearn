@@ -2,11 +2,11 @@
 
 import { Input } from "@/components/ui/input"
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
 import { useEffect, useRef } from "react";
 
 interface TranslationQuestionContentProps {
-    vocabularyItem: VocabularyItem;
+    vocabularyItem: Word;
 
 }
 

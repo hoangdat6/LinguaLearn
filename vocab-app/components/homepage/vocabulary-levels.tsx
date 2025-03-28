@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BookOpen, LoaderCircle } from "lucide-react"
 import { TimeUntilNextReview } from "@/services/user-word-service";
+import React from "react";
 
 interface VocabularyLevelsProps {
   showLabels?: boolean;
@@ -17,7 +18,7 @@ interface VocabularyLevelsProps {
   timeUntilNextReview?: TimeUntilNextReview;
 }
 
-export function VocabularyLevels({
+export const VocabularyLevels = React.memo(function VocabularyLevels({
   showLabels = false,
   wordLevel1 = 0,
   wordLevel2 = 0,
@@ -108,5 +109,5 @@ export function VocabularyLevels({
       )}
     </div>
   )
-}
+})
 

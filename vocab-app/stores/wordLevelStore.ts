@@ -1,5 +1,7 @@
+"use client"
+
 import { TimeUntilNextReview } from "@/services/user-word-service";
-import { VocabularyItem } from "@/types/lesson-types";
+import { ReviewWordState } from "@/types/review";
 import { create } from "zustand";
 
 interface WordLevelState {
@@ -12,14 +14,17 @@ interface WordLevelState {
     reviewWordCount: number;
     timeUntilNextReview: TimeUntilNextReview;
     words: {
-        words_by_level1: VocabularyItem[];
-        words_by_level2: VocabularyItem[];
-        words_by_level3: VocabularyItem[];
-        words_by_level4: VocabularyItem[];
-        words_by_level5: VocabularyItem[];
+        words_by_level1: ReviewWordState[];
+        words_by_level2: ReviewWordState[];
+        words_by_level3: ReviewWordState[];
+        words_by_level4: ReviewWordState[];
+        words_by_level5: ReviewWordState[];
     };
     setWordLevels: (levels: Partial<Omit<WordLevelState, "setWordLevels" | "fetchWordsByLevel">>) => void;
     setWords: (words: WordLevelState["words"]) => void;
+    setRewordCount: (count: number) => void;
+    setTimeUntilNextReview: (time: TimeUntilNextReview) => void;
+    setTotalWords: (totalWords: number) => void;
 }
 
 export const useWordLevelStore = create<WordLevelState>((set) => ({
@@ -32,11 +37,11 @@ export const useWordLevelStore = create<WordLevelState>((set) => ({
     reviewWordCount: 0,
     timeUntilNextReview: {} as TimeUntilNextReview,
     words: {
-        words_by_level1: {} as VocabularyItem[],
-        words_by_level2: {} as VocabularyItem[],
-        words_by_level3: {} as VocabularyItem[],
-        words_by_level4: {} as VocabularyItem[],
-        words_by_level5: {} as VocabularyItem[],
+        words_by_level1: [] as ReviewWordState[], 
+        words_by_level2: [] as ReviewWordState[],
+        words_by_level3: [] as ReviewWordState[],
+        words_by_level4: [] as ReviewWordState[],
+        words_by_level5: [] as ReviewWordState[],
     },
     setWordLevels: (levels) =>
         set((state) => ({
@@ -46,6 +51,22 @@ export const useWordLevelStore = create<WordLevelState>((set) => ({
     setWords: (words: WordLevelState["words"]) =>
         set((state) => ({
             ...state,
-            words,
+            words, // Cho phép truyền vào đối tượng cụ thể
+        })),
+    setRewordCount: (count: number) =>
+        set((state) => ({
+            ...state,
+            reviewWordCount: count,
+        })),
+    setTimeUntilNextReview: (time: TimeUntilNextReview) =>
+        set((state) => ({
+            ...state,
+            timeUntilNextReview: time,
+        })),
+
+    setTotalWords: (totalWords: number) =>
+        set((state) => ({
+            ...state,
+            totalWords,
         })),
 }));

@@ -1,27 +1,25 @@
 "use client"
 
-import { useState } from "react"
-import { MultipleChoiceQuestion } from "@/components/review/review-session/multiple-choice-question"
-import { TranslationQuestion } from "@/components/review/review-session/translation-question"
 import { FillInBlankQuestion } from "@/components/review/review-session/fill-in-blank-question"
 import { ListeningQuestion } from "@/components/review/review-session/listening-question"
+import { MultipleChoiceQuestion } from "@/components/review/review-session/multiple-choice-question"
+import { TranslationQuestion } from "@/components/review/review-session/translation-question"
 import { ReviewService } from "@/services/review-service"
-import type { QuestionType } from "@/types/review"
-import { VocabularyItem } from "@/types/lesson-types"
+import { Word } from "@/types/lesson-types"
+import type { QuestionType, ReviewWordState as ReviewWord } from "@/types/review"
 
 interface ReviewQuestionProps {
   questionType: QuestionType
-  vocabularyItem: VocabularyItem
+  vocabularyItem: Word
+  reviewWords: ReviewWord[]
   onAnswer: (isCorrect: boolean, timeSpent: number) => void
   onSkip: () => void
 }
 
-export function ReviewQuestion({ questionType, vocabularyItem, onAnswer, onSkip }: ReviewQuestionProps) {
-  const [startTime] = useState(Date.now())
-
+export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
   // Generate options for multiple choice
   const options =
-    questionType === "multiple-choice" ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.meaning) : []
+    questionType === "multiple-choice" ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.word, reviewWords) : []
 
   // Render the appropriate question component based on type
   switch (questionType) {

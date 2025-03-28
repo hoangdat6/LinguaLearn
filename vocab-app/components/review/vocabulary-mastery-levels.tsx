@@ -4,17 +4,18 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Eye, Brain, Lightbulb, Sparkles, BookOpen, Info } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import React from "react"
 
 interface VocabularyMasteryLevelsProps {
-  onLevelSelect?: (level: number | null) => void
+  onLevelSelect?: (level: number) => void
   selectedLevel?: number | null
   showCounts?: boolean
   counts?: number[]
 }
 
-export function VocabularyMasteryLevels({
+export const VocabularyMasteryLevels = React.memo(function VocabularyMasteryLevels({
   onLevelSelect,
-  selectedLevel = null,
+  selectedLevel = 1,
   showCounts = true,
   counts = [48, 18, 18, 23, 5],
 }: VocabularyMasteryLevelsProps) {
@@ -103,7 +104,7 @@ export function VocabularyMasteryLevels({
                   `}
                   onMouseEnter={() => setHoveredLevel(level.level)}
                   onMouseLeave={() => setHoveredLevel(null)}
-                  onClick={() => onLevelSelect?.(selectedLevel === level.level ? null : level.level)}
+                  onClick={() => onLevelSelect?.(level.level)}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -137,5 +138,5 @@ export function VocabularyMasteryLevels({
       </div>
     </div>
   )
-}
+})
 

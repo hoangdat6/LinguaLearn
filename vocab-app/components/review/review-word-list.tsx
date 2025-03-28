@@ -1,85 +1,40 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Volume2, Bookmark, Star, ArrowUpRight } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Word } from "@/types/lesson-types"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowUpRight, Bookmark, Volume2 } from "lucide-react"
+import { useEffect, useState, useMemo } from "react"
 import { VocabularyMasteryLevels } from "./vocabulary-mastery-levels"
+import { useWordLevelStore } from "@/stores/wordLevelStore"
+import { ReviewWordState } from "@/types/review"
+import React from "react"
 
-interface ReviewWordListProps {
-  type?: "all" | "saved" | "mastered" | "learning"
-}
+export const ReviewWordList = React.memo(function ReviewWordList() {
+  const {
+    words,
+  } = useWordLevelStore();
 
-export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
-  const [selectedLevel, setSelectedLevel] = useState<number | null>(null)
+  const [selectedLevel, setSelectedLevel] = useState<number>(1)
   const [expandedWord, setExpandedWord] = useState<string | null>(null)
+  const [selectedWords, setSelectedWords] = useState<ReviewWordState[]>([])
 
-  const words = [
-    {
-      id: 1,
-      word: "Accomplish",
-      meaning: "Hoàn thành",
-      example: "She accomplished her goal.",
-      level: 4,
-      saved: true,
-      notes: "Thường dùng khi nói về việc hoàn thành một mục tiêu khó khăn",
-      synonyms: ["achieve", "complete", "fulfill"],
-      pronunciation: "/əˈkʌmplɪʃ/",
-    },
-    {
-      id: 2,
-      word: "Determine",
-      meaning: "Quyết định",
-      example: "We need to determine the cause.",
-      level: 3,
-      saved: false,
-      notes: "Có thể dùng trong ngữ cảnh khoa học hoặc logic",
-      synonyms: ["decide", "establish", "ascertain"],
-      pronunciation: "/dɪˈtɜːmɪn/",
-    },
-    {
-      id: 3,
-      word: "Enhance",
-      meaning: "Nâng cao",
-      example: "This will enhance your skills.",
-      level: 5,
-      saved: true,
-      notes: "Thường dùng trong ngữ cảnh cải thiện chất lượng",
-      synonyms: ["improve", "augment", "boost"],
-      pronunciation: "/ɪnˈhɑːns/",
-    },
-    {
-      id: 4,
-      word: "Facilitate",
-      meaning: "Tạo điều kiện",
-      example: "The program facilitates learning.",
-      level: 2,
-      saved: false,
-      notes: "Thường dùng trong ngữ cảnh giáo dục hoặc kinh doanh",
-      synonyms: ["enable", "ease", "assist"],
-      pronunciation: "/fəˈsɪlɪteɪt/",
-    },
-    {
-      id: 5,
-      word: "Generate",
-      meaning: "Tạo ra",
-      example: "The solar panels generate electricity.",
-      level: 1,
-      saved: true,
-      notes: "Thường dùng khi nói về việc tạo ra năng lượng hoặc ý tưởng",
-      synonyms: ["produce", "create", "yield"],
-      pronunciation: "/ˈdʒenəreɪt/",
-    },
-  ].filter((word) => {
-    if (type === "saved") return word.saved
-    if (type === "mastered") return word.level === 5
-    if (type === "learning") return word.level < 4
-    if (selectedLevel !== null) return word.level === selectedLevel
-    return true
-  })
+  useEffect(() => {
+    if (selectedLevel === 1) {
+      setSelectedWords(words.words_by_level1)
+    } else if (selectedLevel === 2) {
+      setSelectedWords(words.words_by_level2)
+    } else if (selectedLevel === 3) {
+      setSelectedWords(words.words_by_level3)
+    } else if (selectedLevel === 4) {
+      setSelectedWords(words.words_by_level4)
+    } else if (selectedLevel === 5) {
+      setSelectedWords(words.words_by_level5)
+    }
+  }, [selectedLevel, words])
 
-  const getLevelInfo = (level: number) => {
+  const getLevelInfo = useMemo(() => (level: number) => {
     const levels = [
       { color: "text-[hsl(var(--level-1))]", bg: "bg-[hsl(var(--level-1))]/10", name: "Mới học" },
       { color: "text-[hsl(var(--level-2))]", bg: "bg-[hsl(var(--level-2))]/10", name: "Nhận biết" },
@@ -88,7 +43,7 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
       { color: "text-[hsl(var(--level-5))]", bg: "bg-[hsl(var(--level-5))]/10", name: "Thành thạo" },
     ]
     return levels[level - 1]
-  }
+  }, [])
 
   const toggleWordExpand = (word: string) => {
     if (expandedWord === word) {
@@ -103,22 +58,25 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
       <VocabularyMasteryLevels
         onLevelSelect={setSelectedLevel}
         selectedLevel={selectedLevel}
-        counts={[12, 24, 36, 28, 12]}
+        counts={[
+          words.words_by_level1.length,
+          words.words_by_level2.length,
+          words.words_by_level3.length,
+          words.words_by_level4.length,
+          words.words_by_level5.length,
+        ]}
       />
 
       {selectedLevel !== null && (
         <div className="flex justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            Hiển thị {words.length} từ ở cấp độ {selectedLevel}
+            Hiển thị {selectedWords.length} từ ở cấp độ {selectedLevel}
           </p>
-          <Button variant="ghost" size="sm" onClick={() => setSelectedLevel(null)}>
-            Xem tất cả
-          </Button>
         </div>
       )}
 
       <AnimatePresence>
-        {words.map((word) => (
+        {selectedWords.map((word) => (
           <motion.div
             key={word.id}
             initial={{ opacity: 0, y: 20 }}
@@ -127,15 +85,16 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
             transition={{ duration: 0.3 }}
           >
             <div
-              className={`p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer ${
-                expandedWord === word.word ? "bg-accent/50" : ""
-              }`}
-              onClick={() => toggleWordExpand(word.word)}
+              className={`
+                p-4 rounded-lg border bg-card hover:bg-accent/50 
+                transition-colors cursor-pointer ${expandedWord === word.word.word ? "bg-accent/50" : ""
+                }`}
+              onClick={() => toggleWordExpand(word.word.word)}
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <h4 className="font-semibold text-lg">{word.word}</h4>
+                    <h4 className="font-semibold text-lg">{word.word.word}</h4>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -143,30 +102,30 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
                       onClick={(e) => {
                         e.stopPropagation()
                         // Play audio
-                        const utterance = new SpeechSynthesisUtterance(word.word)
+                        const utterance = new SpeechSynthesisUtterance(word.word.word)
                         utterance.lang = "en-US"
                         window.speechSynthesis.speak(utterance)
                       }}
                     >
                       <Volume2 className="h-4 w-4" />
                     </Button>
-                    <span className="text-sm text-muted-foreground">{word.pronunciation}</span>
+                    <span className="text-sm text-muted-foreground">{word.word.pronunciation}</span>
                   </div>
-                  <p className="text-muted-foreground">{word.meaning}</p>
-                  <p className="text-sm italic">{word.example}</p>
+                  <p className="text-muted-foreground">{word.word.meaning}</p>
+                  <p className="text-sm italic">{word.word.example}</p>
                   <div className="flex items-center gap-2 pt-2">
                     <Badge
                       variant="outline"
-                      className={`${getLevelInfo(word.level).color} ${getLevelInfo(word.level).bg}`}
+                      className={`${getLevelInfo(selectedLevel).color} ${getLevelInfo(selectedLevel).bg}`}
                     >
-                      Cấp {word.level}: {getLevelInfo(word.level).name}
+                      Cấp {selectedLevel}: {getLevelInfo(selectedLevel).name}
                     </Badge>
-                    {word.level === 5 && (
+                    {/* {word.level === 5 && (
                       <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-400">
                         <Star className="h-3 w-3 mr-1 fill-current" />
                         Thành thạo
                       </Badge>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -179,7 +138,7 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
                       // Toggle bookmark
                     }}
                   >
-                    <Bookmark className={`h-4 w-4 ${word.saved ? "fill-primary text-primary" : ""}`} />
+                    <Bookmark className={`h-4 w-4 ${true ? "fill-primary text-primary" : ""}`} />
                   </Button>
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <ArrowUpRight className="h-4 w-4" />
@@ -188,7 +147,7 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
               </div>
 
               <AnimatePresence>
-                {expandedWord === word.word && (
+                {expandedWord === word.word.word && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
@@ -200,16 +159,16 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
                       <div>
                         <h5 className="text-sm font-medium mb-2">Từ đồng nghĩa</h5>
                         <div className="flex flex-wrap gap-2">
-                          {word.synonyms.map((synonym) => (
+                          {/* {word.synonyms.map((synonym) => (
                             <Badge key={synonym} variant="secondary" className="text-xs">
                               {synonym}
                             </Badge>
-                          ))}
+                          ))} */}
                         </div>
                       </div>
                       <div>
                         <h5 className="text-sm font-medium mb-2">Ghi chú</h5>
-                        <p className="text-sm text-muted-foreground">{word.notes}</p>
+                        {/* <p className="text-sm text-muted-foreground">{word.notes}</p> */}
                       </div>
                     </div>
                     <div className="flex justify-between mt-4">
@@ -227,5 +186,5 @@ export function ReviewWordList({ type = "all" }: ReviewWordListProps) {
       </AnimatePresence>
     </div>
   )
-}
+})
 
