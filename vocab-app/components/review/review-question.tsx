@@ -17,9 +17,12 @@ interface ReviewQuestionProps {
 }
 
 export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
+export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
   // Generate options for multiple choice
   const options =
-    questionType === "multiple-choice" ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.word, reviewWords) : []
+    questionType === "multiple-choice" 
+    ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.word, reviewWords) 
+    : []
 
   // Render the appropriate question component based on type
   switch (questionType) {
