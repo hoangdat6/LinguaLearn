@@ -17,12 +17,12 @@ export function LessonCard({ lesson, onSelect }: LessonCardProps) {
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start">
             <div className="space-y-1">
-              <Badge className={`${lesson.themeColor} mb-2`}>
+              {/* <Badge className={`${lesson.themeColor} mb-2`}>
                 <span className="mr-1">{lesson.icon}</span> {lesson.courseName}
-              </Badge>
+              </Badge> */}
               <CardTitle className="text-lg">{lesson.title}</CardTitle>
             </div>
-            {lesson.completed && (
+            {lesson.is_learned && (
               <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
                 Hoàn thành
               </Badge>
@@ -31,22 +31,22 @@ export function LessonCard({ lesson, onSelect }: LessonCardProps) {
         </CardHeader>
         <CardContent>
           <CardDescription>{lesson.description}</CardDescription>
-          <div className="mt-3 space-y-2">
+          {/* <div className="mt-3 space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Tiến độ</span>
               <span className="font-medium">{lesson.progress}%</span>
             </div>
             <Progress value={lesson.progress} className="h-2" />
-          </div>
+          </div> */}
         </CardContent>
         <CardFooter className="flex justify-between border-t pt-3">
           <div className="flex items-center text-sm text-muted-foreground">
             <BookOpen className="h-4 w-4 mr-1" />
-            {lesson.vocabCount} từ
+            {lesson.word_count} từ
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="h-4 w-4 mr-1" />
-            {lesson.estimatedTime}
+            {/* <Clock className="h-4 w-4 mr-1" />
+            {lesson.estimatedTime} */}
           </div>
         </CardFooter>
       </Card>

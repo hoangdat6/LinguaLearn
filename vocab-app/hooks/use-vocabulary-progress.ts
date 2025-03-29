@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Lesson, Word } from "@/types/lesson-types"
-import { fetchLessonById } from "@/services/course-service"
+import { getWordsByLessonId } from "@/services/course-service"
 
 interface SpacedRepetitionData {
     wordId: number
@@ -25,17 +25,41 @@ export function useVocabularyProgress(lessonId: string) {
 
     // Initialize spaced repetition data
     useEffect(() => {
-        const fetchedLesson = fetchLessonById(lessonId);
-        setLesson(fetchedLesson);
-        setWords(fetchedLesson.vocabulary)
-        setLoading(false);
+        async function fetchWords() {
+            setLoading(true)
+            try {
+                const response = await getWordsByLessonId(lessonId)
+                setWords(response.words)
+                setLesson({
+                    id: response.lessonId,
+                    title: response.lesson_title,
+                    description: response.lesson_description,
+                    word_count: response.words?.length,
+                    image: "",
+                    created_at: "",
+                    updated_at: "",
+                    is_learned: false,
+                })
+                const initialData = response.words?.map((word) => ({
+                    wordId: word.id,
+                    stage: 1,
+                    nextReview: Date.now(),
+                    interval: 1,
+                }))
+                setSpacedRepetition(initialData)
+            } catch (error) {
+                console.error("Error fetching words:", error)
+            }
+            setLoading(false)
+        }
+        fetchWords()
     }, [lessonId]);
 
     // Calculate progress
     useEffect(() => {
-        const totalProgress = ((currentIndex * 3 + (currentStage - 1)) / (words.length * 3)) * 100
+        const totalProgress = ((currentIndex * 3 + (currentStage - 1)) / (words?.length * 3)) * 100
         setProgress(totalProgress)
-    }, [currentIndex, currentStage, words.length])
+    }, [currentIndex, currentStage, words?.length])
 
     // Handle correct answer
     const handleCorrectAnswer = () => {

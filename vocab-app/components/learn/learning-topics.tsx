@@ -3,16 +3,25 @@
 import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { Book, Users2 } from "lucide-react"
+import { Book, LoaderCircle, Users2 } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useLessons } from "@/hooks/useLessons"
 import { ThemeCard } from "@/components/ThemeCard"
 import { useRouter } from "next/navigation"
+import { useCourses } from "@/hooks/useCourse"
 
 export function ThemesOverview() {
   const router = useRouter()
-  const { filteredThemes } = useLessons()
+  const { filteredThemes, isLoading } = useCourses()
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[200px]">
+        <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4">

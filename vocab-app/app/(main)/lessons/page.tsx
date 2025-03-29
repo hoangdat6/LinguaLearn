@@ -1,37 +1,38 @@
 "use client"
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState, useEffect, use } from "react"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
-import { Search, BookOpen, Filter, ChevronDown, Clock, Users, Star } from 'lucide-react'
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
+import { Search, BookOpen, Filter, ChevronDown, Clock, Users, Star, LoaderCircle } from 'lucide-react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLessons } from "@/hooks/useLessons"
 import { ThemeCard } from "@/components/ThemeCard"
 import { LessonCard } from "@/components/LessonCard"
+import { useCourses } from "@/hooks/useCourse"
 
 // Animation variants
 const containerVariants = {
@@ -58,21 +59,21 @@ const itemVariants = {
 };
 
 const fadeIn = {
-  hidden: { opacity:.0 },
-  visible: { 
+  hidden: { opacity: .0 },
+  visible: {
     opacity: 1,
-    transition: { 
+    transition: {
       duration: 0.6
-    } 
+    }
   }
 };
 
 export default function LessonsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+
   const {
     themes,
-    allLessons,
     filteredThemes,
     searchQuery,
     setSearchQuery,
@@ -80,18 +81,45 @@ export default function LessonsPage() {
     setDifficulty,
     sortBy,
     setSortBy,
-  } = useLessons()
+    isLoading,
+    nextPage,
+    prevPage,
+    setCurrentPage,
+    currentPage
+  } = useCourses();
 
   const [currentTab, setCurrentTab] = useState("themes");
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);  
+  
+  // danh sach bài học theo chủ đề
+  const { 
+    lessons, 
+    isLoading: isLessonsLoading, 
+    currentPage: curPage, 
+    nextPage: nxPage, 
+    prevPage: pvPage, 
+    setCurrentPage: sCurPage,
+    setPrevPage: sPrevPage
+  } = useLessons(selectedTheme);
 
+  useEffect(() => {
+    if (selectedTheme) {
+      setCurrentTab("selectedTheme")
+      sCurPage(1) // về trang 1 lesson nếu đổi theme
+      sPrevPage(null) // reset trang trước
+    }
+  }, [selectedTheme])
   useEffect(() => {
     const theme = searchParams.get("theme")
     if (theme) {
       setSelectedTheme(theme)
       setCurrentTab("selectedTheme")
+      sCurPage(1) // về trang 1 lesson nếu đổi theme
+      sPrevPage(null) // reset trang trước
     }
   }, [searchParams])
+
+
 
   // Handle click on a lesson
   const handleLessonClick = (lessonId: string) => {
@@ -100,7 +128,7 @@ export default function LessonsPage() {
 
   return (
     <div className="container max-w-7xl py-10">
-      <motion.div 
+      <motion.div
         initial="hidden"
         animate="visible"
         variants={fadeIn}
@@ -112,7 +140,7 @@ export default function LessonsPage() {
             <h1 className="text-3xl font-bold">Bài học từ vựng</h1>
             <p className="text-muted-foreground">Khám phá các bài học từ vựng theo chủ đề</p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
             <div className="relative w-full sm:w-72">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -123,7 +151,7 @@ export default function LessonsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full sm:w-auto">
@@ -164,73 +192,75 @@ export default function LessonsPage() {
             </DropdownMenu>
           </div>
         </div>
-        
+
         <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
           <TabsList className="mb-4">
             <TabsTrigger value="themes" className="flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Chủ đề
             </TabsTrigger>
-            <TabsTrigger value="lessons" className="flex items-center">
+            {/* <TabsTrigger value="lessons" className="flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Tất cả bài học
-            </TabsTrigger>
+            </TabsTrigger> */}
             {selectedTheme && (
               <TabsTrigger value="selectedTheme" className="flex items-center">
                 <BookOpen className="h-4 w-4 mr-2" />
-                {themes.find(t => t.id === selectedTheme)?.title || "Chủ đề"}
+                {themes.find(t => t.id == selectedTheme)?.title || "Chủ đề"}
               </TabsTrigger>
             )}
           </TabsList>
-          
+
           {/* Themes Tab */}
           <TabsContent value="themes">
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             >
-              {filteredThemes.map(theme => (
-                <ThemeCard
-                  key={theme.id}
-                  theme={theme}
-                  onSelect={(id) => {
-                    setSelectedTheme(id);
-                    setCurrentTab("selectedTheme");
-                  }}
-                />
-              ))}
+              {isLoading ? (
+                [...Array(6)].map((_, index) => (
+                  <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                ))
+              ) : (
+                filteredThemes.map(theme => (
+                  <ThemeCard
+                    key={theme.id}
+                    theme={theme}
+                    onSelect={(id) => {
+                      setSelectedTheme(id);
+                      setCurrentTab("selectedTheme");
+                    }}
+                  />
+                ))
+              )}
             </motion.div>
-            
-            {filteredThemes.length === 0 && (
-              <div className="text-center py-12">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
-                  <p className="text-muted-foreground">Vui lòng thử tìm kiếm với từ khóa khác</p>
-                </motion.div>
-              </div>
-            )}
+            <div className="flex justify-center mt-6">
+              <Button variant="outline" onClick={() => setCurrentPage(prevPage?? 1)} disabled={!prevPage}>
+                ← Trang trước
+              </Button>
+              <span className="mx-4 flex items-center">Trang {currentPage}</span>
+              <Button variant="outline" onClick={() => setCurrentPage(nextPage ?? 1)} disabled={!nextPage}>
+                Trang tiếp →
+              </Button>
+            </div>
+
           </TabsContent>
-          
-          {/* All Lessons Tab */}
-          <TabsContent value="lessons">
-            <motion.div 
+
+
+          {/* <TabsContent value="lessons">
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             >
               {allLessons
-                .filter(lesson => 
+                .filter(lesson =>
                   (lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                   lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                   lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
+                    lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
                   (difficulty === "all" || lesson.difficulty === difficulty)
                 )
                 .sort((a, b) => {
@@ -240,92 +270,93 @@ export default function LessonsPage() {
                   return 0;
                 })
                 .map(lesson => (
-                <LessonCard
-                  key={lesson.id}
-                  lesson={lesson}
-                  onSelect={(id) => handleLessonClick(id)}
-                />
-              ))}
-            </motion.div>
-            
-            {allLessons.filter(lesson => 
+                  <LessonCard
+                    key={lesson.id}
+                    lesson={lesson}
+                    onSelect={(id) => handleLessonClick(id)}
+                  />
+                ))} 
+            </motion.div> */}
+
+            {/* {allLessons.filter(lesson =>
               (lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-               lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-               lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
+                lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
               (difficulty === "all" || lesson.difficulty === difficulty)
             ).length === 0 && (
-              <div className="text-center py-12">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
-                  <p className="text-muted-foreground">Vui lòng thử tìm kiếm với từ khóa khác</p>
-                </motion.div>
-              </div>
-            )}
-          </TabsContent>
-          
+                <div className="text-center py-12">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
+                    <p className="text-muted-foreground">Vui lòng thử tìm kiếm với từ khóa khác</p>
+                  </motion.div>
+                </div>
+              )} 
+          /</TabsContent>
+          */}
+
           {/* Selected Theme Tab */}
           <TabsContent value="selectedTheme">
             {selectedTheme && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
                 <div className="mb-6">
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     onClick={() => setCurrentTab("themes")}
                     className="mb-4"
                   >
                     ← Quay lại chủ đề
                   </Button>
-                  
-                  {themes.filter(t => t.id === selectedTheme).map(theme => (
+
+                  {themes.filter(t => t.id == selectedTheme).map(theme => (
                     <div key={theme.id} className="space-y-6">
-                      <div className={`${theme.backgroundColor} ${theme.color} p-6 rounded-lg`}>
+                      <div className={`p-6 rounded-lg`}>
                         <div className="flex items-center gap-4">
                           <div className="text-4xl">{theme.icon}</div>
                           <div>
                             <h2 className="text-2xl font-bold">{theme.title}</h2>
-                            <p className={`${theme.color}`}>{theme.description}</p>
+                            <p className={``}>{theme.description}</p>
                           </div>
                         </div>
-                        
+
                         <div className="mt-4 space-y-2">
                           <div className="flex justify-between text-sm">
                             <span>Tiến độ chủ đề</span>
-                            <span className="font-medium">{Math.round((theme.completedLessons / theme.lessonsCount) * 100)}%</span>
+                            <span className="font-medium">{theme.progress}%</span>
                           </div>
-                          <Progress value={(theme.completedLessons / theme.lessonsCount) * 100} className="h-2 bg-white/20" />
+                          <Progress value={theme.progress} className="h-2 bg-white/20" />
                         </div>
-                        
+
                         <div className="mt-4 flex flex-wrap gap-4">
                           <div className="flex items-center">
                             <BookOpen className="h-4 w-4 mr-1" />
-                            <span>{theme.lessonsCount} bài học</span>
+                            <span>{theme.lesson_count} bài học</span>
                           </div>
                           <div className="flex items-center">
                             <Users className="h-4 w-4 mr-1" />
-                            <span>{theme.userCount.toLocaleString()} người học</span>
+                            <span>{theme.learner_count} người học</span>
                           </div>
-                          <Badge variant="outline" className="bg-white/20 text-current">
+                          {/* <Badge variant="outline" className="bg-white/20 text-current">
                             {theme.difficulty === "beginner" ? "Cơ bản" : 
                              theme.difficulty === "intermediate" ? "Trung cấp" : "Nâng cao"}
-                          </Badge>
-                          {theme.tags.map(tag => (
+                          </Badge> */}
+                          {/* {theme.tags.map(tag => (
                             <Badge key={tag} variant="outline" className="bg-white/20 text-current">
                               #{tag}
                             </Badge>
-                          ))}
+                          ))} */}
                         </div>
                       </div>
-                      
-                      <motion.div 
+
+                      <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
@@ -333,16 +364,21 @@ export default function LessonsPage() {
                       >
                         <h3 className="text-xl font-bold">Bài học trong chủ đề này</h3>
                         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                          {theme.lessons
-                            .filter(lesson => lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                              lesson.description.toLowerCase().includes(searchQuery.toLowerCase()))
-                            .map(lesson => (
-                            <LessonCard
-                              key={lesson.id}
-                              lesson={lesson}
-                              onSelect={(id) => handleLessonClick(id)}
-                            />
-                          ))}
+                          {isLessonsLoading ? (
+                            [...Array(6)].map((_, index) => (
+                              <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                            ))
+                          ) : lessons.length > 0 ? (
+                            lessons.map(lesson => (
+                              <LessonCard
+                                key={lesson.id}
+                                lesson={lesson}
+                                onSelect={(id) => handleLessonClick(id)}
+                              />
+                            ))
+                          ) : (
+                            <p>Không có bài học nào trong chủ đề này.</p>
+                          )}
                         </div>
                       </motion.div>
                     </div>
@@ -350,6 +386,15 @@ export default function LessonsPage() {
                 </div>
               </motion.div>
             )}
+            <div className="flex justify-center mt-6">
+              <Button variant="outline" onClick={() => sCurPage(pvPage?? 1)} disabled={!pvPage}>
+                ← Trang trước
+              </Button>
+              <span className="mx-4 flex items-center">Trang {curPage}</span>
+              <Button variant="outline" onClick={() => sCurPage(nxPage ?? 1)} disabled={!nxPage}>
+                Trang tiếp →
+              </Button>
+            </div>
           </TabsContent>
         </Tabs>
       </motion.div>
