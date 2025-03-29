@@ -13,7 +13,6 @@ interface VocabularyFlashcardProps {
 
 export function VocabularyFlashcard({ word, onNext }: VocabularyFlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
-  const [isHovering, setIsHovering] = useState(false)
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped)
@@ -27,93 +26,40 @@ export function VocabularyFlashcard({ word, onNext }: VocabularyFlashcardProps) 
 
   return (
     <div className="space-y-6">
-      <div
-        className="perspective-1000 relative h-[300px] w-full mx-auto cursor-pointer"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
+      <div className="perspective-1000 relative h-[300px] w-full mx-auto cursor-pointer" onClick={handleFlip}>
         <motion.div
-          className="relative w-full h-full transform-style-3d transition-all duration-500"
+          className="relative w-full h-full transform-style-3d"
           animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 20,
-          }}
-          onClick={handleFlip}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           {/* Front of card */}
-          <motion.div
-            className="absolute w-full h-full backface-hidden rounded-xl overflow-hidden"
-            animate={{
-              scale: isHovering && !isFlipped ? 1.02 : 1,
-              boxShadow:
-                isHovering && !isFlipped
-                  ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-                  : "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            }}
+          <div
+            className="absolute w-full h-full flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 shadow-md"
+            style={{ backfaceVisibility: "hidden", zIndex: isFlipped ? 1 : 2 }}
           >
-            <div className="h-full flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-              <motion.h2
-                className="text-4xl font-bold mb-4 text-primary"
-                animate={{ scale: isHovering && !isFlipped ? 1.05 : 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                {word.word}
-              </motion.h2>
-              <p className="text-muted-foreground text-sm mb-2">{word.pronunciation}</p>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-4 right-4 opacity-80 hover:opacity-100 transition-opacity"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  playAudio()
-                }}
-              >
-                <Volume2 className="h-4 w-4" />
-              </Button>
-
-              <motion.div
-                className="absolute bottom-4 left-0 right-0 text-center text-sm text-muted-foreground"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isHovering && !isFlipped ? 1 : 0 }}
-              >
-                Click to flip
-              </motion.div>
-            </div>
-          </motion.div>
+            <h2 className="text-4xl font-bold mb-4 text-primary">{word.word}</h2>
+            <p className="text-muted-foreground text-sm mb-2">{word.pronunciation}</p>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 opacity-80 hover:opacity-100 transition-opacity"
+              onClick={(e) => {
+                e.stopPropagation()
+                playAudio()
+              }}
+            >
+              <Volume2 className="h-4 w-4" />
+            </Button>
+          </div>
 
           {/* Back of card */}
-          <motion.div
-            className="absolute w-full h-full backface-hidden rounded-xl overflow-hidden rotate-y-180"
-            animate={{
-              scale: isHovering && isFlipped ? 1.02 : 1,
-              boxShadow:
-                isHovering && isFlipped
-                  ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-                  : "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            }}
+          <div
+            className="absolute w-full h-full flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-secondary/5 to-secondary/10 border border-secondary/20 shadow-md"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", zIndex: isFlipped ? 2 : 1 }}
           >
-            <div className="h-full flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-secondary/5 to-secondary/10 border border-secondary/20">
-              <motion.h3
-                className="text-3xl font-bold mb-4 text-secondary"
-                animate={{ scale: isHovering && isFlipped ? 1.05 : 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                {word.meaning}
-              </motion.h3>
-              <p className="text-center text-muted-foreground">{word.example}</p>
-
-              <motion.div
-                className="absolute bottom-4 left-0 right-0 text-center text-sm text-muted-foreground"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isHovering && isFlipped ? 1 : 0 }}
-              >
-                Click to flip back
-              </motion.div>
-            </div>
-          </motion.div>
+            <h3 className="text-3xl font-bold mb-4 text-secondary">{word.meaning}</h3>
+            <p className="text-center text-muted-foreground">{word.example}</p>
+          </div>
         </motion.div>
       </div>
 
@@ -128,4 +74,3 @@ export function VocabularyFlashcard({ word, onNext }: VocabularyFlashcardProps) 
     </div>
   )
 }
-

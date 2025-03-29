@@ -1,49 +1,37 @@
 export interface Course {
   id: string
   title: string
+  en_title: string
   description: string
   image: string
-  backgroundColor: string
-  color: string
   icon: string
-  lessonsCount: number
-  completedLessons: number
-  userCount: number
-  difficulty: string
-  tags: string[]
-  lessons: Lesson[]
+  is_learned: boolean
+  lesson_count: number
+  progress: number
+  learner_count: number
 }
-
 
 export interface Lesson {
   id: string
   title: string
   description: string
-  vocabCount: number
-  completed: boolean
-  progress: number
-  courseName: string
-  icon: string
-  themeColor: string
-  themeFontColor: string
-  difficulty: string
-  estimatedTime: string
-  vocabulary: Word[]
+  image: string
+  created_at: string
+  updated_at: string
+  is_learned: boolean
+  word_count: number
 }
 
 
 export interface Word {
   id: number
   word: string
+  pronunciation: string    
+  pos: string
   meaning: string
   example: string
   example_vi: string
   audio: string
   image: string
-  pronunciation: string
-  pos: string
-  created_at: string
-  updated_at: string
   cefr: string
-  lesson: number
 }

@@ -652,7 +652,7 @@ export default function FlashcardsPage() {
                             <p className="text-sm text-muted-foreground">
                               {new Date(deck.lastStudied).toLocaleDateString()}
                             </p>
-                          </
+                          </div>
                           
                           <div className="space-y-2">
                             <div className="flex justify-between text-sm">
