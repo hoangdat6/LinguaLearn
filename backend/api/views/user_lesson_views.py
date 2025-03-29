@@ -31,6 +31,7 @@ class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):
             {
                 'lesson_id': lesson.id,
                 'lesson_title': lesson.title,
+                'lesson_description': lesson.description,
                 'words': serializer.data
             }
         )
