@@ -60,8 +60,6 @@ class UserWordViewSet(viewsets.ModelViewSet):
         update_list = []
         for word_data in words_data:
             word_id = word_data['word_id']
-            level = word_data['level']
-            streak = word_data['streak']
             question_type = word_data['question_type']
             is_correct = word_data.get('is_correct', None)
 
@@ -70,6 +68,8 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 new_level = 1
                 new_streak = 1
             else:
+                level = word_data['level']
+                streak = word_data['streak']
                 if is_correct is False:
                     new_streak = 1
                     new_level = max(level - 1, 1)
