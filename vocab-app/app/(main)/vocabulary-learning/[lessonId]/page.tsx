@@ -115,7 +115,7 @@ export default function Page() {
       exit="exit"
       className="container max-w-4xl py-1"
     >
-      <div className="space-y-6 px-[250px]">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <Button
             variant="ghost"
