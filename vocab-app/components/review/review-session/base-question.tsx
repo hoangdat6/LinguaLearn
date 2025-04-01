@@ -41,6 +41,7 @@ export function BaseQuestion({
     setTimeout(() => {
       setShowResult(false);
       onAnswer(correct, timeSpent);
+      setAnswer("");
     }, 1500);
   };
 

@@ -27,7 +27,7 @@ const refreshAccessToken = async () => {
             const refreshToken = Cookies.get(REFRESH_TOKEN_KEY);
             if (!refreshToken) throw new Error("No refresh token available");
 
-            const response = await axios.post("/api/refresh-token", { refresh: refreshToken });
+            const response = await axios.post(API_BASE_URL + "users/refresh-token/", { refresh: refreshToken });
             const newAccessToken = response.data.access;
 
             // Lưu lại token mới

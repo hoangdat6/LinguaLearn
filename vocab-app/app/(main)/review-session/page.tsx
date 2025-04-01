@@ -1,5 +1,6 @@
 "use client"
 
+import { BackConfirmDialog } from "@/components/review/BackConfirmDialog"
 import { ReviewQuestion } from "@/components/review/review-question"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -57,6 +58,7 @@ export default function ReviewSessionPage() {
     reviewWords,
     isLoading,
     error,
+    handleBack,
     handleAnswer,
     handleSkip,
     resetSession,
@@ -93,14 +95,7 @@ export default function ReviewSessionPage() {
               <motion.div key="in-progress" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <div className="mb-8 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Link
-                      href="/review"
-                      className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <ArrowLeft className="mr-2 h-4 w-4" />
-                      Quay lại
-                    </Link>
-                    
+                    <BackConfirmDialog onBack={handleBack} />
                   </div>
                   <div className="flex justify-between items-center text-sm text-muted-foreground">
 

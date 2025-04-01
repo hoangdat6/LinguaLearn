@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BookOpen, LoaderCircle } from "lucide-react"
 import { TimeUntilNextReview } from "@/services/user-word-service";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface VocabularyLevelsProps {
   showLabels?: boolean;
@@ -17,6 +17,58 @@ interface VocabularyLevelsProps {
   isLoading?: boolean;
   timeUntilNextReview?: TimeUntilNextReview;
 }
+
+// Enhanced loading skeleton component with growing animation
+const VocabularyLevelsLoading = () => {
+  const [heights, setHeights] = useState([0, 0, 0, 0, 0]);
+  const finalHeights = [80, 120, 70, 100, 50]; // Different heights for each bar
+  
+  useEffect(() => {
+    // Start with zero heights
+    setHeights([0, 0, 0, 0, 0]);
+    
+    // Animate heights growing
+    const growInterval = setInterval(() => {
+      setHeights(prevHeights => 
+        prevHeights.map((height, index) => {
+          if (height < finalHeights[index]) {
+            // Grow by a small amount each interval until reaching final height
+            return Math.min(height + 2, finalHeights[index]);
+          }
+          return height;
+        })
+      );
+    }, 30);
+    
+    // Clean up interval on unmount
+    return () => clearInterval(growInterval);
+  }, []);
+
+  return (
+    <div className="space-y-6">
+      <div className="relative h-[200px] flex items-end justify-between gap-4 pb-8 border-b">
+        {[1, 2, 3, 4, 5].map((level, index) => (
+          <div key={level} className="relative flex flex-col items-center flex-1">
+            <span className="absolute -top-6 h-4 w-16 bg-gray-200 animate-pulse rounded"></span>
+            <div
+              className="w-full bg-gradient-to-t from-gray-300 to-gray-200 rounded-t-lg animate-pulse transition-all duration-300 ease-out"
+              style={{
+                height: `${heights[index]}px`,
+                transition: "height 0.3s ease-out",
+              }}
+            />
+            <span className="absolute -bottom-8 h-5 w-5 bg-gray-200 animate-pulse rounded-full"></span>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-6 w-48 bg-gray-200 animate-pulse rounded"></div>
+        <div className="h-10 w-36 bg-gradient-to-r from-gray-300 to-gray-200 animate-pulse rounded-full"></div>
+      </div>
+    </div>
+  );
+};
 
 export const VocabularyLevels = React.memo(function VocabularyLevels({
   showLabels = false,
@@ -41,11 +93,7 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
   const maxCount = Math.max(...levels.map((level) => level.count), 1) // Ensure non-zero for division
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-[200px]">
-        <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    )
+    return <VocabularyLevelsLoading />
   }
 
   return (
