@@ -2,8 +2,8 @@
 
 import userWordService, { WordsByLevel } from "@/services/user-word-service";
 import { useWordLevelStore } from "@/stores/wordLevelStore";
+import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/types/status";
 import { useEffect, useState, useCallback } from "react";
-
 
 const useReview = () => {
     const {
@@ -21,7 +21,7 @@ const useReview = () => {
         setRewordCount,
         setTimeUntilNextReview,
     } = useWordLevelStore();
-    
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -29,21 +29,20 @@ const useReview = () => {
         setIsLoading(true);
         setError(null);
         try {
-
             // Check if data is already in local storage and not expired
-            const cachedData = localStorage.getItem("wordLevels");
-            const cachedTime = localStorage.getItem("wordLevelsTime");
-            const currentTime = Date.now();
-            if (cachedData && cachedTime) {
-                const parsedData = JSON.parse(cachedData);
-                const parsedTime = parseInt(cachedTime, 10);
-                if (currentTime - parsedTime < 0.5 * 60 * 1000 && parsedData.learnedWords) { // 30 minutes
-                    setWordLevels(parsedData.countLevels);
-                    setRewordCount(parsedData.reviewWordCount);
-                    setTimeUntilNextReview(parsedData.timeUntilNextReview);
-                    setWords(parsedData.learnedWords);
-                    setError(null);
-                    return;
+            const isLearn = sessionStorage.getItem(IS_LEARN_KEY);
+            if (isLearn !== "true") {
+                const cachedData = sessionStorage.getItem("wordLevels");
+                if (cachedData) {
+                    const parsedData = JSON.parse(cachedData);
+                    if (parsedData.learnedWords) {
+                        setWordLevels(parsedData.countLevels);
+                        setRewordCount(parsedData.reviewWordCount);
+                        setTimeUntilNextReview(parsedData.timeUntilNextReview);
+                        setWords(parsedData.learnedWords);
+                        setError(null);
+                        return;
+                    }
                 }
             }
 
@@ -70,9 +69,9 @@ const useReview = () => {
             setTimeUntilNextReview(wordsByLevel.time_until_next_review);
 
             // Update local storage with the new data
-            localStorage.setItem("wordLevels", JSON.stringify({
+            sessionStorage.setItem(WORD_LEVELS_KEY, JSON.stringify({
                 totalWords: total,
-                countLevels : {
+                countLevels: {
                     countLevel1: wordsByLevel.level_counts.count_level1,
                     countLevel2: wordsByLevel.level_counts.count_level2,
                     countLevel3: wordsByLevel.level_counts.count_level3,
@@ -81,7 +80,7 @@ const useReview = () => {
                 },
                 reviewWordCount: wordsByLevel.review_word_count,
                 timeUntilNextReview: wordsByLevel.time_until_next_review,
-                learnedWords : {
+                learnedWords: {
                     words_by_level1: wordsByLevel.words_level1,
                     words_by_level2: wordsByLevel.words_level2,
                     words_by_level3: wordsByLevel.words_level3,
@@ -90,11 +89,8 @@ const useReview = () => {
                 }
             }));
 
-            localStorage.setItem("wordLevelsTime", Date.now().toString());
+            localStorage.setItem(IS_LEARN_KEY, "false");
             setError(null);
-
-
-
         } catch (err: any) {
             setError(err.message || "Failed to fetch review data");
         } finally {

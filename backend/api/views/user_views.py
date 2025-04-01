@@ -345,7 +345,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def test(self, request):
         return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
     
-    @action(detail=False, methods=["get"], url_path="refresh-token")
+    @action(detail=False, methods=["post"], url_path="refresh-token")
     @permission_classes([AllowAny])
     def refresh_token(self, request):
         """

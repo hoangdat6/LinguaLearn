@@ -1,7 +1,7 @@
 "use client"
 
 import { TimeUntilNextReview } from "@/services/user-word-service";
-import { ReviewWordState } from "@/types/review";
+import { WordReviewState } from "@/types/review";
 import { create } from "zustand";
 
 interface WordLevelState {
@@ -14,11 +14,11 @@ interface WordLevelState {
     reviewWordCount: number;
     timeUntilNextReview: TimeUntilNextReview;
     words: {
-        words_by_level1: ReviewWordState[];
-        words_by_level2: ReviewWordState[];
-        words_by_level3: ReviewWordState[];
-        words_by_level4: ReviewWordState[];
-        words_by_level5: ReviewWordState[];
+        words_by_level1: WordReviewState[];
+        words_by_level2: WordReviewState[];
+        words_by_level3: WordReviewState[];
+        words_by_level4: WordReviewState[];
+        words_by_level5: WordReviewState[];
     };
     setWordLevels: (levels: Partial<Omit<WordLevelState, "setWordLevels" | "fetchWordsByLevel">>) => void;
     setWords: (words: WordLevelState["words"]) => void;
@@ -37,11 +37,11 @@ export const useWordLevelStore = create<WordLevelState>((set) => ({
     reviewWordCount: 0,
     timeUntilNextReview: {} as TimeUntilNextReview,
     words: {
-        words_by_level1: [] as ReviewWordState[], 
-        words_by_level2: [] as ReviewWordState[],
-        words_by_level3: [] as ReviewWordState[],
-        words_by_level4: [] as ReviewWordState[],
-        words_by_level5: [] as ReviewWordState[],
+        words_by_level1: [] as WordReviewState[], 
+        words_by_level2: [] as WordReviewState[],
+        words_by_level3: [] as WordReviewState[],
+        words_by_level4: [] as WordReviewState[],
+        words_by_level5: [] as WordReviewState[],
     },
     setWordLevels: (levels) =>
         set((state) => ({

@@ -1,16 +1,17 @@
 "use client"
 
-import { useState } from "react"
-import { useFormik } from "formik"
-import * as Yup from "yup"
 import { Owl } from "@/components/owl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Link from "next/link"
 import authService from "@/services/auth-service"
+import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY } from "@/types/status"
+import { useFormik } from "formik"
+import Link from "next/link"
+import { useState } from "react"
+import * as Yup from "yup"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -40,19 +41,23 @@ export default function LoginPage() {
       .required("Bắt buộc"),
   })
 
-
   const loginFormik = useFormik({
     initialValues: { username: "", password: "" },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      console.log("Login start!")
       setIsLoading(true);
       setMessage("");
       setError("");
       try {
         await authService.login(values.username, values.password);
+    
+        // lưu trạng thái thay đổi profile
+        localStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
+        // lưu trạng thái ôn tập hoặc học mới
+        localStorage.setItem(IS_LEARN_KEY, "true");
+        // Chuyển hướng đến trang chính
         setMessage("Đăng nhập thành công! Đang chuyển hướng...");
-        setTimeout(() => window.location.href = "/", 1500);
+        setTimeout(() => window.location.href = "/", 500);
       } catch (err: {error: string}) {
         setError(err.error);
       } finally {

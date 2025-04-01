@@ -1,9 +1,13 @@
 import { Word } from "@/types/lesson-types"
-import type { QuestionType, ReviewSessionResults, ReviewWordState } from "@/types/review"
+import type { QuestionType, ReviewResultTemp, ReviewSessionResults, WordReviewResult, WordReviewState } from "@/types/review"
 import api from "./api"
 
 // Question types
-export const QUESTION_TYPES: QuestionType[] = ["multiple-choice", "translation", "fill-in-blank", "listening"]
+export const QUESTION_TYPES: QuestionType[] = ["L1", "L2", "L3", "L4"]
+// "L1" = multiple-choice
+// "L2" = listening
+// "L3" = translation
+// "L4" = fill-in-blank
 
 // tạo 1 list word tạm để tránh trường hợp chỉ ôn 1 từ mà không có từ nào khác
 export const TEMP_WORD_LIST: Word[] = [
@@ -16,10 +20,7 @@ export const TEMP_WORD_LIST: Word[] = [
     image: "",
     pronunciation: "",
     pos: "",
-    created_at: "",
-    updated_at: "",
     cefr: "",
-    lesson: 0
   },
   {
     word: "goodbye", meaning: "tạm biệt",
@@ -30,10 +31,7 @@ export const TEMP_WORD_LIST: Word[] = [
     image: "",
     pronunciation: "",
     pos: "",
-    created_at: "",
-    updated_at: "",
     cefr: "",
-    lesson: 0
   },
   {
     word: "thank you", meaning: "cảm ơn",
@@ -44,10 +42,7 @@ export const TEMP_WORD_LIST: Word[] = [
     image: "",
     pronunciation: "",
     pos: "",
-    created_at: "",
-    updated_at: "",
     cefr: "",
-    lesson: 0
   },
   {
     word: "sorry", meaning: "xin lỗi",
@@ -58,10 +53,7 @@ export const TEMP_WORD_LIST: Word[] = [
     image: "",
     pronunciation: "",
     pos: "",
-    created_at: "",
-    updated_at: "",
     cefr: "",
-    lesson: 0
   },
   {
     word: "please", meaning: "làm ơn",
@@ -72,17 +64,14 @@ export const TEMP_WORD_LIST: Word[] = [
     image: "",
     pronunciation: "",
     pos: "",
-    created_at: "",
-    updated_at: "",
     cefr: "",
-    lesson: 0
   },
 ]
 
 
 export const ReviewService = {
   // 📌 Gọi API lấy danh sách từ vựng cần ôn tập
-  async fetchReviewWords(): Promise<ReviewWordState[]> {
+  async fetchReviewWords(): Promise<WordReviewState[]> {
     try {
       const response = await api.get(`user-words/review-words/`)
       return response.data.words
@@ -92,18 +81,19 @@ export const ReviewService = {
     }
   },
 
-  // 📌 Gọi API để lưu kết quả bài kiểm tra
-  async submitReviewResults(results: ReviewSessionResults): Promise<boolean> {
+  // 📌 Gọi API để lưu kết quả bài ôn tập
+  async submitReviewSession(results: ReviewSessionResults): Promise<boolean> {
     try {
-      await api.post(`user-words/submit-results`, results)
+      await api.post(`user-words/submit-words/`, results)
       return true
     } catch (error) {
-      console.error("Error submitting review results:", error)
+      console.error("Error submitting review session results:", error)
       return false
     }
   },
+
   // Initialize empty results
-  createEmptyResults(): ReviewSessionResults {
+  createEmptyResults(): ReviewResultTemp {
     return {
       correct: 0,
       incorrect: 0,
@@ -123,10 +113,10 @@ export const ReviewService = {
   getQuestionTypeByLevel(level: number): QuestionType {
     if (level <= 2) {
       // For beginner levels, use simpler question types
-      return Math.random() > 0.5 ? "multiple-choice" : "listening"
+      return Math.random() > 0.5 ? "L1" : "L2"
     } else if (level <= 4) {
       // For intermediate levels, use medium difficulty
-      return Math.random() > 0.5 ? "translation" : "fill-in-blank"
+      return Math.random() > 0.5 ? "L3" : "L4";
     } else {
       // For advanced levels, use any question type
       return QUESTION_TYPES[Math.floor(Math.random() * QUESTION_TYPES.length)]
@@ -134,7 +124,7 @@ export const ReviewService = {
   },
 
   // Generate options for multiple choice questions
-  generateMultipleChoiceOptions(correctWord: string, reviewWords: ReviewWordState[]): string[] {
+  generateMultipleChoiceOptions(correctWord: string, reviewWords: WordReviewState[]): string[] {
     // Filter out the correct word from the list of review words
     const filteredWords = reviewWords.filter((word) => word.word.word !== correctWord)
     // Shuffle the filtered words and select 3 random options
@@ -162,12 +152,12 @@ export const ReviewService = {
   // Check if an answer is correct based on question type
   checkAnswer(questionType: QuestionType, answer: string, vocabularyItem: Word): boolean {
     switch (questionType) {
-      case "multiple-choice":
+      case "L1":
         return answer === vocabularyItem.meaning
-      case "translation":
+      case "L3":
         return answer.toLowerCase().trim() === vocabularyItem.meaning.toLowerCase().trim()
-      case "fill-in-blank":
-      case "listening":
+      case "L4":
+      case "L2":
         return answer.toLowerCase().trim() === vocabularyItem.word.toLowerCase().trim()
       default:
         return false

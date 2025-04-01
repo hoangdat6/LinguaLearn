@@ -8,7 +8,7 @@ import { ArrowUpRight, Bookmark, Volume2 } from "lucide-react"
 import { useEffect, useState, useMemo } from "react"
 import { VocabularyMasteryLevels } from "./vocabulary-mastery-levels"
 import { useWordLevelStore } from "@/stores/wordLevelStore"
-import { ReviewWordState } from "@/types/review"
+import { WordReviewState } from "@/types/review"
 import React from "react"
 
 export const ReviewWordList = React.memo(function ReviewWordList() {
@@ -18,7 +18,7 @@ export const ReviewWordList = React.memo(function ReviewWordList() {
 
   const [selectedLevel, setSelectedLevel] = useState<number>(1)
   const [expandedWord, setExpandedWord] = useState<string | null>(null)
-  const [selectedWords, setSelectedWords] = useState<ReviewWordState[]>([])
+  const [selectedWords, setSelectedWords] = useState<WordReviewState[]>([])
 
   useEffect(() => {
     if (selectedLevel === 1) {

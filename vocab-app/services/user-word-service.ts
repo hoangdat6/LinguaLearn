@@ -1,4 +1,4 @@
-import { ReviewWordState } from "@/types/review";
+import { WordReviewState } from "@/types/review";
 import api from "./api";
 
 export interface TimeUntilNextReview {
@@ -25,11 +25,11 @@ export interface CountWordsByLevel  {
 }
 
 export interface WordsByLevel {
-    words_level1: ReviewWordState[];
-    words_level2: ReviewWordState[];
-    words_level3: ReviewWordState[];
-    words_level4: ReviewWordState[];
-    words_level5: ReviewWordState[];
+    words_level1: WordReviewState[];
+    words_level2: WordReviewState[];
+    words_level3: WordReviewState[];
+    words_level4: WordReviewState[];
+    words_level5: WordReviewState[];
     level_counts: {
         count_level1?: number;
         count_level2?: number;

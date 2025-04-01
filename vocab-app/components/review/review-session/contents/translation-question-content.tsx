@@ -7,7 +7,6 @@ import { useEffect, useRef } from "react";
 
 interface TranslationQuestionContentProps {
     vocabularyItem: Word;
-
 }
 
 export function TranslationQuestionContent({ vocabularyItem }: TranslationQuestionContentProps) {

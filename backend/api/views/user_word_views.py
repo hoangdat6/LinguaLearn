@@ -80,7 +80,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
             next_review_value = calculate_next_review(new_level, new_streak, question_type)
 
             # Tìm hoặc tạo đối tượng UserWord
-            user_word, created = UserWord.objects.get_or_create(
+            user_word, created = UserWord.objects.get_or_create(    
                 user=user,
                 word_id=word_id,
                 defaults={

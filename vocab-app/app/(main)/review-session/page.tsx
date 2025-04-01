@@ -1,24 +1,20 @@
 "use client"
 
 import { ReviewQuestion } from "@/components/review/review-question"
-import { ReviewSessionResults } from "@/components/review/review-session-results"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useReviewSession } from "@/hooks/useReviewSession"
-import { useReviewSessionData } from "@/hooks/useVocabularyData"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowLeft, CheckCircle, Heart, Trophy, Volume2, XCircle } from "lucide-react"
+import { ArrowLeft, Trophy } from "lucide-react"
 import Link from "next/link"
 import { useEffect } from "react"
 
 export default function ReviewSessionPage() {
   // Fetch vocabulary data
-  const { reviewWords, isLoading, error } = useReviewSessionData()
 
-  console.log("Review words:", reviewWords)
   // Ensure this useEffect is always called in the same order
   useEffect(() => {
     const title = "Ôn tập từ vựng"
@@ -36,7 +32,7 @@ export default function ReviewSessionPage() {
     // Set meta tags
     metaTags.forEach((tag) => {
       const metaTag = document.createElement("meta")
-      metaTag.name = tag.name
+      metaTag.name = tag.name || ""
       metaTag.content = tag.content
       document.head.appendChild(metaTag)
     })
@@ -55,23 +51,16 @@ export default function ReviewSessionPage() {
   const {
     sessionState,
     progress,
-    hearts,
-    currentQuestionIndex,
     currentQuestionType,
-    results,
     sessionStartTime,
-    currentVocabularyItem,
-    totalQuestions,
-    maxHearts,
+    currentWord,
+    reviewWords,
+    isLoading,
+    error,
     handleAnswer,
     handleSkip,
     resetSession,
-    learningQueue, // Add learningQueue to the destructured variables
-  } = useReviewSession({
-    words: reviewWords,
-    totalQuestions: 10,
-    maxHearts: 5,
-  })
+  } = useReviewSession()
 
   // Show loading state
   if (isLoading) {
@@ -79,7 +68,7 @@ export default function ReviewSessionPage() {
   }
 
   // Show error state
-  if (error) {
+  if (error && currentWord == null) {
     return (
       <div className="flex min-h-screen flex-col bg-background">
         <main className="flex-1 container py-6">
@@ -111,27 +100,16 @@ export default function ReviewSessionPage() {
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Quay lại
                     </Link>
-                    <div className="flex items-center gap-1">
-                      {Array.from({ length: maxHearts }).map((_, i) => (
-                        <Heart
-                          key={i}
-                          className={`h-6 w-6 transition-all ${
-                            i < hearts ? "text-red-500 fill-red-500" : "text-muted-foreground"
-                          }`}
-                        />
-                      ))}
-                    </div>
+                    
                   </div>
                   <div className="flex justify-between items-center text-sm text-muted-foreground">
-                    <span>
-                      Câu hỏi {currentQuestionIndex + 1}/{totalQuestions}
-                    </span>
-                    <span>
+
+                    {/* <span>
                       <CheckCircle className="inline-block h-4 w-4 mr-1 text-green-500" />
                       {results.correct}
                       <XCircle className="inline-block h-4 w-4 mx-1 text-red-500" />
                       {results.incorrect}
-                    </span>
+                    </span> */}
                   </div>
                   <Progress value={progress} className="h-2" />
                 </div>
@@ -140,7 +118,7 @@ export default function ReviewSessionPage() {
                   <CardContent className="p-6">
                     <ReviewQuestion
                       questionType={currentQuestionType}
-                      vocabularyItem={currentVocabularyItem.word}
+                      vocabularyItem={currentWord?.word!}
                       reviewWords={reviewWords}
                       onAnswer={handleAnswer}
                       onSkip={handleSkip}
@@ -180,11 +158,11 @@ export default function ReviewSessionPage() {
                         <TabsTrigger value="details">Chi tiết</TabsTrigger>
                       </TabsList>
 
-                      <TabsContent value="summary">
+                      {/* <TabsContent value="summary">
                         <ReviewSessionResults results={results} />
-                      </TabsContent>
+                      </TabsContent> */}
 
-                      <TabsContent value="details">
+                      {/* <TabsContent value="details">
                         <div className="space-y-6">
                           <h3 className="text-lg font-medium">Kết quả từng câu hỏi</h3>
                           <div className="space-y-3">
@@ -226,7 +204,6 @@ export default function ReviewSessionPage() {
                             ))}
                           </div>
 
-                          {/* Learning Queue Section */}
                           {learningQueue.length > 0 && (
                             <div className="mt-6">
                               <h3 className="text-lg font-medium mb-3">Từ vựng cần ôn tập thêm</h3>
@@ -263,7 +240,7 @@ export default function ReviewSessionPage() {
                             </div>
                           )}
                         </div>
-                      </TabsContent>
+                      </TabsContent> */}
                     </Tabs>
 
                     <div className="flex justify-between mt-8">

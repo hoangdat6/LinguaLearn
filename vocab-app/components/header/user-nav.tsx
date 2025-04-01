@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "../theme/theme-toggle";
 import authService from "@/services/auth-service";
+import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/types/status";
 
 
 export function UserNav() {
@@ -23,9 +24,32 @@ export function UserNav() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      // Kiểm tra xem người dùng đã đăng nhập hay chưa
+      const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+      if (!token) {
+        router.replace("/auth");
+        return;
+      }
+
+      // Nếu đã đăng nhập, gọi API để lấy thông tin người dùng
+      const userData = localStorage.getItem(USER_KEY);
+      const isProfileChanged = localStorage.getItem(IS_PROFILE_CHANGED_KEY);
+
+      console.log("user data", userData);
+
+      if (isProfileChanged !== "true" && userData) {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        return;
+      }
+      // Nếu có thay đổi thì gọi API để lấy thông tin người dùng
       try {
         const currentUser: User | null = await authService.getUser(); // API này phải trả về kiểu User hoặc null
         setUser(currentUser);
+        // Lưu thông tin người dùng vào local storage
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        // Reset trạng thái thay đổi profile
+        localStorage.setItem(IS_PROFILE_CHANGED_KEY, "false");
       } catch (error) {
         console.error("Lỗi lấy thông tin người dùng:", error);
       }

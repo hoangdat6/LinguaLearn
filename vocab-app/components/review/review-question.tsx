@@ -6,33 +6,38 @@ import { MultipleChoiceQuestion } from "@/components/review/review-session/multi
 import { TranslationQuestion } from "@/components/review/review-session/translation-question"
 import { ReviewService } from "@/services/review-service"
 import { Word } from "@/types/lesson-types"
-import type { QuestionType, ReviewWordState as ReviewWord } from "@/types/review"
+import type { QuestionType, WordReviewState as ReviewWord } from "@/types/review"
 
 interface ReviewQuestionProps {
   questionType: QuestionType
-  vocabularyItem: Word
+  vocabularyItem: Word 
   reviewWords: ReviewWord[]
   onAnswer: (isCorrect: boolean, timeSpent: number) => void
   onSkip: () => void
 }
 
 export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
-export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
   // Generate options for multiple choice
+
+  // Check if the vocabulary item is null
+  if (!vocabularyItem) {
+    return null
+  }
+
   const options =
-    questionType === "multiple-choice" 
+    questionType === "L1" 
     ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.word, reviewWords) 
     : []
 
   // Render the appropriate question component based on type
   switch (questionType) {
-    case "multiple-choice":
+    case "L1":
       return <MultipleChoiceQuestion vocabularyItem={vocabularyItem} options={options} onAnswer={onAnswer} onSkip={onSkip} />
-    case "translation":
+    case "L3":
       return <TranslationQuestion vocabularyItem={vocabularyItem} onAnswer={onAnswer} onSkip={onSkip} />
-    case "fill-in-blank":
+    case "L4":
       return <FillInBlankQuestion vocabularyItem={vocabularyItem} onAnswer={onAnswer} onSkip={onSkip} />
-    case "listening":
+    case "L2":
       return <ListeningQuestion vocabularyItem={vocabularyItem} onAnswer={onAnswer} onSkip={onSkip} />
     default:
       return null

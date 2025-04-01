@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/types/status";
 import axios from "axios";
 import Cookies from "js-cookie";
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
@@ -23,18 +24,18 @@ const refreshAccessToken = async () => {
     if (!isRefreshing) {
         isRefreshing = true;
         try {
-            const refreshToken = Cookies.get("refresh_token");
+            const refreshToken = Cookies.get(REFRESH_TOKEN_KEY);
             if (!refreshToken) throw new Error("No refresh token available");
 
             const response = await axios.post("/api/refresh-token", { refresh: refreshToken });
             const newAccessToken = response.data.access;
 
             // Lưu lại token mới
-            Cookies.set("access_token", newAccessToken);
+            Cookies.set(ACCESS_TOKEN_KEY, newAccessToken);
 
             const newRefreshToken = response.data.refresh;
             if (newRefreshToken) {
-                Cookies.set("refresh_token", newRefreshToken);
+                Cookies.set(REFRESH_TOKEN_KEY, newRefreshToken);
             }
             // Gọi lại tất cả request đang chờ token mới
             refreshSubscribers.forEach((callback) => callback(newAccessToken));
@@ -55,7 +56,7 @@ const refreshAccessToken = async () => {
 
 // **Interceptor Request**: Thêm Access Token vào Header
 api.interceptors.request.use((config) => {
-    const token = Cookies.get("access_token");
+    const token = Cookies.get(ACCESS_TOKEN_KEY);
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
