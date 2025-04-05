@@ -5,6 +5,7 @@ import "../globals.css"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { MainNav } from "@/components/header/main-nav"
 import { UserNav } from "@/components/header/user-nav"
+import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -14,6 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <div className="flex min-h-screen flex-col">
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -27,6 +30,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
       </div>
     </ThemeProvider>
+    </Suspense>
   )
 }
 

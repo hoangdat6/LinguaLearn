@@ -1,18 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { ArrowLeft, BookOpen, Check, X } from 'lucide-react'
 import { useParams, useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, ArrowRight, Volume2, Check, X, RotateCcw, BookOpen, Flag, ThumbsUp, Lightbulb, Star } from 'lucide-react'
-import { Clock } from 'lucide-react'; // Import Clock icon
 
+import { VocabularyStage } from "@/components/lessons/VocabularyStage"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
 import {
   Dialog,
   DialogContent,
@@ -21,9 +18,9 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog"
+import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { useVocabularyProgress } from "@/hooks/use-vocabulary-progress"
-import { VocabularyStage } from "@/components/lessons/VocabularyStage"
 
 // Animation variants
 const pageVariants = {
