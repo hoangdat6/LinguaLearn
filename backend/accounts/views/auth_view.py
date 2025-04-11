@@ -13,10 +13,11 @@ from ..serializers import (
     ResetPasswordSerializer, LogoutSerializer
 )
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class AuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
-    
+
     @action(detail=False, methods=["post"], url_path="register")
     def register(self, request):
         serializer = UserRegisterSerializer(data=request.data)
@@ -29,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
             subject = "Xác nhận email của bạn"
             plain_message = f"Chào {user.username},\nHãy xác nhận email của bạn bằng cách truy cập:\n{verification_link}\n\nNếu bạn không đăng ký, hãy bỏ qua email này."
-            
+
             # Nội dung HTML email
             html_message = f"""
             <!DOCTYPE html>
@@ -102,7 +103,7 @@ class UserViewSet(viewsets.ModelViewSet):
             </body>
             </html>
             """
-            
+
             send_mail(
                 subject=subject,
                 message=plain_message,
@@ -111,7 +112,8 @@ class UserViewSet(viewsets.ModelViewSet):
                 html_message=html_message,
             )
 
-            return Response({"message": "Vui lòng kiểm tra email để xác thực tài khoản!"}, status=status.HTTP_201_CREATED)
+            return Response({"message": "Vui lòng kiểm tra email để xác thực tài khoản!"},
+                            status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["get"], url_path="verify-email/(?P<token>[^/.]+)")
@@ -120,12 +122,14 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(verification_token=token)
             if user.is_active:
-                return Response({"message": "Tài khoản đã được kích hoạt trước đó!"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": "Tài khoản đã được kích hoạt trước đó!"},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             user.is_active = True
             user.verification_token = None
             user.save()
-            return Response({"message": "Xác thực email thành công! Bạn có thể đăng nhập ngay bây giờ."}, status=status.HTTP_200_OK)
+            return Response({"message": "Xác thực email thành công! Bạn có thể đăng nhập ngay bây giờ."},
+                            status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"error": "Token không hợp lệ!"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -139,18 +143,25 @@ class UserViewSet(viewsets.ModelViewSet):
             user = authenticate(username=username, password=password)
 
             if user is None:
-                return Response({"error": "Tên đăng nhập hoặc mật khẩu không đúng!"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"error": "Tên đăng nhập hoặc mật khẩu không đúng!"},
+                                status=status.HTTP_401_UNAUTHORIZED)
             if not user.is_active:
                 return Response({"error": "Tài khoản chưa được xác thực qua email!"}, status=status.HTTP_403_FORBIDDEN)
 
             refresh = RefreshToken.for_user(user)
             return Response({
                 "refresh": str(refresh),
-                "access": str(refresh.access_token)
+                "access": str(refresh.access_token),
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    # "avatar": user.avatar.url if user.avatar else None,
+                }
             }, status=status.HTTP_200_OK)
-        
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
     @permission_classes([IsAuthenticated])
     @action(detail=False, methods=["post"], url_path="change-password")
     def change_password(self, request):
@@ -183,7 +194,7 @@ class UserViewSet(viewsets.ModelViewSet):
             token = default_token_generator.make_token(user)
             # Bạn có thể cấu hình lại đường link theo frontend hoặc endpoint reset cụ thể
             reset_link = f"http://localhost:8000/api/users/reset-password-validate/{user.pk}/{token}/"
-            
+
             subject = "Đặt lại mật khẩu của bạn"
             plain_message = (
                 f"Chào {user.username},\n\n"
@@ -278,7 +289,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_200_OK,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     @action(detail=False, methods=["post"], url_path=r"reset-password-confirm/(?P<uid>\d+)/(?P<token>[^/.]+)")
     def reset_password_confirm(self, request, uid, token):
         """
@@ -297,7 +308,8 @@ class UserViewSet(viewsets.ModelViewSet):
         new_password = request.data.get("new_password")
         confirm_password = request.data.get("confirm_password")
         if not new_password or not confirm_password:
-            return Response({"error": "Vui lòng nhập mật khẩu mới và xác nhận mật khẩu!"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Vui lòng nhập mật khẩu mới và xác nhận mật khẩu!"},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if new_password != confirm_password:
             return Response({"error": "Mật khẩu mới không khớp!"}, status=status.HTTP_400_BAD_REQUEST)
@@ -305,7 +317,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.set_password(new_password)
         user.save()
         return Response({"message": "Đặt lại mật khẩu thành công!"}, status=status.HTTP_200_OK)
-    
+
     @action(detail=False, methods=["get"], url_path=r"reset-password-validate/(?P<uid>\d+)/(?P<token>[^/.]+)")
     @permission_classes([AllowAny])
     def reset_password_validate(self, request, uid, token):
@@ -322,7 +334,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"error": "Token không hợp lệ hoặc đã hết hạn!"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"message": "Token hợp lệ.", "token": token}, status=status.HTTP_200_OK)
-    
+
     @action(detail=False, methods=["post"], url_path="logout")
     def logout(self, request):
         """
@@ -334,17 +346,18 @@ class UserViewSet(viewsets.ModelViewSet):
             refresh_token = serializer.validated_data.get("refresh")
             try:
                 token = RefreshToken(refresh_token)
-                token.blacklist()  
+                token.blacklist()
                 return Response({"message": "Logout thành công!"}, status=status.HTTP_205_RESET_CONTENT)
             except Exception as e:
-                return Response({"error": "Token không hợp lệ hoặc đã được thu hồi!"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "Token không hợp lệ hoặc đã được thu hồi!"},
+                                status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     @action(detail=False, methods=["get"], url_path="test_auth")
     @permission_classes([IsAuthenticated])
     def test(self, request):
         return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
-    
+
     @action(detail=False, methods=["post"], url_path="refresh-token")
     @permission_classes([AllowAny])
     def refresh_token(self, request):
@@ -356,8 +369,8 @@ class UserViewSet(viewsets.ModelViewSet):
         token = RefreshToken(refresh)
         access_token = str(token.access_token)
         refresh_token = str(token)
-        return Response({"access": access_token, "refresh": refresh_token}, status=status.HTTP_200_OK)    
-    
+        return Response({"access": access_token, "refresh": refresh_token}, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=["get"], url_path="profile")
     @permission_classes([IsAuthenticated])
     def profile(self, request):

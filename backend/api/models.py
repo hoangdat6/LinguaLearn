@@ -1,10 +1,12 @@
-from django.db import models
-import cloudinary
 from cloudinary.models import CloudinaryField
-from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser
-import uuid
+from django.db import models
 from django.utils import timezone
+from django.utils.timezone import now
+
+from accounts.models import CustomUser
+
+
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
@@ -46,12 +48,6 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
-    
-
-class CustomUser (AbstractUser):
-    email_verified = models.BooleanField(default=False)
-    verification_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
-    avatar = CloudinaryField('image', blank=True, null=True)
 
 class UserCourse(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='course_progress')
@@ -82,6 +78,7 @@ class UserLesson(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.lesson.title}"
+
 
 class UserWord(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_words')

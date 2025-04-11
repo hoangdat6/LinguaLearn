@@ -105,7 +105,7 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
             asChild
             className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-medium px-8 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <Link href="/vocabulary" className="flex items-center">
+            <Link href="/lessons" className="flex items-center">
               <BookOpen className="mr-2 h-5 w-5" />
               Học ngay
             </Link>

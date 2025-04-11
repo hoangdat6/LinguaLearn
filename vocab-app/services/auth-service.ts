@@ -1,7 +1,9 @@
+import { AUTH } from "@/constants/api-endpoints";
+import { AUTH_ROUTES } from "@/constants/routes";
+import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY, WORD_LEVELS_KEY } from "@/types/status";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { signOut } from "next-auth/react";
 import api from "./api";
-import { ACCESS_TOKEN_KEY, IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY, REFRESH_TOKEN_KEY, USER_KEY, WORD_LEVELS_KEY } from "@/types/status";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
@@ -10,7 +12,7 @@ const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 const login = async (username: string, password: string): Promise<AuthResponse> => {
   try {
     const response = await axios.post<AuthResponse>(
-      `${API_BASE_URL}users/login/`,
+      AUTH.LOGIN,
       { username, password },
       {
         headers: {
@@ -20,11 +22,7 @@ const login = async (username: string, password: string): Promise<AuthResponse> 
         },
       }
     );
-
-    // Lưu token vào Cookie (thời gian sống 1 giờ)
-    Cookies.set(ACCESS_TOKEN_KEY, response.data.access, { expires: 1, secure: true, sameSite: "Strict" });
-    Cookies.set(REFRESH_TOKEN_KEY, response.data.refresh, { expires: 7, secure: true, sameSite: "Strict" });
-
+    
     return response.data;
   } catch (error: any) {
     console.error("Login failed:", error.response?.data || error);
@@ -33,20 +31,30 @@ const login = async (username: string, password: string): Promise<AuthResponse> 
 };
 
 // Hàm đăng xuất
-const logout = () => {
-  Cookies.remove(ACCESS_TOKEN_KEY);
-  Cookies.remove(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-  localStorage.removeItem(IS_LEARN_KEY);
-  localStorage.removeItem(IS_PROFILE_CHANGED_KEY);
-  localStorage.removeItem(WORD_LEVELS_KEY);
+const logout = async () => {
+  // 1. Hủy session NextAuth
+  await signOut({ 
+    callbackUrl: AUTH_ROUTES.LOGIN, // URL chuyển hướng sau khi đăng xuất
+    redirect: false 
+  });
   
+  // 2. Xóa các dữ liệu ứng dụng cần thiết khác (không cần xóa cookies liên quan đến auth)
+  localStorage.removeItem(USER_KEY);
+  sessionStorage.removeItem(IS_LEARN_KEY);
+  sessionStorage.removeItem(IS_PROFILE_CHANGED_KEY);
+  sessionStorage.removeItem(WORD_LEVELS_KEY);
+  
+  // 3. Tùy chọn: Gọi API backend để invalidate token (nếu cần)
+  // try {
+  //   await api.post("users/logout/");
+  // } catch (error) {
+  //   console.error("Logout API error:", error);
+  // }
 };
-
 const register = async (username: string, email: string, password: string, password2: string): Promise<void> => {
   try {
     await axios.post(
-      `${API_BASE_URL}users/register/`,
+      AUTH.REGISTER,
       { username, email, password, password2 },
       {
         headers: {
@@ -64,7 +72,7 @@ const register = async (username: string, email: string, password: string, passw
 
 const getUser = async (): Promise<User | null> => {
   try {
-    const response = await api.get<User>("users/profile");
+    const response = await api.get<User>(AUTH.PROFILE);
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin người dùng:", error);
@@ -72,5 +80,8 @@ const getUser = async (): Promise<User | null> => {
   }
 };
 
-const authService = { login, register, logout, getUser };
+
+const authService = { login, register, logout, getUser, 
+  // loginWithGoogle, loginWithFacebook 
+};
 export default authService;

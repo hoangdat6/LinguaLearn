@@ -1,17 +1,18 @@
 "use client"
 
+import { DailyGoalTracker } from "@/components/homepage/daily-goal-tracker"
+import { Leaderboard } from "@/components/homepage/leaderboard"
+import { SavedWords } from "@/components/homepage/saved-words"
+import { StreakCounter } from "@/components/homepage/streak-counter"
+import { VocabularyLevels } from "@/components/homepage/vocabulary-levels"
+import { WordsLearnedCounter } from "@/components/homepage/words-learned-counter"
+import { ThemesOverview } from "@/components/learn/learning-topics"
+import { Owl } from "@/components/owl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { StreakCounter } from "@/components/homepage/streak-counter"
-import { Leaderboard } from "@/components/homepage/leaderboard"
-import { VocabularyLevels } from "@/components/homepage/vocabulary-levels"
-import { Owl } from "@/components/owl"
-import { motion } from "framer-motion"
-import { ThemesOverview } from "@/components/learn/learning-topics"
-import { SavedWords } from "@/components/homepage/saved-words"
-import { WordsLearnedCounter } from "@/components/homepage/words-learned-counter"
-import { DailyGoalTracker } from "@/components/homepage/daily-goal-tracker"
 import useHomePage from "@/hooks/useHomePage"
+import { motion } from "framer-motion"
+import { useEffect } from "react"
 
 export default function Home() {
   const { 
@@ -26,6 +27,15 @@ export default function Home() {
     isLoading,
     error
   } = useHomePage();
+
+  
+
+
+  useEffect(() => {
+    if (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [error]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">

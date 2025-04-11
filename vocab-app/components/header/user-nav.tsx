@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { FlameIcon, Heart, Diamond, Settings, Bell, Users, HelpCircle, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "../theme/theme-toggle";
 import authService from "@/services/auth-service";
 import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/types/status";
+import { Bell, Diamond, FlameIcon, Heart, HelpCircle, LogOut, Settings, Users } from "lucide-react";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ThemeToggle } from "../theme/theme-toggle";
+import { Session } from "next-auth";
 
 
 export function UserNav() {
@@ -24,9 +26,9 @@ export function UserNav() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const session: Session | null = await getSession();
       // Kiểm tra xem người dùng đã đăng nhập hay chưa
-      const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-      if (!token) {
+      if (!session || !session.accessToken) {
         router.replace("/auth");
         return;
       }
@@ -35,9 +37,14 @@ export function UserNav() {
       const userData = localStorage.getItem(USER_KEY);
       const isProfileChanged = localStorage.getItem(IS_PROFILE_CHANGED_KEY);
 
-      console.log("user data", userData);
+      if (!userData && (!session || !session.user)) {
+        // lấy ở seession
+        const userFromSession = session.user;
+        setUser(userFromSession);
+        return;
+      }
 
-      if (isProfileChanged !== "true" && userData) {
+      if (isProfileChanged !== "true" && userData && userData !== "null") {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
         return;
@@ -51,7 +58,7 @@ export function UserNav() {
         // Reset trạng thái thay đổi profile
         localStorage.setItem(IS_PROFILE_CHANGED_KEY, "false");
       } catch (error) {
-        console.error("Lỗi lấy thông tin người dùng:", error);
+        router.replace("/auth");
       }
     };
     fetchUser();
@@ -105,7 +112,10 @@ export function UserNav() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
+               {/* chào người dùng */}
+              <DropdownMenuLabel className="font-bold text-sm">
+                Chào mừng, {user.username}!
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
