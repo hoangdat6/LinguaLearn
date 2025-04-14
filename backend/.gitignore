@@ -1,0 +1,14 @@
+venv/
+*.pyc
+__pycache__/
+
+# Bỏ qua file cấu hình môi trường
+.env
+
+# Bỏ qua database SQLite
+db.sqlite3
+
+**/.venv/
+.idea
+
+.env*
