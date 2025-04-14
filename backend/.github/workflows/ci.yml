@@ -91,6 +91,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
+          echo "Building Docker image..."
+          cd backend
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
