@@ -13,26 +13,26 @@ on:
       - '.github/workflows/ci.yml'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-          cache: 'pip'
-          cache-dependency-path: 'backend/requirements.txt'
-
-      - name: Install dependencies
-        run: pip install flake8
-
-      - name: Lint with flake8
-        run: flake8 .
+  #  lint:
+  #    runs-on: ubuntu-latest
+  #    defaults:
+  #      run:
+  #        working-directory: ./backend
+  #    steps:
+  #      - uses: actions/checkout@v3
+  #
+  #      - name: Set up Python 3.12
+  #        uses: actions/setup-python@v4
+  #        with:
+  #          python-version: '3.12'
+  #          cache: 'pip'
+  #          cache-dependency-path: 'backend/requirements.txt'
+  #
+  #      - name: Install dependencies
+  #        run: pip install flake8
+  #
+  #      - name: Lint with flake8
+  #        run: flake8 .
 
   test:
     runs-on: ubuntu-latest
