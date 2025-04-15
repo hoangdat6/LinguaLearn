@@ -21,7 +21,7 @@ export default function LoginPage() {
   } = useAuth();
 
   return (
-    <div className="flex flex-col bg-muted/40 justify-center items-center min-h-screen">
+    <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="flex flex-col items-center mb-8">
         <Owl className="h-24 w-24 mb-2" />
         <h1 className="text-3xl text-primary font-bold">LinguaLearn</h1>
