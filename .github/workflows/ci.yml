@@ -36,6 +36,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    container: python:3.10-slim
     defaults:
       run:
         working-directory: ./backend
@@ -83,6 +84,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > backend/.env
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -92,7 +97,6 @@ jobs:
       - name: Build and push Docker image
         run: |
           echo "Building Docker image..."
-          cd backend
           docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then

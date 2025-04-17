@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DB_NAME: your_online_db_name
+      DB_USER: your_online_db_user
+      DB_PASSWORD: your_online_db_password
+      DB_HOST: your_online_db_host
+      SECRET_KEY: your_secret_key
+      DEBUG: 'True'
+#    depends_on:
+#      - redis
+#
+#  redis:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"

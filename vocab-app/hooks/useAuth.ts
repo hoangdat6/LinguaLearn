@@ -7,6 +7,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
+import { AUTH } from "@/constants/api-endpoints";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
@@ -55,15 +56,13 @@ export function useAuth() {
     setError("");
     try {
 
-      console.log("Attempting to login with credentials:", { username, password });
       const result = await signIn('credentials', {
         username,
         password,
         redirect: false,
       });
 
-      console.log("Login result:", result);
-      
+
       if (result?.error) {
         setError(result.error || "Đăng nhập thất bại");
         return false;
@@ -91,7 +90,7 @@ export function useAuth() {
     setError("");
     try {
       await axios.post(
-        `${API_BASE_URL}users/register/`,
+        AUTH.REGISTER,
         { username, email, password, password2: confirmPassword },
         {
           headers: {

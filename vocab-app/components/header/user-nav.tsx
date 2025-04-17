@@ -29,7 +29,7 @@ export function UserNav() {
       const session: Session | null = await getSession();
       // Kiểm tra xem người dùng đã đăng nhập hay chưa
       if (!session || !session.accessToken) {
-        router.replace("/auth");
+        // router.replace("/auth");
         return;
       }
 

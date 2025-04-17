@@ -115,22 +115,26 @@ python manage.py runserver
 ### Main User Interface
 
 #### Home Dashboard
+![img_2.png](readme/img_2.png)
 - **Progress Overview**: Visual representation of vocabulary mastery levels
 - **Daily Goals**: Track daily learning targets and streaks
 - **Recommended Lessons**: Personalized suggestions based on user progress
 
 #### Vocabulary Learning
+![img_1.png](readme/img_1.png)
 - **Topic-Based Lists**: Vocabulary organized by themes and difficulty levels
 - **Interactive Cards**: Flip cards showing word, pronunciation, meaning, and examples
 - **Audio Pronunciation**: Native speaker recordings of each vocabulary item
 
 #### Review System
+![img_3.png](readme/img_3.png)
 - **Smart Review**: Algorithm prioritizes words based on learning status
 - **Multiple Choice Questions**: Test comprehension with various question types
 - **Writing Practice**: Type answers to reinforce spelling and recall
 - **Review Results**: Detailed performance statistics after each session
 
 #### Dictionary
+![img_4.png](readme/img_4.png)
 - **Search Functionality**: Quick lookup for any English word
 - **Detailed Entries**: Definitions, examples, synonyms, and antonyms
 - **Save to Collection**: Add useful words to personal vocabulary lists

@@ -22,6 +22,8 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 load_dotenv()
 # load_dotenv(os.path.join(BASE_DIR, './backend/.env.local'))
 
@@ -47,6 +49,7 @@ FACEBOOK_OAUTH_CLIENT_SECRET = os.getenv("FACEBOOK_OAUTH_CLIENT_SECRET")
 DEBUG = True  # Đặt thành False trong môi trường production
 
 ALLOWED_HOSTS = [
+    os.getenv("ALLOWED_HOSTS"),
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -120,8 +123,10 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+CORS_ALLOWED_ORIGIN = os.getenv("CORS_ALLOWED_ORIGIN")
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React FE chạy ở cổng 3000
+    CORS_ALLOWED_ORIGIN,
 ]
 
 ROOT_URLCONF = 'backend.urls'

@@ -1,15 +1,11 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Book, LoaderCircle, Users2 } from "lucide-react"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { useLessons } from "@/hooks/useLessons"
 import { ThemeCard } from "@/components/ThemeCard"
-import { useRouter } from "next/navigation"
 import { useCourses } from "@/hooks/useCourse"
+import { motion } from "framer-motion"
+import { LoaderCircle } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function ThemesOverview() {
   const router = useRouter()
