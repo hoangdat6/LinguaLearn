@@ -50,6 +50,8 @@ DEBUG = True  # Đặt thành False trong môi trường production
 
 ALLOWED_HOSTS = [
     os.getenv("ALLOWED_HOSTS"),
+    "localhost",
+    "127.0.0.1",
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -127,6 +129,7 @@ CORS_ALLOWED_ORIGIN = os.getenv("CORS_ALLOWED_ORIGIN")
 
 CORS_ALLOWED_ORIGINS = [
     CORS_ALLOWED_ORIGIN,
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'backend.urls'
