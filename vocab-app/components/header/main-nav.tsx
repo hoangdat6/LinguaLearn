@@ -1,22 +1,11 @@
 "use client"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
 import { Owl } from "@/components/owl"
-import { Home, BookOpen, Dumbbell, Book, Edit } from "lucide-react"
+import { HEADER_NAV_LINKS } from "@/data/navigation"
+import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
+import Link from "next/link"
 
-const navItems = [
-  { name: "Trang chủ", href: "/", icon: Home },
-  { name: "Học", href: "/lessons", icon: BookOpen },
-  { name: "Ôn tập", href: "/review", icon: Dumbbell },
-  // { name: "Cửa hàng", href: "/shop", icon: ShoppingBag },
-  { name: "Từ điển", href: "/dictionary", icon: Book },
-  { name: "Luyện viết", href: "/writing", icon: Edit },
-]
-
-export function MainNav() {
-  const pathname = usePathname()
+export function MainNav({ pathname }: { pathname: string }) {
 
   return (
     <div className="flex items-center space-x-4 lg:space-x-6">
@@ -25,7 +14,7 @@ export function MainNav() {
         <span className="font-bold hidden sm:inline-block">LinguaLearn</span>
       </Link>
       <nav className="flex items-center space-x-1">
-        {navItems.map((item) => (
+        {[...HEADER_NAV_LINKS].map((item) => (
           <Link
             key={item.href}
             href={item.href}

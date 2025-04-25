@@ -40,8 +40,8 @@ export default function ReviewPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
-        <div className="container py-6">
-          <div className="max-w-4xl mx-auto">
+        <div className="container py-6 px-3 md:px-8">
+          <div className="mx-auto">
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h1 className="text-3xl font-bold mb-1">Ôn tập từ vựng</h1>
@@ -58,8 +58,8 @@ export default function ReviewPage() {
             {reviewData.error && <p className="text-red-500 mb-4">{reviewData.error}</p>} {/* Display error if any */}
 
             <Card className="mb-8">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold mb-4">Phân bố từ vựng theo cấp độ</h2>
+                <h2 className="text-lg p-6 font-semibold mb-4">Phân bố từ vựng theo cấp độ</h2>
+              <CardContent className="p-6 max-w-4xl m-auto">
                 <VocabularyLevels
                   wordLevel1={reviewData.countLevel1}
                   wordLevel2={reviewData.countLevel2}
@@ -74,7 +74,7 @@ export default function ReviewPage() {
             </Card>
 
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-6 px-4">
                 <Tabs defaultValue="all">
                   <ReviewWordList />
                 </Tabs>

@@ -10,9 +10,14 @@ interface WordsLearnedCounterProps {
   totalWords: number
   weeklyWords: number
   className?: string
+  cefrGroupCounts: {
+    basic: number
+    intermediate: number
+    advanced: number
+  }
 }
 
-export function WordsLearnedCounter({ totalWords, weeklyWords, className }: WordsLearnedCounterProps) {
+export function WordsLearnedCounter({ totalWords, weeklyWords, className, cefrGroupCounts }: WordsLearnedCounterProps) {
   const [count, setCount] = useState(0)
 
   // Animate the counter on mount
@@ -73,9 +78,9 @@ export function WordsLearnedCounter({ totalWords, weeklyWords, className }: Word
 
         <div className="grid grid-cols-3 gap-2 mt-2">
           {[
-            { label: "Cơ bản", count: Math.floor(totalWords * 0.5), color: "bg-blue-100 text-blue-700" },
-            { label: "Trung cấp", count: Math.floor(totalWords * 0.3), color: "bg-green-100 text-green-700" },
-            { label: "Nâng cao", count: Math.floor(totalWords * 0.2), color: "bg-purple-100 text-purple-700" },
+            { label: "Cơ bản", count: cefrGroupCounts.basic, color: "bg-blue-100 text-blue-700" },
+            { label: "Trung cấp", count: cefrGroupCounts.intermediate, color: "bg-green-100 text-green-700" },
+            { label: "Nâng cao", count: cefrGroupCounts.advanced, color: "bg-purple-100 text-purple-700" },
           ].map((category, index) => (
             <motion.div
               key={index}

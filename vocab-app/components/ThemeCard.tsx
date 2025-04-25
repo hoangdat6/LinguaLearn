@@ -1,19 +1,27 @@
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Course } from "@/types/lesson-types";
-import { Card, CardHeader, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, Users } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
+import { useMemo } from 'react';
 
-interface ThemeCardProps {
+interface CourseCardProps {
   theme: Course;
   onSelect: (id: string) => void;
 }
 
-export function ThemeCard({ theme, onSelect }: ThemeCardProps) {
+export function CourseCard({ theme, onSelect }: CourseCardProps) {
+  const generatePastelColor = () => {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 80%, 90%)`;
+  };
+  
+  // Generate stable color based on theme ID
+  const backgroundColor = useMemo(() => generatePastelColor(), [theme.id]);
+  
   return (
     <div onClick={() => onSelect(theme.id)} className="cursor-pointer">
       <Card className="h-full flex flex-col overflow-hidden">
         {/* Icon Section */}
-        <div className="h-40 flex items-center justify-center relative overflow-hidden bg-gray-100">
+        <div className="h-40 flex items-center justify-center relative overflow-hidden" style={{ backgroundColor }}>
           <div className="text-6xl">{theme.icon}</div>
         </div>
 

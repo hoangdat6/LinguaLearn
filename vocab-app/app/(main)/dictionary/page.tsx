@@ -96,7 +96,7 @@ export default function DictionaryPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1 container py-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: -20 }} 
             animate={{ opacity: 1, y: 0 }} 

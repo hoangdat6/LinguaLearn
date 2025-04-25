@@ -6,7 +6,7 @@ import { SavedWords } from "@/components/homepage/saved-words"
 import { StreakCounter } from "@/components/homepage/streak-counter"
 import { VocabularyLevels } from "@/components/homepage/vocabulary-levels"
 import { WordsLearnedCounter } from "@/components/homepage/words-learned-counter"
-import { ThemesOverview } from "@/components/learn/learning-topics"
+import { CoursesOverview } from "@/components/learn/learning-topics"
 import { Owl } from "@/components/owl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,20 +15,19 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 
 export default function Home() {
-  const { 
+  const {
     totalWords,
     countLevel1,
     countLevel2,
     countLevel3,
     countLevel4,
     countLevel5,
+    cefrGroupCounts,
     reviewWordCount,
     timeUntilNextReview,
     isLoading,
     error
   } = useHomePage();
-
-
 
   useEffect(() => {
     if (error) {
@@ -39,7 +38,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
-        <div className="container py-6">
+        <div className="container py-6 px-3 md:px-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -55,19 +54,27 @@ export default function Home() {
                       <StreakCounter days={7} />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <WordsLearnedCounter totalWords={totalWords} weeklyWords={23} />
-                      <DailyGoalTracker completed={3} total={5} streak={7} />
+                      <WordsLearnedCounter
+                        totalWords={totalWords}
+                        weeklyWords={23}
+                        cefrGroupCounts={cefrGroupCounts}
+                      />
+                      <DailyGoalTracker
+                        completed={3}
+                        total={5}
+                        streak={7}
+                      />
                     </div>
 
                     <div className="pt-4">
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="text-lg font-semibold">Cấp độ từ vựng</h3>
                       </div>
-                      <VocabularyLevels 
-                        wordLevel1={countLevel1} 
-                        wordLevel2={countLevel2} 
-                        wordLevel3={countLevel3} 
-                        wordLevel4={countLevel4} 
+                      <VocabularyLevels
+                        wordLevel1={countLevel1}
+                        wordLevel2={countLevel2}
+                        wordLevel3={countLevel3}
+                        wordLevel4={countLevel4}
                         wordLevel5={countLevel5}
                         reviewWordCount={reviewWordCount}
                         timeUntilNextReview={timeUntilNextReview}
@@ -79,7 +86,7 @@ export default function Home() {
                       <div className="flex items-center justify-between mb-6">
                         <h3 className="text-lg font-semibold">Chủ đề học</h3>
                       </div>
-                      <ThemesOverview />
+                      <CoursesOverview />
                     </div>
                   </div>
                 </CardContent>

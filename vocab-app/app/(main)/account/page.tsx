@@ -87,7 +87,7 @@ export default function AccountPage() {
 
   return (
     <motion.div 
-      className="container max-w-6xl py-10"
+      className="container py-10"
       initial="hidden"
       animate="visible"
       variants={fadeIn}

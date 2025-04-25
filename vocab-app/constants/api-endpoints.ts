@@ -11,18 +11,11 @@ export const AUTH = {
   FACEBOOK_LOGIN: `${API_BASE_URL}accounts/facebook/login/`,
 };
 
-// Vocabulary endpoints
-export const VOCABULARY = {
-  GET_WORDS: `${API_BASE_URL}vocabulary/words/`,
-  GET_WORD_DETAILS: (id: number) => `${API_BASE_URL}vocabulary/words/${id}/`,
-  ADD_WORD: `${API_BASE_URL}vocabulary/words/`,
-  UPDATE_WORD: (id: number) => `${API_BASE_URL}vocabulary/words/${id}/`,
-  DELETE_WORD: (id: number) => `${API_BASE_URL}vocabulary/words/${id}/`,
-};
 
 // User vocabulary endpoints
 export const USER_VOCABULARY = {
-  GET_USER_WORDS: `${API_BASE_URL}vocabulary/user-words/`,
+  GET_VOCAB_LEVELS: `${API_BASE_URL}user-words/count_words-by-level`,
+  GET_LEARNED_WORD: `${API_BASE_URL}user-words/learned-words`,
   GET_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   UPDATE_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   GET_REVIEW_WORDS: `${API_BASE_URL}vocabulary/review-words/`,

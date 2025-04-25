@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Course } from "@/types/lesson-types";
 import { getCoursesByPage } from "@/services/course-service";
+import { Course } from "@/types/lesson-types";
+import { useEffect, useState } from "react";
 
 export function useCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [filteredThemes, setFilteredThemes] = useState<Course[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [difficulty, setDifficulty] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
@@ -21,7 +21,7 @@ export function useCourses() {
       try {
         const response = await getCoursesByPage(currentPage);
         setCourses(response.results);
-    
+
         // Xử lý next/previous theo số trang
         setNextPage(response.next ? currentPage + 1 : null);
         setPrevPage(response.previous ? currentPage - 1 : null);
@@ -44,12 +44,12 @@ export function useCourses() {
       );
     }
 
-    setFilteredThemes(newFilteredThemes);
+    setFilteredCourses(newFilteredThemes);
   }, [courses, searchQuery, difficulty, sortBy]);
 
   return {
     themes: courses,
-    filteredThemes,
+    filteredCourses,
     searchQuery,
     setSearchQuery,
     difficulty,

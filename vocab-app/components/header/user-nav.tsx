@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Session } from "next-auth";
+import { ACCOUNT_NAV_LINKS } from "@/data/navigation";
 
 
 export function UserNav() {
@@ -28,10 +29,8 @@ export function UserNav() {
     const fetchUser = async () => {
       const session: Session | null = await getSession();
       // Kiểm tra xem người dùng đã đăng nhập hay chưa
-      if (!session || !session.accessToken) {
-        // router.replace("/auth");
+      if (!session || !session.accessToken) 
         return;
-      }
 
       // Nếu đã đăng nhập, gọi API để lấy thông tin người dùng
       const userData = localStorage.getItem(USER_KEY);
@@ -84,7 +83,7 @@ export function UserNav() {
           <div className="hidden md:flex items-center gap-3">
             <div className="flex items-center gap-1 text-sm font-bold">
               <FlameIcon className="h-5 w-5 duolingo-orange" />
-              <span>3</span>
+              <span>7</span>
             </div>
             <div className="flex items-center gap-1 text-sm font-bold">
               <Heart className="h-5 w-5 duolingo-red" fill="currentColor" />
@@ -117,18 +116,12 @@ export function UserNav() {
                 Chào mừng, {user.username}!
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <a href="/account">Hồ sơ</a>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                <span>Cài đặt</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2">
-                <HelpCircle className="h-4 w-4" />
-                <span>Trợ giúp</span>
-              </DropdownMenuItem>
+              {[...ACCOUNT_NAV_LINKS].map((item, index) => (
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <item.icon className="h-4 w-4" />
+                  <a href={item.href}>{item.name}</a>
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex items-center gap-2 text-duolingo-red cursor-pointer" onClick={handleLogout}>
                 <LogOut className="h-4 w-4" />

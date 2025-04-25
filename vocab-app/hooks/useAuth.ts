@@ -55,28 +55,26 @@ export function useAuth() {
     setMessage("");
     setError("");
     try {
-
       const result = await signIn('credentials', {
         username,
         password,
         redirect: false,
       });
 
-
       if (result?.error) {
-        setError(result.error || "Đăng nhập thất bại");
+        setError(result.error || "Tài khoản hoặc mật khẩu không đúng");
         return false;
       }
       
       // Set local storage items
-      localStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      localStorage.setItem(IS_LEARN_KEY, "true");
+      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
+      sessionStorage.setItem(IS_LEARN_KEY, "true");
       
       setMessage("Đăng nhập thành công! Đang chuyển hướng...");
       router.push(callbackUrl);
       return true;
     } catch (err) {
-      setError("Đăng nhập thất bại");
+      setError("Tài khoản hoặc mật khẩu không đúng");
       return false;
     } finally {
       setIsLoading(false);
@@ -103,7 +101,7 @@ export function useAuth() {
       setMessage("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       return true;
     } catch (err: any) {
-      setError(err.response?.data?.error || "Đăng ký thất bại. Vui lòng thử lại.");
+      setError(err.response?.data?.error || "Đã xảy ra lỗi. Vui lòng thử lại.");
       return false;
     } finally {
       setIsLoading(false);

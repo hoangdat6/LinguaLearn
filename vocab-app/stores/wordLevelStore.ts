@@ -12,6 +12,11 @@ interface WordLevelState {
     countLevel4: number;
     countLevel5: number;
     reviewWordCount: number;
+    cefrGroupCounts: {
+        basic: number;
+        intermediate: number;
+        advanced: number;
+    };
     timeUntilNextReview: TimeUntilNextReview;
     words: {
         words_by_level1: WordReviewState[];
@@ -34,6 +39,11 @@ export const useWordLevelStore = create<WordLevelState>((set) => ({
     countLevel3: 0,
     countLevel4: 0,
     countLevel5: 0,
+    cefrGroupCounts: {
+        basic: 0,
+        intermediate: 0,
+        advanced: 0,
+    },
     reviewWordCount: 0,
     timeUntilNextReview: {} as TimeUntilNextReview,
     words: {
@@ -69,4 +79,6 @@ export const useWordLevelStore = create<WordLevelState>((set) => ({
             ...state,
             totalWords,
         })),
+
+        
 }));

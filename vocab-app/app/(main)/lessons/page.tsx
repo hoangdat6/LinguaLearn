@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, use } from "react"
+import { useState, useEffect, use, useMemo } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { Search, BookOpen, Filter, ChevronDown, Clock, Users, Star, LoaderCircle } from 'lucide-react'
@@ -30,7 +30,7 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLessons } from "@/hooks/useLessons"
-import { ThemeCard } from "@/components/ThemeCard"
+import { CourseCard } from "@/components/ThemeCard"
 import { LessonCard } from "@/components/LessonCard"
 import { useCourses } from "@/hooks/useCourse"
 
@@ -74,7 +74,7 @@ export default function LessonsPage() {
 
   const {
     themes,
-    filteredThemes,
+    filteredCourses,
     searchQuery,
     setSearchQuery,
     difficulty,
@@ -89,15 +89,15 @@ export default function LessonsPage() {
   } = useCourses();
 
   const [currentTab, setCurrentTab] = useState("themes");
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);  
-  
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+
   // danh sach bài học theo chủ đề
-  const { 
-    lessons, 
-    isLoading: isLessonsLoading, 
-    currentPage: curPage, 
-    nextPage: nxPage, 
-    prevPage: pvPage, 
+  const {
+    lessons,
+    isLoading: isLessonsLoading,
+    currentPage: curPage,
+    nextPage: nxPage,
+    prevPage: pvPage,
     setCurrentPage: sCurPage,
     setPrevPage: sPrevPage
   } = useLessons(selectedTheme);
@@ -119,12 +119,18 @@ export default function LessonsPage() {
     }
   }, [searchParams])
 
-
-
   // Handle click on a lesson
   const handleLessonClick = (lessonId: string) => {
     router.push(`/vocabulary-learning/${lessonId}`);
   };
+
+  const generatePastelColor = () => {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 80%, 90%)`;
+  };
+
+  // Generate stable color based on theme ID
+  const backgroundColor = useMemo(() => generatePastelColor(), [selectedTheme]);
 
   return (
     <div className="container max-w-7xl py-10">
@@ -211,7 +217,7 @@ export default function LessonsPage() {
             )}
           </TabsList>
 
-          {/* Themes Tab */}
+          {/* courses Tab */}
           <TabsContent value="themes">
             <motion.div
               variants={containerVariants}
@@ -221,23 +227,37 @@ export default function LessonsPage() {
             >
               {isLoading ? (
                 [...Array(6)].map((_, index) => (
-                  <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                  </motion.div>
                 ))
               ) : (
-                filteredThemes.map(theme => (
-                  <ThemeCard
-                    key={theme.id}
-                    theme={theme}
-                    onSelect={(id) => {
-                      setSelectedTheme(id);
-                      setCurrentTab("selectedTheme");
-                    }}
-                  />
+                filteredCourses.map((theme, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <CourseCard
+                      key={theme.id}
+                      theme={theme}
+                      onSelect={(id) => {
+                        setSelectedTheme(id);
+                        setCurrentTab("selectedTheme");
+                      }}
+                    />
+                  </motion.div>
                 ))
               )}
             </motion.div>
             <div className="flex justify-center mt-6">
-              <Button variant="outline" onClick={() => setCurrentPage(prevPage?? 1)} disabled={!prevPage}>
+              <Button variant="outline" onClick={() => setCurrentPage(prevPage ?? 1)} disabled={!prevPage}>
                 ← Trang trước
               </Button>
               <span className="mx-4 flex items-center">Trang {currentPage}</span>
@@ -247,7 +267,6 @@ export default function LessonsPage() {
             </div>
 
           </TabsContent>
-
 
           {/* <TabsContent value="lessons">
             <motion.div
@@ -278,7 +297,7 @@ export default function LessonsPage() {
                 ))} 
             </motion.div> */}
 
-            {/* {allLessons.filter(lesson =>
+          {/* {allLessons.filter(lesson =>
               (lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
@@ -318,7 +337,7 @@ export default function LessonsPage() {
 
                   {themes.filter(t => t.id == selectedTheme).map(theme => (
                     <div key={theme.id} className="space-y-6">
-                      <div className={`p-6 rounded-lg`}>
+                      <div className={`p-6 rounded-lg `} style={{ backgroundColor }}>
                         <div className="flex items-center gap-4">
                           <div className="text-4xl">{theme.icon}</div>
                           <div>
@@ -361,20 +380,36 @@ export default function LessonsPage() {
                         initial="hidden"
                         animate="visible"
                         className="space-y-4"
-                      >
+                      > 
                         <h3 className="text-xl font-bold">Bài học trong chủ đề này</h3>
                         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                           {isLessonsLoading ? (
                             [...Array(6)].map((_, index) => (
-                              <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                              <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                              >
+
+                                <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
+                              </motion.div>
                             ))
                           ) : lessons.length > 0 ? (
-                            lessons.map(lesson => (
-                              <LessonCard
-                                key={lesson.id}
-                                lesson={lesson}
-                                onSelect={(id) => handleLessonClick(id)}
-                              />
+                            lessons.map((lesson, index) => (
+                              <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                              >
+                                <LessonCard
+                                  key={lesson.id}
+                                  lesson={lesson}
+                                  onSelect={(id) => handleLessonClick(id)}
+                                />
+
+                              </motion.div>
                             ))
                           ) : (
                             <p>Không có bài học nào trong chủ đề này.</p>
@@ -387,7 +422,7 @@ export default function LessonsPage() {
               </motion.div>
             )}
             <div className="flex justify-center mt-6">
-              <Button variant="outline" onClick={() => sCurPage(pvPage?? 1)} disabled={!pvPage}>
+              <Button variant="outline" onClick={() => sCurPage(pvPage ?? 1)} disabled={!pvPage}>
                 ← Trang trước
               </Button>
               <span className="mx-4 flex items-center">Trang {curPage}</span>

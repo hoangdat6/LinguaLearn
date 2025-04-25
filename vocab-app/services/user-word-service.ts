@@ -1,5 +1,6 @@
 import { WordReviewState } from "@/types/review";
 import api from "./api";
+import { USER_VOCABULARY } from "@/constants/api-endpoints";
 
 export interface TimeUntilNextReview {
     hours: number;
@@ -43,7 +44,7 @@ export interface WordsByLevel {
 
 const getVocabLevels = async () => {
     try {
-        const response = await api.get<CountWordsByLevel >("user-words/count_words-by-level");
+        const response = await api.get<CountWordsByLevel>(USER_VOCABULARY.GET_VOCAB_LEVELS);
         return response.data;
     } catch (error) {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
@@ -53,7 +54,7 @@ const getVocabLevels = async () => {
 
 const fetchWordsLevel = async () => {
     try {
-        const response = await api.get<WordsByLevel>("user-words/learned-words");
+        const response = await api.get<WordsByLevel>(USER_VOCABULARY.GET_LEARNED_WORD);
         return response.data;
     } catch (error) {
         console.error("Error fetching words level:", error);

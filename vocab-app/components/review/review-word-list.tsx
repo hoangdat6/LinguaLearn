@@ -53,6 +53,11 @@ export const ReviewWordList = React.memo(function ReviewWordList() {
     }
   }
 
+  const playAudio = (audioUrl: string) => {
+    const audio = new Audio(audioUrl)
+    audio.play()
+  }
+
   return (
     <div className="space-y-6">
       <VocabularyMasteryLevels
@@ -102,13 +107,16 @@ export const ReviewWordList = React.memo(function ReviewWordList() {
                       onClick={(e) => {
                         e.stopPropagation()
                         // Play audio
-                        const utterance = new SpeechSynthesisUtterance(word.word.word)
-                        utterance.lang = "en-US"
-                        window.speechSynthesis.speak(utterance)
+                        if(word.word.audio) {
+                          playAudio(word.word.audio)
+                        }else{
+                          console.error("Audio URL is not available") 
+                        }
                       }}
                     >
                       <Volume2 className="h-4 w-4" />
                     </Button>
+                    
                     <span className="text-sm text-muted-foreground">{word.word.pronunciation}</span>
                   </div>
                   <p className="text-muted-foreground">{word.word.meaning}</p>

@@ -1,35 +1,31 @@
 "use client"
 
-import { ThemeCard } from "@/components/ThemeCard"
+import { CourseCard } from "@/components/ThemeCard"
 import { useCourses } from "@/hooks/useCourse"
 import { motion } from "framer-motion"
-import { LoaderCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-export function ThemesOverview() {
+
+export function CoursesOverview() {
   const router = useRouter()
-  const { filteredThemes, isLoading } = useCourses()
+  const { filteredCourses, isLoading } = useCourses()
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-[200px]">
-        <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    )
+    return <CoursesOverviewLoading />
   }
 
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredThemes.map((theme, index) => (
+        {filteredCourses.map((theme, index) => (
           <motion.div
             key={theme.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <ThemeCard
+            <CourseCard
               theme={theme}
               onSelect={(id) => {
                 router.push(`/lessons?theme=${id}`)
@@ -47,3 +43,31 @@ export function ThemesOverview() {
   )
 }
 
+
+const SkeletonCard = () => {
+  return (
+    <div className="animate-pulse bg-gray-200 rounded-lg h-40 w-full"></div>
+  )
+}
+
+const CoursesOverviewLoading = () => {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3, 4, 5, 6].map((_, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <SkeletonCard />
+          </motion.div>
+        ))}
+      </div>
+      <div className="text-center mt-4">
+        <div className="animate-pulse bg-gray-200 rounded-lg h-10 w-40 mx-auto"></div>
+      </div>
+    </div>
+  )
+}

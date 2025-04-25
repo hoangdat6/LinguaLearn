@@ -11,6 +11,7 @@ const useHomePage = () => {
     countLevel3,
     countLevel4,
     countLevel5,
+    cefrGroupCounts,
     timeUntilNextReview,
     reviewWordCount,
     setWordLevels,
@@ -26,7 +27,7 @@ const useHomePage = () => {
 
     try {
       // Check if data is already in local storage and not expired
-      const isLearn = sessionStorage.getItem(IS_LEARN_KEY);
+      const isLearn =  sessionStorage.getItem(IS_LEARN_KEY);
       if (isLearn !== "true") {
         const cachedData = sessionStorage.getItem(WORD_LEVELS_KEY);
         if (cachedData) {
@@ -38,6 +39,7 @@ const useHomePage = () => {
         }
       }
 
+      // Fetch vocabulary levels from the API
       const data: CountWordsByLevel | null = await userWordService.getVocabLevels();
       if (!data) {
         throw new Error("Failed to fetch vocabulary levels");
@@ -52,6 +54,11 @@ const useHomePage = () => {
         countLevel3: data.level_counts.count_level3,
         countLevel4: data.level_counts.count_level4,
         countLevel5: data.level_counts.count_level5,
+        cefrGroupCounts: {
+          basic: data.cefr_group_counts.basic,
+          intermediate: data.cefr_group_counts.intermediate,
+          advanced: data.cefr_group_counts.advanced,
+      },
         reviewWordCount: data.review_word_count,
         timeUntilNextReview: data.time_until_next_review
       });
@@ -69,6 +76,7 @@ const useHomePage = () => {
         reviewWordCount: data.review_word_count,
         timeUntilNextReview: data.time_until_next_review,
       }));
+      
 
       sessionStorage.setItem(IS_LEARN_KEY, "false");
 
@@ -90,6 +98,7 @@ const useHomePage = () => {
     countLevel3,
     countLevel4,
     countLevel5,
+    cefrGroupCounts,
     reviewWordCount,
     timeUntilNextReview,
     isLoading,
