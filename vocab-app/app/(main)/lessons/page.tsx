@@ -1,25 +1,14 @@
 "use client"
-import { useState, useEffect, use, useMemo } from "react"
-import { useParams, useRouter, useSearchParams } from "next/navigation"
-import { motion } from "framer-motion"
-import { Search, BookOpen, Filter, ChevronDown, Clock, Users, Star, LoaderCircle } from 'lucide-react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { CourseCard } from "@/components/CourseCard"
+import { LessonCard } from "@/components/LessonCard"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
 import {
   Select,
   SelectContent,
@@ -27,12 +16,14 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useLessons } from "@/hooks/useLessons"
-import { CourseCard } from "@/components/ThemeCard"
-import { LessonCard } from "@/components/LessonCard"
 import { useCourses } from "@/hooks/useCourse"
+import { useLessons } from "@/hooks/useLessons"
+import { motion } from "framer-motion"
+import { BookOpen, ChevronDown, Filter, Search, Users } from 'lucide-react'
+import { useSession } from "next-auth/react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
 
 // Animation variants
 const containerVariants = {
@@ -71,7 +62,8 @@ const fadeIn = {
 export default function LessonsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
   const {
     themes,
     filteredCourses,
@@ -251,6 +243,7 @@ export default function LessonsPage() {
                         setSelectedTheme(id);
                         setCurrentTab("selectedTheme");
                       }}
+                      isAuthenticated={isAuthenticated}
                     />
                   </motion.div>
                 ))
@@ -260,7 +253,7 @@ export default function LessonsPage() {
               <Button variant="outline" onClick={() => setCurrentPage(prevPage ?? 1)} disabled={!prevPage}>
                 ← Trang trước
               </Button>
-              <span className="mx-4 flex items-center">Trang {currentPage}</span>
+              <span className="px-2 mx-4 rounded-md flex items-center border border-input bg-background hover:bg-accent hover:text-accent-foreground">{currentPage}</span>
               <Button variant="outline" onClick={() => setCurrentPage(nextPage ?? 1)} disabled={!nextPage}>
                 Trang tiếp →
               </Button>
@@ -346,13 +339,15 @@ export default function LessonsPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span>Tiến độ chủ đề</span>
-                            <span className="font-medium">{theme.progress}%</span>
+                        {isAuthenticated && (
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span>Tiến độ</span>
+                              <span>{theme.progress}%</span>
+                            </div>
+                            <Progress value={theme.progress} className="h-2" />
                           </div>
-                          <Progress value={theme.progress} className="h-2 bg-white/20" />
-                        </div>
+                        )}
 
                         <div className="mt-4 flex flex-wrap gap-4">
                           <div className="flex items-center">
@@ -380,7 +375,7 @@ export default function LessonsPage() {
                         initial="hidden"
                         animate="visible"
                         className="space-y-4"
-                      > 
+                      >
                         <h3 className="text-xl font-bold">Bài học trong chủ đề này</h3>
                         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                           {isLessonsLoading ? (
@@ -425,7 +420,7 @@ export default function LessonsPage() {
               <Button variant="outline" onClick={() => sCurPage(pvPage ?? 1)} disabled={!pvPage}>
                 ← Trang trước
               </Button>
-              <span className="mx-4 flex items-center">Trang {curPage}</span>
+              <span className="px-2 mx-4 rounded-md flex items-center border border-input bg-background hover:bg-accent hover:text-accent-foreground">{currentPage}</span>
               <Button variant="outline" onClick={() => sCurPage(nxPage ?? 1)} disabled={!nxPage}>
                 Trang tiếp →
               </Button>

@@ -1,22 +1,24 @@
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Course } from "@/types/lesson-types";
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Users } from 'lucide-react';
 import { useMemo } from 'react';
 
 interface CourseCardProps {
   theme: Course;
   onSelect: (id: string) => void;
+  isAuthenticated: boolean;
 }
 
-export function CourseCard({ theme, onSelect }: CourseCardProps) {
+export function CourseCard({ theme, onSelect, isAuthenticated }: CourseCardProps) {
   const generatePastelColor = () => {
     const hue = Math.floor(Math.random() * 360);
     return `hsl(${hue}, 80%, 90%)`;
   };
-  
+
   // Generate stable color based on theme ID
   const backgroundColor = useMemo(() => generatePastelColor(), [theme.id]);
-  
+
   return (
     <div onClick={() => onSelect(theme.id)} className="cursor-pointer">
       <Card className="h-full flex flex-col overflow-hidden">
@@ -39,18 +41,28 @@ export function CourseCard({ theme, onSelect }: CourseCardProps) {
                theme.difficulty === "intermediate" ? "Trung cấp" : "Nâng cao"}
             </Badge> */}
           </div>
+          
+          {/* Only show progress when user is authenticated */}
+          {isAuthenticated && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Tiến độ</span>
+                <span>{theme.progress}%</span>
+              </div>
+              <Progress value={theme.progress} className="h-2" />
+            </div>
+          )}
         </CardHeader>
-
         {/* Footer */}
         <CardFooter className="flex justify-between border-t pt-4">
           <div className="flex items-center text-sm text-muted-foreground">
             <BookOpen className="h-4 w-4 mr-1" />
             {theme.lesson_count} bài học
           </div>
-          {/* <div className="flex items-center text-sm text-muted-foreground">
+          <div className="flex items-center text-sm text-muted-foreground">
             <Users className="h-4 w-4 mr-1" />
-            {theme.userCount.toLocaleString()}
-          </div> */}
+            {theme.learner_count}
+          </div>
         </CardFooter>
       </Card>
     </div>

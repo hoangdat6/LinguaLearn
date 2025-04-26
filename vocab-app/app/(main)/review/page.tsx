@@ -50,12 +50,7 @@ export default function ReviewPage() {
                   Tổng số từ đã học: {reviewData.totalWords} từ
                 </p>
               </div>
-              <Button size="lg" disabled={reviewData.isLoading}>
-                {reviewData.isLoading ? "Đang tải..." : "Bắt đầu ôn tập"}
-              </Button>
             </div>
-
-            {reviewData.error && <p className="text-red-500 mb-4">{reviewData.error}</p>} {/* Display error if any */}
 
             <Card className="mb-8">
                 <h2 className="text-lg p-6 font-semibold mb-4">Phân bố từ vựng theo cấp độ</h2>

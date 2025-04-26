@@ -120,7 +120,7 @@ const MobileSidebar = ({ pathname }: { pathname: string }) => {
                                 </AvatarFallback>
                             </Avatar>
                             <div>
-                                <p className="font-bold text-sm">{user.username || user.name}</p>
+                                <p className="font-bold text-sm">{user.username}</p>
                                 <p className="text-xs text-muted-foreground">{user.email}</p>
                             </div>
                         </div>

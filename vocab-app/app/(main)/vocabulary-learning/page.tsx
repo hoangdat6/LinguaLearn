@@ -129,7 +129,7 @@ export default function VocabularyLearningPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <main className="flex-1 container py-6">
+      <main className="flex-1 container py-6 px-3 md:px-8">
         <div className="mx-auto max-w-2xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="mb-8 space-y-4">

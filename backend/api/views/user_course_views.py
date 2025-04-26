@@ -1,13 +1,12 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.db.models import Count
-from ..models import Course, UserCourse, Lesson
-from ..serializers import UserCourseSerializer, UserLessonSerializer
-from ..pagination import CustomPagination
 from django.db.models import OuterRef, Subquery, Count, IntegerField, Value
 from django.db.models.functions import Coalesce
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from ..models import Course, UserCourse, Lesson
+from ..pagination import CustomPagination
+from ..serializers import UserCourseSerializer, UserLessonSerializer
 
 # Subquery để đếm số lesson của một Course
 lesson_count_subquery = Lesson.objects.filter(course=OuterRef('pk')) \

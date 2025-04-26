@@ -1,9 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { BookOpen, LoaderCircle } from "lucide-react"
+import { Button } from "@/components/ui/button";
 import { TimeUntilNextReview } from "@/services/user-word-service";
+import { BookOpen } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface VocabularyLevelsProps {

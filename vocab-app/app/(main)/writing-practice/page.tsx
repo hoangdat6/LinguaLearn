@@ -84,7 +84,7 @@ export default function WritingPracticePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <main className="flex-1 container py-6">
+      <main className="flex-1 container py-6 px-3 md:px-8">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-3xl font-bold mb-6">Luyện tập viết</h1>
 

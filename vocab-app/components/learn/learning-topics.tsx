@@ -1,13 +1,16 @@
 "use client"
 
-import { CourseCard } from "@/components/ThemeCard"
+import { CourseCard } from "@/components/CourseCard"
 import { useCourses } from "@/hooks/useCourse"
 import { motion } from "framer-motion"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 
 export function CoursesOverview() {
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
   const router = useRouter()
   const { filteredCourses, isLoading } = useCourses()
 
@@ -30,6 +33,7 @@ export function CoursesOverview() {
               onSelect={(id) => {
                 router.push(`/lessons?theme=${id}`)
               }}
+              isAuthenticated={isAuthenticated}
             />
           </motion.div>
         ))}
