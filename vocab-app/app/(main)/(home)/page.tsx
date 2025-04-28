@@ -107,6 +107,13 @@ export default function Home() {
                   <Button className="w-full">Tiếp tục học</Button>
                 </CardContent>
               </Card>
+              
+              <Card className="overflow-hidden">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-bold mb-4">Bảng xếp hạng</h3>
+                  <Leaderboard />
+                </CardContent>
+              </Card>
 
               <Card className="overflow-hidden">
                 <CardContent className="p-6">
@@ -115,12 +122,6 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="overflow-hidden">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold mb-4">Bảng xếp hạng</h3>
-                  <Leaderboard />
-                </CardContent>
-              </Card>
             </motion.div>
           </div>
         </div>

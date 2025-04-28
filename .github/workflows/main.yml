@@ -1,0 +1,130 @@
+name: build-test-deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > ./backend/backend/.env
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./backend/requirements.txt
+
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > ./backend/backend/.env
+
+      - name: Run tests
+        run: |
+          cd backend
+          python manage.py test
+
+#  deploy_staging:
+#    runs-on: ubuntu-latest
+#    needs: [build, test]
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Deploy to staging server
+#        env:
+#          SSH_PRIVATE_KEY: ${{ secrets.STAGING_SSH_KEY }}
+#        run: |
+#          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_SERVER }} "cd ${{ secrets.STAGING_PATH }} && docker pull ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }} && docker-compose up -d"
+
+  deploy_production:
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    steps:
+      - name: Checkout only docker-compose.yml
+        uses: actions/checkout@v3
+        with:
+          # chỉ lấy 1 commit gần nhất
+          fetch-depth: 1
+          # chỉ pull path này
+          sparseCheckoutPaths: |
+            backend/docker-compose.yml
+
+      - name: Start SSH agent and add key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+
+
+      - name: Create deploy .env
+        run: |
+          cat <<EOF > .env
+          DOCKER_IMAGE=${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+          DATABASE_PORT=${{ secrets.DATABASE_PORT }}
+          GUNICORN_APP=${{ secrets.GUNICORN_APP }}
+          EOF
+
+      - name: Copy compose + .env to server
+        run: |
+          scp -o StrictHostKeyChecking=no -P ${{ secrets.PROD_SSH_PORT }} backend/docker-compose.yml .env ${{ secrets.PROD_USER }}@${{ secrets.PROD_SERVER }}:${{ secrets.PROD_PATH }}/
+
+      - name: Pull & deploy on server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.PROD_SSH_PORT }} ${{ secrets.PROD_USER }}@${{ secrets.PROD_SERVER }} "
+            cd ${{ secrets.PROD_PATH }} &&
+            docker-compose pull web &&
+            docker-compose up -d --remove-orphans
+          "
+      
+
+      - name: Tag latest (only on main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.PROD_SSH_PORT }} ${{ secrets.PROD_USER }}@${{ secrets.PROD_SERVER }} "
+            echo '${{ secrets.DOCKER_PASSWORD }}' | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin &&            
+            docker tag ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }} \
+                       ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest &&
+            docker push ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+          "

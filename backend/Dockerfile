@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy requirements file
 COPY requirements.txt .
 
+# Copy cấu hình Gunicorn
+COPY gunicorn_conf.py /app/gunicorn_conf.py
+
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -43,4 +47,4 @@ USER appuser
 EXPOSE 8000
 
 # Run the application
-CMD ["/app/entrypoint.sh"]
+CMD ["sh", "-c", "python manage.py migrate && exec gunicorn backend.wsgi:application --config gunicorn_conf.py"]

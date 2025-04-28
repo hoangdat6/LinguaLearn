@@ -15,3 +15,5 @@ export function StreakCounter({ days }: StreakCounterProps) {
   )
 }
 
+
+
