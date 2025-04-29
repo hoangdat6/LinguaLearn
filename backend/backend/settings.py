@@ -27,7 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 # load_dotenv(os.path.join(BASE_DIR, './backend/.env.local'))
 
-print(os.getenv("SSLMODE"))
+# print(os.getenv("SSLMODE"))
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
