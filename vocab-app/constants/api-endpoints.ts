@@ -9,8 +9,15 @@ export const AUTH = {
   PROFILE: `${API_BASE_URL}accounts/profile`,
   GOOGLE_LOGIN: `${API_BASE_URL}accounts/google/login/`,
   FACEBOOK_LOGIN: `${API_BASE_URL}accounts/facebook/login/`,
+  FORGOT_PASSWORD: `${API_BASE_URL}accounts/reset-password/`,
+  RESET_PASSWORD_CONFIRM: (uid: string, token: string) => 
+    `${API_BASE_URL}accounts/reset-password-confirm/${uid}/${token}/`,
+  RESET_PASSWORD_VALIDATE: (uid: string, token: string) => 
+    `${API_BASE_URL}accounts/reset-password-validate/${uid}/${token}/`,
+  CHANGE_PASSWORD: `${API_BASE_URL}accounts/change-password/`,
+  UPDATE_PROFILE: `${API_BASE_URL}accounts/update-profile/`,
+  VERIFY_EMAIL: (token: string) => `${API_BASE_URL}accounts/verify-email/${token}/`,
 };
-
 
 // User vocabulary endpoints
 export const USER_VOCABULARY = {

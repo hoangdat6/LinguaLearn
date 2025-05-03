@@ -1,4 +1,4 @@
-import { ACCOUNT_NAV_LINKS, HEADER_NAV_LINKS } from "@/data/navigation";
+import { ACCOUNT_NAV_LINKS, HEADER_NAV_LINKS } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Owl } from "../owl";

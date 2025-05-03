@@ -3,9 +3,10 @@ from .auth import (
     UserLoginSerializer,
     ChangePasswordSerializer,
     ResetPasswordSerializer,
-    LogoutSerializer
+    LogoutSerializer,
 )
 
+from .user_detail import UserDetailSerializer
 
 # Export all serializers
 __all__ = [
@@ -14,4 +15,6 @@ __all__ = [
     'ChangePasswordSerializer',
     'ResetPasswordSerializer',
     'LogoutSerializer',
+    'UserDetailSerializer',
 ]
+

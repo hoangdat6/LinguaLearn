@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Session } from "next-auth";
-import { ACCOUNT_NAV_LINKS } from "@/data/navigation";
+import { ACCOUNT_NAV_LINKS } from "@/constants/routes";
 
 
 export function UserNav() {

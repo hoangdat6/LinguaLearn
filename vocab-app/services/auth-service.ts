@@ -80,8 +80,42 @@ const getUser = async (): Promise<User | null> => {
   }
 };
 
+const changePassword = async (
+  old_password: string, 
+  new_password: string, 
+  new_password2: string
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const response = await api.post(AUTH.CHANGE_PASSWORD, {
+      old_password,
+      new_password,
+      confirm_new_password: new_password2,
+    });
+    
+    return {
+      success: true,
+      message: response.data.message || "Đổi mật khẩu thành công!"
+    };
+  } catch (error: any) {
+    console.error("Lỗi khi đổi mật khẩu:", error);
+    const errorMessage = error.response?.data?.non_field_errors || 
+                         error.response?.data?.old_password || 
+                         error.response?.data?.new_password ||
+                         error.response?.data?.new_password2 ||
+                         "Đổi mật khẩu thất bại";
+    return {
+      success: false,
+      message: Array.isArray(errorMessage) ? errorMessage[0] : errorMessage
+    };
+  }
+};
 
-const authService = { login, register, logout, getUser, 
+const authService = { 
+  login, 
+  register, 
+  logout, 
+  getUser, 
+  changePassword,
   // loginWithGoogle, loginWithFacebook 
 };
 export default authService;

@@ -13,7 +13,6 @@ from ..serializers import (
     ResetPasswordSerializer, LogoutSerializer
 )
 
-
 class AuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -26,7 +25,7 @@ class AuthViewSet(viewsets.ModelViewSet):
             user.is_active = False  # Tài khoản chưa được kích hoạt
             user.save()
 
-            verification_link = f"http://localhost:8000/api/users/verify-email/{user.verification_token}/"
+            verification_link = f"{settings.FE_URL}/auth/verify-email/{user.verification_token}/"
 
             subject = "Xác nhận email của bạn"
             plain_message = f"Chào {user.username},\nHãy xác nhận email của bạn bằng cách truy cập:\n{verification_link}\n\nNếu bạn không đăng ký, hãy bỏ qua email này."
@@ -193,7 +192,7 @@ class AuthViewSet(viewsets.ModelViewSet):
             # Tạo token reset mật khẩu
             token = default_token_generator.make_token(user)
             # Bạn có thể cấu hình lại đường link theo frontend hoặc endpoint reset cụ thể
-            reset_link = f"http://localhost:8000/api/users/reset-password-validate/{user.pk}/{token}/"
+            reset_link = f"{settings.FE_URL}/auth/reset-password/{user.pk}/{token}/"
 
             subject = "Đặt lại mật khẩu của bạn"
             plain_message = (
@@ -353,10 +352,10 @@ class AuthViewSet(viewsets.ModelViewSet):
                                 status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=["get"], url_path="test_auth")
-    @permission_classes([IsAuthenticated])
-    def test(self, request):
-        return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
+    # @action(detail=False, methods=["get"], url_path="test_auth")
+    # @permission_classes([IsAuthenticated])
+    # def test(self, request):
+    #     return Response({"message": "Đã xác thực!"}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=["post"], url_path="refresh-token")
     @permission_classes([AllowAny])
@@ -376,3 +375,5 @@ class AuthViewSet(viewsets.ModelViewSet):
     def profile(self, request):
         user = request.user
         return Response({"username": user.username, "avatar": user.avatar}, status=status.HTTP_200_OK)
+
+

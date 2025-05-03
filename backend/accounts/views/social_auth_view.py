@@ -40,10 +40,10 @@ class GoogleAuthView(APIView):
             # Kiểm tra xem user đã tồn tại trong hệ thống chưa
             user, created = User.objects.get_or_create(
                 email=email,
-                is_social=True,
-                is_active=True,
                 defaults={
-                    'username': email.split('@')[0],  # Tạo username từ email
+                    'username': email.split('@')[0],  # Create username from email
+                    'is_social': True,
+                    'is_active': True,
                 }
             )
 

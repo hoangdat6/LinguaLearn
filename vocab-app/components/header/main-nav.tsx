@@ -1,6 +1,7 @@
 "use client"
 import { Owl } from "@/components/owl"
-import { HEADER_NAV_LINKS } from "@/data/navigation"
+import { HEADER_NAV_LINKS } from "@/constants/routes"
+
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import Link from "next/link"

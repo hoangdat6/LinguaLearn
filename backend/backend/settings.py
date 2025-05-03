@@ -37,6 +37,7 @@ load_dotenv()
 
 # Đọc SECRET_KEY từ .env
 SECRET_KEY = os.getenv("SECRET_KEY")
+FE_URL = os.getenv("FE_URL")
 
 # google oauth
 GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
