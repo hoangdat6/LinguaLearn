@@ -1,105 +1,43 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
+import { DictionaryTrendingWords } from "@/components/dictionary/trending-words"
+import { DictionaryWordDetails } from "@/components/dictionary/word-details"
+import { DictionaryWordOfDay } from "@/components/dictionary/word-of-day"
+import SearchLoading from "@/components/dictionary/search-loading"
+import { useDictionary } from "@/hooks/use-dictionary"
 import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Search, Volume2, Bookmark, BookmarkCheck, Clock, ArrowRight, Sparkles, History, TrendingUp, X, ChevronRight } from 'lucide-react'
-import { motion, AnimatePresence } from "framer-motion"
-import { DictionaryWordDetails } from "@/components/dictionanry/word-details"
-import { DictionaryWordOfDay } from "@/components/dictionanry/word-of-day"
-import { DictionaryTrendingWords } from "@/components/dictionanry/trending-words"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { AnimatePresence, motion } from "framer-motion"
+import { AlertCircle, ArrowRight, ChevronRight, History, Search, Sparkles, TrendingUp, X } from 'lucide-react'
 
 export default function DictionaryPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [searchResults, setSearchResults] = useState<any[]>([])
-  const [selectedWord, setSelectedWord] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [showSuggestions, setShowSuggestions] = useState(false)
-  const [recentSearches, setRecentSearches] = useState<string[]>([])
-  const [savedWords, setSavedWords] = useState<string[]>([])
-  const searchInputRef = useRef<HTMLInputElement>(null)
-
-  // Simulated search suggestions
-  const suggestions = [
-    "accomplish", "determine", "enhance", "facilitate", "generate",
-    "accommodate", "beneficial", "comprehensive", "demonstrate", "efficient"
-  ].filter(word => word.includes(searchTerm.toLowerCase()) && searchTerm.length > 0)
-
-  // Handle search
-  const handleSearch = (term: string = searchTerm) => {
-    if (!term.trim()) return
-    
-    setIsLoading(true)
-    setShowSuggestions(false)
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Mock result
-      const result = {
-        word: term.toLowerCase(),
-        phonetic: "/əˈkɒmplɪʃ/",
-        partOfSpeech: "verb",
-        definitions: [
-          "to succeed in doing or completing something",
-          "to achieve or complete successfully"
-        ],
-        examples: [
-          "She accomplished all her goals.",
-          "The team accomplished the task ahead of schedule."
-        ],
-        synonyms: ["achieve", "complete", "fulfill", "realize", "attain", "execute"],
-        antonyms: ["fail", "neglect", "forget", "abandon"],
-        etymology: "Late Middle English: from Old French accompliss-, lengthened stem of accomplir, based on Latin ad- 'to' + complere 'to complete'."
-      }
-      
-      setSelectedWord(result)
-      setIsLoading(false)
-      
-      // Add to recent searches if not already there
-      if (!recentSearches.includes(term.toLowerCase())) {
-        setRecentSearches(prev => [term.toLowerCase(), ...prev].slice(0, 10))
-      }
-    }, 800)
-  }
-
-  // Toggle saved word
-  const toggleSavedWord = (word: string) => {
-    if (savedWords.includes(word)) {
-      setSavedWords(prev => prev.filter(w => w !== word))
-    } else {
-      setSavedWords(prev => [...prev, word])
-    }
-  }
-
-  // Clear search
-  const clearSearch = () => {
-    setSearchTerm("")
-    setSelectedWord(null)
-    setShowSuggestions(false)
-    if (searchInputRef.current) {
-      searchInputRef.current.focus()
-    }
-  }
-
-  // Handle key press
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && searchTerm.trim()) {
-      handleSearch()
-    }
-  }
+  const {
+    searchTerm,
+    selectedWord,
+    isLoading,
+    showSuggestions,
+    recentSearches,
+    setRecentSearches,
+    savedWords,
+    suggestions,
+    searchInputRef,
+    handleSearch,
+    toggleSavedWord,
+    clearSearch,
+    handleKeyPress,
+    handleInputChange,
+    error
+  } = useDictionary()
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1 container py-6 px-3 md:px-8">
         <div className="mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
@@ -119,25 +57,22 @@ export default function DictionaryPage() {
                         type="text"
                         placeholder="Nhập từ cần tra cứu..."
                         value={searchTerm}
-                        onChange={(e) => {
-                          setSearchTerm(e.target.value)
-                          setShowSuggestions(e.target.value.length > 0)
-                        }}
+                        onChange={handleInputChange}
                         onKeyDown={handleKeyPress}
                         className="pl-10 border-none shadow-none focus-visible:ring-0 text-base"
                       />
                       {searchTerm && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           onClick={clearSearch}
                           className="ml-2"
                         >
                           <X className="h-4 w-4" />
                         </Button>
                       )}
-                      <Button 
-                        onClick={() => handleSearch()} 
+                      <Button
+                        onClick={() => handleSearch()}
                         disabled={!searchTerm.trim() || isLoading}
                         className="ml-2"
                       >
@@ -165,7 +100,6 @@ export default function DictionaryPage() {
                                 <button
                                   className="w-full px-4 py-2 text-left hover:bg-muted flex items-center"
                                   onClick={() => {
-                                    setSearchTerm(suggestion)
                                     handleSearch(suggestion)
                                   }}
                                 >
@@ -190,18 +124,39 @@ export default function DictionaryPage() {
                           exit={{ opacity: 0 }}
                           className="p-6 space-y-4"
                         >
-                          <Skeleton className="h-8 w-1/3" />
-                          <Skeleton className="h-4 w-1/4" />
-                          <Skeleton className="h-4 w-full" />
-                          <Skeleton className="h-4 w-full" />
-                          <Skeleton className="h-4 w-3/4" />
-                          <div className="pt-4">
-                            <Skeleton className="h-6 w-1/4" />
-                            <div className="flex gap-2 mt-2">
-                              <Skeleton className="h-8 w-20" />
-                              <Skeleton className="h-8 w-20" />
-                              <Skeleton className="h-8 w-20" />
-                            </div>
+                          <SearchLoading />
+                        </motion.div>
+                      ) : error ? (
+                        <motion.div
+                          key="error"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="p-6"
+                        >
+                          <div className="text-center py-12">
+                            <AlertCircle className="h-12 w-12 mx-auto text-destructive mb-4" />
+                            <h3 className="text-lg font-medium mb-2">Không tìm thấy từ</h3>
+                            <p className="text-muted-foreground max-w-md mx-auto">
+                              {error}
+                            </p>
+                            {suggestions.length > 0 && (
+                              <div className="mt-6">
+                                <p className="text-sm font-medium mb-2">Có thể bạn muốn tìm:</p>
+                                <div className="flex flex-wrap gap-2 justify-center">
+                                  {suggestions.slice(0, 5).map((suggestion) => (
+                                    <Badge
+                                      key={suggestion}
+                                      variant="outline"
+                                      className="cursor-pointer hover:bg-muted"
+                                      onClick={() => handleSearch(suggestion)}
+                                    >
+                                      {suggestion}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       ) : selectedWord ? (
@@ -212,8 +167,8 @@ export default function DictionaryPage() {
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <DictionaryWordDetails 
-                            word={selectedWord} 
+                          <DictionaryWordDetails
+                            word={selectedWord}
                             isSaved={savedWords.includes(selectedWord.word)}
                             onToggleSave={() => toggleSavedWord(selectedWord.word)}
                           />
@@ -248,9 +203,9 @@ export default function DictionaryPage() {
                         <History className="h-5 w-5 mr-2 text-muted-foreground" />
                         Tìm kiếm gần đây
                       </h3>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => setRecentSearches([])}
                       >
                         Xóa lịch sử
@@ -258,14 +213,11 @@ export default function DictionaryPage() {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {recentSearches.map((term) => (
-                        <Badge 
-                          key={term} 
+                        <Badge
+                          key={term}
                           variant="outline"
                           className="cursor-pointer hover:bg-muted"
-                          onClick={() => {
-                            setSearchTerm(term)
-                            handleSearch(term)
-                          }}
+                          onClick={() => handleSearch(term)}
                         >
                           {term}
                           <ChevronRight className="h-3 w-3 ml-1" />
@@ -278,21 +230,15 @@ export default function DictionaryPage() {
             </div>
 
             <div className="space-y-6">
-              <DictionaryWordOfDay onSelectWord={(word) => {
-                setSearchTerm(word)
-                handleSearch(word)
-              }} />
-              
+              <DictionaryWordOfDay onSelectWord={(word) => handleSearch(word)} />
+
               <Card>
                 <CardContent className="p-4">
                   <h3 className="text-lg font-medium flex items-center mb-4">
                     <TrendingUp className="h-5 w-5 mr-2 text-muted-foreground" />
                     Từ vựng thịnh hành
                   </h3>
-                  <DictionaryTrendingWords onSelectWord={(word) => {
-                    setSearchTerm(word)
-                    handleSearch(word)
-                  }} />
+                  <DictionaryTrendingWords onSelectWord={(word) => handleSearch(word)} />
                 </CardContent>
               </Card>
 
@@ -329,3 +275,4 @@ export default function DictionaryPage() {
     </div>
   )
 }
+

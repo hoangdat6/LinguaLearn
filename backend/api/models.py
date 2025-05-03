@@ -56,6 +56,7 @@ class UserCourse(models.Model):
     date_completed = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        db_table = 'user_course'  # Tên bảng trong cơ sở dữ liệu
         constraints = [
             models.UniqueConstraint(fields=['user', 'course'], name='unique_user_course')
         ]
