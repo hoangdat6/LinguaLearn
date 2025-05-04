@@ -17,13 +17,17 @@ interface VocabularyStageProps {
 export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext }: VocabularyStageProps) {
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
-
+  const [isLocked, setIsLocked] = useState(false) // chặn click khi submit đáp án
   const handleAnswer = (correct: boolean) => {
     setIsCorrect(correct)
     setShowFeedback(true)
+    // chặn click khi submit đáp án
+    if (isLocked) return;
+    setIsLocked(true)
 
     setTimeout(() => {
       setShowFeedback(false)
+      setIsLocked(false) // mở khóa click sau 1.5s
       if (correct) {
         onCorrect()
         onNext()

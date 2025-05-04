@@ -42,6 +42,14 @@ export interface WordsByLevel {
     time_until_next_review: TimeUntilNextReview;
 }
 
+export interface UserWord {
+    word_id: number;
+    level?: number;
+    streak?: number;
+    is_correct?: boolean;
+    question_type: string; 
+}
+
 const getVocabLevels = async () => {
     try {
         const response = await api.get<CountWordsByLevel>(USER_VOCABULARY.GET_VOCAB_LEVELS);
@@ -61,6 +69,18 @@ const fetchWordsLevel = async () => {
         throw error;
     }
 };
-
-const userWordService = { getVocabLevels, fetchWordsLevel };
+const submitLearnedWords = async ({ lessonId, words }: { lessonId: number; words: UserWord[] }) => {
+    try {
+      const response = await api.post(USER_VOCABULARY.SUBMIT_LEARNED_WORDS, {
+        is_review: false,
+        lesson_id: lessonId,
+        words: words,
+      });
+      return response;
+    } catch (error) {
+      console.error("Lỗi khi submit từ vựng:", error);
+    }
+  };
+  
+const userWordService = { getVocabLevels, fetchWordsLevel, submitLearnedWords };
 export default userWordService;
