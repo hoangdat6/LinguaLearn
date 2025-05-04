@@ -105,7 +105,7 @@ export function UserNav() {
                 <Avatar className="h-10 w-10 border-2 border-duolingo-green">
                   <AvatarImage src={user.avatar || "/placeholder.svg?height=40&width=40"} alt="User" />
                   <AvatarFallback className="bg-duolingo-green text-white">
-                    {user.username.charAt(0).toUpperCase()}
+                    {user.username?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </Button>

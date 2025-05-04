@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Volume2 } from "lucide-react"
@@ -17,6 +17,14 @@ interface VocabularyAudioProps {
 export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer }: VocabularyAudioProps) {
   const [answer, setAnswer] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+   useEffect(() => {
+      playAudio()
+    }, [word])
+
+    useEffect(() => {
+      inputRef.current?.focus()
+    }, [word])
 
   const playAudio = () => {
     setIsPlaying(true)
@@ -92,6 +100,7 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer }: Voc
                 handleSubmit()
               }
             }}
+            ref={inputRef}
           />
           {answer && (
             <motion.button

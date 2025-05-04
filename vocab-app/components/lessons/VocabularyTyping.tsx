@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { motion, AnimatePresence } from "framer-motion"
@@ -18,12 +18,15 @@ interface VocabularyTypingProps {
 export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: VocabularyTypingProps) {
   const [answer, setAnswer] = useState("")
   const [charCount, setCharCount] = useState<number[]>([])
-
+  const inputRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [word])
   // Create character boxes for visual feedback
   const updateCharCount = (value: string) => {
     const wordLength = word.word.length
     const chars = new Array(wordLength).fill(0)
-
+    
     // Fill in the character count based on input length
     for (let i = 0; i < Math.min(value.length, wordLength); i++) {
       chars[i] = 1
@@ -79,6 +82,7 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
                 handleSubmit()
               }
             }}
+            ref={inputRef}
           />
           {answer && (
             <motion.button
@@ -99,9 +103,8 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
           {word.word.split("").map((_, index) => (
             <motion.div
               key={index}
-              className={`w-8 h-10 flex items-center justify-center rounded-md border-2 ${
-                charCount[index] ? "border-primary bg-primary/5" : "border-muted"
-              }`}
+              className={`w-8 h-10 flex items-center justify-center rounded-md border-2 ${charCount[index] ? "border-primary bg-primary/5" : "border-muted"
+                }`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
                 opacity: 1,
@@ -125,11 +128,10 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={`p-4 rounded-lg text-center ${
-                isCorrect
-                  ? "bg-green-100 text-green-700 dark:bg-green-900/20"
-                  : "bg-red-100 text-red-700 dark:bg-red-900/20"
-              }`}
+              className={`p-4 rounded-lg text-center ${isCorrect
+                ? "bg-green-100 text-green-700 dark:bg-green-900/20"
+                : "bg-red-100 text-red-700 dark:bg-red-900/20"
+                }`}
             >
               {isCorrect ? (
                 <motion.p

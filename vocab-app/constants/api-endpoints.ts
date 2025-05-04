@@ -27,6 +27,7 @@ export const USER_VOCABULARY = {
   UPDATE_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   GET_REVIEW_WORDS: `${API_BASE_URL}vocabulary/review-words/`,
   UPDATE_WORD_LEVEL: `${API_BASE_URL}vocabulary/update-word-level/`,
+  SUBMIT_LEARNED_WORDS: `${API_BASE_URL}user-words/submit-words/`,
 };
 
 // Lessons endpoints
@@ -35,4 +36,11 @@ export const LESSONS = {
   GET_LESSON_DETAILS: (id: number) => `${API_BASE_URL}lessons/${id}/`,
   START_LESSON: (id: number) => `${API_BASE_URL}lessons/${id}/start/`,
   COMPLETE_LESSON: (id: number) => `${API_BASE_URL}lessons/${id}/complete/`,
+};
+
+
+export const COURSES = {
+  GET_COURSES: "user-courses",
+  GET_LESSONS_BY_COURSE: (courseId: string) => `user-courses/${courseId}/lessons`,
+  GET_WORDS_BY_LESSON: (lessonId: string) => `user-lessons/${lessonId}/words`,
 };

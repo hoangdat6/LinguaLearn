@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, BookOpen, Check, X } from 'lucide-react'
 import { useParams, useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 import { VocabularyStage } from "@/components/lessons/VocabularyStage"
 import { Button } from "@/components/ui/button"
@@ -21,6 +22,7 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { useVocabularyProgress } from "@/hooks/use-vocabulary-progress"
+import userWordService from "@/services/user-word-service"
 
 // Animation variants
 const pageVariants = {
@@ -85,6 +87,18 @@ export default function Page() {
   } = useVocabularyProgress(lessonId)
 
   const router = useRouter();
+  sessionStorage.setItem("isLearn", "true");
+  useEffect(() => {
+    if (showCompletionDialog && words?.length > 0) {
+      const learnedWords = words.map(word => ({
+        word_id: word.id,
+        question_type: "L1",
+        level: 1,
+        streak: 1,
+      }));
+      userWordService.submitLearnedWords({ lessonId: parseInt(lessonId), words: learnedWords });
+    }
+  }, [showCompletionDialog]);
 
   if (loading) {
     return (

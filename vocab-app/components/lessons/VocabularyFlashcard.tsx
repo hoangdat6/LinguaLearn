@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Volume2, RotateCw, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
@@ -17,6 +17,10 @@ export function VocabularyFlashcard({ word, onNext }: VocabularyFlashcardProps) 
   const handleFlip = () => {
     setIsFlipped(!isFlipped)
   }
+  // phát âm từ vựng khi component được mount hoặc khi từ vựng thay đổi
+  useEffect(() => {
+    playAudio()
+  }, [word])
 
   const playAudio = () => {
     const utterance = new SpeechSynthesisUtterance(word.word)
