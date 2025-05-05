@@ -7,11 +7,13 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.tokens import default_token_generator
+from django.core.cache import cache
 from ..models import CustomUser as User
 from ..serializers import (
     UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer,
     ResetPasswordSerializer, LogoutSerializer
 )
+
 
 class AuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -158,6 +160,8 @@ class AuthViewSet(viewsets.ModelViewSet):
                     # "avatar": user.avatar.url if user.avatar else None,
                 }
             }, status=status.HTTP_200_OK)
+
+        cache.delete(f"count_words_by_level_{user.id}")
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -342,13 +346,17 @@ class AuthViewSet(viewsets.ModelViewSet):
         """
         serializer = LogoutSerializer(data=request.data)
         if serializer.is_valid():
+            # Xóa dữ liệu cache liên quan đến người dùng
+            cache.delete(f"count_words_by_level_{request.user.id}")
             refresh_token = serializer.validated_data.get("refresh")
+            
             try:
                 token = RefreshToken(refresh_token)
+                # Đánh dấu token đã bị thu hồi (blacklist)
                 token.blacklist()
                 return Response({"message": "Logout thành công!"}, status=status.HTTP_205_RESET_CONTENT)
             except Exception as e:
-                return Response({"error": "Token không hợp lệ hoặc đã được thu hồi!"},
+                return Response({"error": f"Token không hợp lệ hoặc đã được thu hồi! Lỗi: {str(e)}"},
                                 status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

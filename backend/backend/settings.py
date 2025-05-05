@@ -237,10 +237,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
-    # Mặc định 5 phút, có thể thay đổi thành timedelta(minutes=30), timedelta(hours=1), v.v.
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    # Các cấu hình khác...
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -266,3 +264,13 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Do not require email confirmation
 ACCOUNT_UNIQUE_EMAIL = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

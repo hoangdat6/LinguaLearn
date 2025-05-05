@@ -3,6 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.core.cache import cache
 from django.utils import timezone
 from ..models import UserWord, UserLesson, UserCourse
 from ..pagination import LearnedWordsPagination
@@ -127,6 +128,10 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "lesson_id": lesson_id,
             "words": output_serializer.data,
         }
+
+        cache.delete(f"count_words_by_level_{user.id}")
+
+
         return Response(response_data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'], url_path='get-words')
@@ -138,6 +143,12 @@ class UserWordViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='count_words-by-level')
     def count_words_by_level(self, request):
+        user = request.user
+        cache_key = f"count_words_by_level_{user.id}"
+        cached_data = cache.get(cache_key)
+        if cached_data is not None:
+            return Response(cached_data, status=status.HTTP_200_OK)
+        
         queryset = self.get_queryset()
         cutoff_time, due_words = get_review_ready_words(request.user)
         delta = cutoff_time - timezone.now()
@@ -172,6 +183,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "time_until_next_review": time_until_next_review,
             "review_word_count": due_words.count()
         }
+        cache.set(cache_key, result, timeout=60*10)
         
         return Response(result, status=status.HTTP_200_OK)
 
