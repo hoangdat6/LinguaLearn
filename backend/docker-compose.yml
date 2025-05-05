@@ -1,4 +1,27 @@
-# docker-compose.yml (root)
+## docker-compose.yml (root)
+#version: '3.8'
+#
+#services:
+#  web:
+#    image: ${DOCKER_IMAGE}
+#    restart: always
+#    env_file:
+#      - ./.env
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - check-db
+#
+#  check-db:
+#    image: alpine:3.18
+#    command: >
+#      sh -c "
+#      until nc -z -v -w30 ${DATABASE_HOST} ${DATABASE_PORT};
+#      do sleep 5;
+#      done
+#      "
+
+
 version: '3.8'
 
 services:
@@ -11,6 +34,9 @@ services:
       - "8000:8000"
     depends_on:
       - check-db
+      - redis
+    networks:
+      - app_network
 
   check-db:
     image: alpine:3.18
@@ -20,3 +46,19 @@ services:
       do sleep 5;
       done
       "
+    networks:
+      - app_network
+
+  redis:
+    image: redis:latest
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  app_network:
+    driver: bridge

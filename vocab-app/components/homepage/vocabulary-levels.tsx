@@ -113,14 +113,14 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
         </div>
       ) : (
         <>
-          <div className="relative h-[200px] flex items-end justify-between gap-4 pb-8 border-b">
+          <div className="relative h-[300px] flex items-end justify-between gap-4 pb-8 border-b">
             {levels.map((level) => (
               <div key={level.level} className="relative flex flex-col items-center flex-1">
                 <span className="absolute -top-6 text-sm font-medium">{level.count} từ</span>
                 <div
                   className={`w-full ${level.color} rounded-t-lg transition-all duration-300 ease-out`}
                   style={{
-                    height: `${Math.max((level.count / maxCount) * 160, 5)}px`, // Minimum height for visibility
+                    height: `${Math.max((level.count / maxCount) * 260, 5)}px`, // Minimum height for visibility
                   }}
                 />
                 <span className="absolute -bottom-8 text-base font-medium">{level.level}</span>

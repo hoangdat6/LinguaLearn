@@ -2,6 +2,8 @@ interface OwlProps {
   className?: string
 }
 
+
+// logo con cú
 export function Owl({ className = "w-10 h-10" }: OwlProps) {
   return (
     <div className={`${className} owl-shadow`}>

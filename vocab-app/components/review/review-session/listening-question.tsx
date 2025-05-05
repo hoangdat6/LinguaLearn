@@ -6,7 +6,7 @@ import { BaseQuestion } from "@/components/review/review-session/base-question"
 import { AudioButton } from "@/components/review/review-session/audio-button"
 import type { BaseQuestionProps } from "@/components/review/review-session/base-question"
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
-import ListeningQuestionContent from "./contents/ListeningQuestionContent"
+import ListeningQuestionContent from "./contents/listening-question-content"
 
 export function ListeningQuestion({ vocabularyItem, onAnswer, onSkip }: BaseQuestionProps) {
   

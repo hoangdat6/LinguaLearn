@@ -1,6 +1,6 @@
 "use client"
 
-import { CourseCard } from "@/components/CourseCard"
+import { CourseCard } from "@/components/course-card"
 import { useCourses } from "@/hooks/useCourse"
 import { motion } from "framer-motion"
 import { useSession } from "next-auth/react"

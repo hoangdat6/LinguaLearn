@@ -1,6 +1,6 @@
 "use client"
-import { CourseCard } from "@/components/CourseCard"
-import { LessonCard } from "@/components/LessonCard"
+import { CourseCard } from "@/components/course-card"
+import { LessonCard } from "@/components/lesson-card"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

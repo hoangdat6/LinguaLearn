@@ -1,6 +1,6 @@
 "use client"
 
-import { BackConfirmDialog } from "@/components/review/BackConfirmDialog"
+import { BackConfirmDialog } from "@/components/review/back-confirm-dialog"
 import { ReviewQuestion } from "@/components/review/review-question"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"

@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { VocabularyFlashcard } from "./VocabularyFlashcard"
-import { VocabularyAudio } from "./VocabularyAudio"
-import { VocabularyTyping } from "./VocabularyTyping"
+import { VocabularyFlashcard } from "./vocabulary-flashcard"
+import { VocabularyAudio } from "./vocabulary-audio"
+import { VocabularyTyping } from "./vocabulary-typing"
 import { Word } from "@/types/lesson-types"
 
 interface VocabularyStageProps {

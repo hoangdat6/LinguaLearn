@@ -5,7 +5,7 @@ import { ArrowLeft, BookOpen, Check, X } from 'lucide-react'
 import { useParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-import { VocabularyStage } from "@/components/lessons/VocabularyStage"
+import { VocabularyStage } from "@/components/lessons/vocabulary-stage"
 import { Button } from "@/components/ui/button"
 import {
   Card,
