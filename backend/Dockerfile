@@ -31,10 +31,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-COPY entrypoint.sh /app/entrypoint.sh
-# Make the entrypoint script executable
-RUN chmod u+x /app/entrypoint.sh
-
 # Create a non-root user and switch to it
 RUN useradd -m appuser
 RUN chown -R appuser:appuser /app
