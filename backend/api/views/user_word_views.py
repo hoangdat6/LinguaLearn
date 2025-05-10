@@ -11,7 +11,7 @@ from ..serializers import (
     UserWordInputSerializer, UserWordOutputSerializer, LessonWordsInputSerializer
 )
 from ..serializers.user_progress import LearnedWordsSerializer
-from ..utils.calculate_next_review import calculate_next_review
+from ..utils.calculate_next_review import calculate_next_review, calculate_time_until_next_review
 from ..utils.get_review_ready_words import get_review_ready_words
 
 @permission_classes([IsAuthenticated])
@@ -147,19 +147,13 @@ class UserWordViewSet(viewsets.ModelViewSet):
         cache_key = f"count_words_by_level_{user.id}"
         cached_data = cache.get(cache_key)
         if cached_data is not None:
+            cached_data['time_until_next_review'] = calculate_time_until_next_review(cached_data['cutoff_time'])
             return Response(cached_data, status=status.HTTP_200_OK)
         
         queryset = self.get_queryset()
         cutoff_time, due_words = get_review_ready_words(request.user)
-        print(f"cutoff_time: {cutoff_time}")
-        print(f"due_words: {due_words}")
-        delta = cutoff_time - timezone.now()
-        total_seconds = int(delta.total_seconds())
-        hours, remainder = divmod(total_seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        if hours < 0:
-            hours = minutes = seconds = 0
-        time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+
+        time_until_next_review = calculate_time_until_next_review(cutoff_time)
         # Đếm số từ theo từng level (trường 'level' của UserWord)
         level_counts = queryset.values('level').annotate(count=Count('id'))
         
@@ -183,10 +177,11 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "level_counts": {f"count_level{item['level']}": item['count'] for item in level_counts},
             "cefr_group_counts": cefr_group_counts,
             "time_until_next_review": time_until_next_review,
-            "review_word_count": due_words.count()
+            "review_word_count": due_words.count(),
+            "cutoff_time": cutoff_time,
         }
+
         cache.set(cache_key, result, timeout=60*10)
-        
         return Response(result, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='learned-words')
@@ -195,13 +190,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
 
         # Tính thời gian đến lượt ôn tiếp theo
         cutoff_time, due_words = get_review_ready_words(request.user)
-        delta = cutoff_time - timezone.now()
-        total_seconds = int(delta.total_seconds())
-        hours, remainder = divmod(total_seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        if hours < 0:
-            hours = minutes = seconds = 0
-        time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+        time_until_next_review = calculate_time_until_next_review(cutoff_time) 
 
         # Đếm số từ theo từng level (1 đến 5)
         level_counts_qs = queryset.values('level').annotate(count=Count('id'))

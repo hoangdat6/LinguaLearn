@@ -29,3 +29,18 @@ def calculate_next_review(level, streak, question_type):
     # Tính toán next_review bằng cách cộng thêm base_hours và rand_minutes
     next_review = timezone.now() + timedelta(hours=base_hours, minutes=rand_minutes)
     return next_review
+
+def calculate_time_until_next_review(cutoff_time):
+    """
+    Tính toán thời gian còn lại cho đến lần ôn tập tiếp theo.
+    :param cutoff_time: datetime, thời điểm ôn tập tiếp theo
+    :return: dict, chứa hours, minutes, seconds còn lại
+    """
+    delta = cutoff_time - timezone.now()
+    total_seconds = int(delta.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    if hours < 0:
+        hours = minutes = seconds = 0
+    time_until_next_review = {"hours": hours, "minutes": minutes, "seconds": seconds}
+    return time_until_next_review
