@@ -151,6 +151,8 @@ class UserWordViewSet(viewsets.ModelViewSet):
         
         queryset = self.get_queryset()
         cutoff_time, due_words = get_review_ready_words(request.user)
+        print(f"cutoff_time: {cutoff_time}")
+        print(f"due_words: {due_words}")
         delta = cutoff_time - timezone.now()
         total_seconds = int(delta.total_seconds())
         hours, remainder = divmod(total_seconds, 3600)
