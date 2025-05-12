@@ -348,6 +348,11 @@ class AuthViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             # Xóa dữ liệu cache liên quan đến người dùng
             cache.delete(f"count_words_by_level_{request.user.id}")
+            cache.delete(f"learned_words_{request.user.id}")
+            pattern = f"usercourses:{request.user.id}:*"
+            # Xóa cache cho tất cả các khóa học của user
+            cache.delete_pattern(pattern) if hasattr(cache, 'delete_pattern') else cache.delete_many(cache.keys(pattern))
+            
             refresh_token = serializer.validated_data.get("refresh")
             
             try:

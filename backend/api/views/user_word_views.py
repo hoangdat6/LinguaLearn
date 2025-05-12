@@ -129,8 +129,13 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "words": output_serializer.data,
         }
 
-        cache.delete(f"count_words_by_level_{user.id}")
+        if not is_review:
+            pattern = f"usercourses:{user.id}:*"
+            # Xóa cache cho tất cả các khóa học của user
+            cache.delete_pattern(pattern) if hasattr(cache, 'delete_pattern') else cache.delete_many(cache.keys(pattern))
 
+        cache.delete(f"count_words_by_level_{user.id}")
+        cache.delete(f"learned_words_{user.id}")
 
         return Response(response_data, status=status.HTTP_201_CREATED)
 
@@ -181,13 +186,18 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "cutoff_time": cutoff_time,
         }
 
-        cache.set(cache_key, result, timeout=60*10)
+        cache.set(cache_key, result, timeout=60*15)
         return Response(result, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='learned-words')
     def learned_words(self, request):
+        cache_key = f"learned_words_{request.user.id}"
+        cached_data = cache.get(cache_key)
+        if cached_data is not None:
+            cached_data['time_until_next_review'] = calculate_time_until_next_review(cached_data['cutoff_time'])
+            return Response(cached_data, status=status.HTTP_200_OK)
+        
         queryset = self.get_queryset()
-
         # Tính thời gian đến lượt ôn tiếp theo
         cutoff_time, due_words = get_review_ready_words(request.user)
         time_until_next_review = calculate_time_until_next_review(cutoff_time) 
@@ -201,8 +211,9 @@ class UserWordViewSet(viewsets.ModelViewSet):
             "time_until_next_review": time_until_next_review,
             "review_word_count": due_words.count(),
             "level_counts": level_counts,
+            "cutoff_time": cutoff_time,
         }
-
+        
         # Với mỗi level, lấy 10 dữ liệu đầu tiên
         for level in range(1, 6):
             level_qs = queryset.filter(level=level).order_by('id')
@@ -212,12 +223,17 @@ class UserWordViewSet(viewsets.ModelViewSet):
             # Nếu muốn thêm lại số đếm từng level riêng (nếu chưa có trong level_counts)
             # result[f"count_level{level}"] = level_qs.count()
 
+        # Lưu vào cache
+        cache.set(cache_key, result, timeout=60*15)
         return Response(result, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='review-words')
     def review_words(self, request):
         # Hàm get_review_ready_words() trả về cutoff_time và danh sách từ cần ôn
         cutoff_time, due_words = get_review_ready_words(request.user)
+        # nếu cutoff_time > timezone.now() thì không có từ nào cần ôn
+        if cutoff_time > timezone.now():
+            return Response({"message": "No words to review"}, status=status.HTTP_200_OK)
         serializer = UserWordOutputSerializer(due_words, many=True, context={'request': request})
         response_data = {
             "words": serializer.data,
