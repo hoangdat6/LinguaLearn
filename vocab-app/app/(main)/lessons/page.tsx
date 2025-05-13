@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import PaginationCustom from "@/components/ui/pagination-custom"
 import { Progress } from "@/components/ui/progress"
 import {
   Select,
@@ -77,7 +78,8 @@ export default function LessonsPage() {
     nextPage,
     prevPage,
     setCurrentPage,
-    currentPage
+    currentPage,
+    totalPages
   } = useCourses();
 
   const [currentTab, setCurrentTab] = useState("themes");
@@ -91,7 +93,9 @@ export default function LessonsPage() {
     nextPage: nxPage,
     prevPage: pvPage,
     setCurrentPage: sCurPage,
-    setPrevPage: sPrevPage
+    setPrevPage: sPrevPage,
+    totalPages: totalPagesLessons,
+    
   } = useLessons(selectedTheme);
 
   useEffect(() => {
@@ -249,15 +253,14 @@ export default function LessonsPage() {
                 ))
               )}
             </motion.div>
-            <div className="flex justify-center mt-6">
-              <Button variant="outline" onClick={() => setCurrentPage(prevPage ?? 1)} disabled={!prevPage}>
-                ← Trang trước
-              </Button>
-              <span className="px-2 mx-4 rounded-md flex items-center border border-input bg-background hover:bg-accent hover:text-accent-foreground">{currentPage}</span>
-              <Button variant="outline" onClick={() => setCurrentPage(nextPage ?? 1)} disabled={!nextPage}>
-                Trang tiếp →
-              </Button>
-            </div>
+            <PaginationCustom
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+            />
 
           </TabsContent>
 
@@ -417,13 +420,14 @@ export default function LessonsPage() {
               </motion.div>
             )}
             <div className="flex justify-center mt-6">
-              <Button variant="outline" onClick={() => sCurPage(pvPage ?? 1)} disabled={!pvPage}>
-                ← Trang trước
-              </Button>
-              <span className="px-2 mx-4 rounded-md flex items-center border border-input bg-background hover:bg-accent hover:text-accent-foreground">{currentPage}</span>
-              <Button variant="outline" onClick={() => sCurPage(nxPage ?? 1)} disabled={!nxPage}>
-                Trang tiếp →
-              </Button>
+              <PaginationCustom
+                currentPage={curPage}
+                totalPages={totalPagesLessons}
+                onPageChange={(page) => {
+                  sCurPage(page)
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+              />
             </div>
           </TabsContent>
         </Tabs>

@@ -2,6 +2,8 @@ import { getCoursesByPage } from "@/services/course-service";
 import { Course } from "@/types/lesson-types";
 import { useEffect, useState } from "react";
 
+const NUM_COURSES_PER_PAGE = 6; 
+
 export function useCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
@@ -14,13 +16,15 @@ export function useCourses() {
   const [currentPage, setCurrentPage] = useState(1);
   const [nextPage, setNextPage] = useState<number | null>(null);
   const [prevPage, setPrevPage] = useState<number | null>(null);
-
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     async function fetchCourses() {
       setIsLoading(true);
       try {
-        const response = await getCoursesByPage(currentPage);
+        const response = await getCoursesByPage(currentPage, NUM_COURSES_PER_PAGE);
+        console.log("Lấy danh sách khoá học thành công:", response);
         setCourses(response.results);
+        setTotalPages(Math.ceil(response.count / NUM_COURSES_PER_PAGE)); 
 
         // Xử lý next/previous theo số trang
         setNextPage(response.next ? currentPage + 1 : null);
@@ -60,6 +64,7 @@ export function useCourses() {
     nextPage,
     prevPage,
     currentPage,
-    setCurrentPage, // Thay đổi trang bằng số trang
+    setCurrentPage,
+    totalPages // Thay đổi trang bằng số trang
   };
 }
