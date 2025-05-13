@@ -4,6 +4,47 @@ import { Course } from "@/types/lesson-types";
 import { BookOpen, Users } from 'lucide-react';
 import { useMemo } from 'react';
 
+export function CourseCardSkeleton() {
+  return (
+    <Card className="h-full flex flex-col overflow-hidden">
+      {/* Icon Section Skeleton */}
+      <div className="h-40 bg-gray-200 animate-pulse" />
+
+      {/* Header Skeleton */}
+      <CardHeader className="flex-1 flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <div className="max-w-[250px] space-y-2">
+            <div className="h-6 w-3/4 bg-gray-200 rounded animate-pulse" />
+            <div className="space-y-1">
+              <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
+              <div className="h-4 w-2/3 bg-gray-200 rounded animate-pulse" />
+            </div>
+          </div>
+        </div>
+        
+        {/* Progress Skeleton */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 w-12 bg-gray-200 rounded animate-pulse" />
+          </div>
+          <div className="h-2 w-full bg-gray-200 rounded animate-pulse" />
+        </div>
+      </CardHeader>
+
+      {/* Footer Skeleton */}
+      <CardFooter className="flex justify-between border-t pt-4">
+        <div className="flex items-center">
+          <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+        </div>
+        <div className="flex items-center">
+          <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+
 interface CourseCardProps {
   theme: Course;
   onSelect: (id: string) => void;

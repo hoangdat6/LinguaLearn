@@ -1,57 +1,21 @@
 "use client"
-import { CourseCard } from "@/components/course-card"
-import { LessonCard } from "@/components/lesson-card"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import PaginationCustom from "@/components/ui/pagination-custom"
-import { Progress } from "@/components/ui/progress"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useCourses } from "@/hooks/useCourse"
 import { useLessons } from "@/hooks/useLessons"
 import { motion } from "framer-motion"
-import { BookOpen, ChevronDown, Filter, Search, Users } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import { useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
-
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15
-    }
-  }
-};
+import { LessonsHeader } from "@/components/lessons/lessons-header"
+import { ThemeHeader } from "@/components/lessons/theme-header"
+import { LessonsGrid } from "@/components/lessons/lessons-grid"
+import { CoursesGrid } from "@/components/lessons/courses-grid"
+import PaginationCustom from "@/components/ui/pagination-custom"
 
 const fadeIn = {
-  hidden: { opacity: .0 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
@@ -65,6 +29,7 @@ export default function LessonsPage() {
   const searchParams = useSearchParams()
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
+  
   const {
     themes,
     filteredCourses,
@@ -85,7 +50,6 @@ export default function LessonsPage() {
   const [currentTab, setCurrentTab] = useState("themes");
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
 
-  // danh sach bài học theo chủ đề
   const {
     lessons,
     isLoading: isLessonsLoading,
@@ -95,27 +59,26 @@ export default function LessonsPage() {
     setCurrentPage: sCurPage,
     setPrevPage: sPrevPage,
     totalPages: totalPagesLessons,
-    
   } = useLessons(selectedTheme);
 
   useEffect(() => {
     if (selectedTheme) {
       setCurrentTab("selectedTheme")
-      sCurPage(1) // về trang 1 lesson nếu đổi theme
-      sPrevPage(null) // reset trang trước
+      sCurPage(1)
+      sPrevPage(null)
     }
   }, [selectedTheme])
+
   useEffect(() => {
     const theme = searchParams.get("theme")
     if (theme) {
       setSelectedTheme(theme)
       setCurrentTab("selectedTheme")
-      sCurPage(1) // về trang 1 lesson nếu đổi theme
-      sPrevPage(null) // reset trang trước
+      sCurPage(1)
+      sPrevPage(null)
     }
   }, [searchParams])
 
-  // Handle click on a lesson
   const handleLessonClick = (lessonId: string) => {
     router.push(`/vocabulary-learning/${lessonId}`);
   };
@@ -125,7 +88,6 @@ export default function LessonsPage() {
     return `hsl(${hue}, 80%, 90%)`;
   };
 
-  // Generate stable color based on theme ID
   const backgroundColor = useMemo(() => generatePastelColor(), [selectedTheme]);
 
   return (
@@ -136,64 +98,14 @@ export default function LessonsPage() {
         variants={fadeIn}
         className="space-y-6"
       >
-        {/* header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold">Bài học từ vựng</h1>
-            <p className="text-muted-foreground">Khám phá các bài học từ vựng theo chủ đề</p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
-            <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Tìm kiếm chủ đề hoặc bài học..."
-                className="pl-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-full sm:w-auto">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Lọc
-                  <ChevronDown className="h-4 w-4 ml-2" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[200px]">
-                <div className="p-2">
-                  <p className="text-sm font-medium mb-2">Độ khó</p>
-                  <Select value={difficulty} onValueChange={setDifficulty}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Tất cả" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Tất cả</SelectItem>
-                      <SelectItem value="beginner">Cơ bản</SelectItem>
-                      <SelectItem value="intermediate">Trung cấp</SelectItem>
-                      <SelectItem value="advanced">Nâng cao</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="p-2 border-t">
-                  <p className="text-sm font-medium mb-2">Sắp xếp theo</p>
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Phổ biến" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="popular">Phổ biến</SelectItem>
-                      <SelectItem value="newest">Mới nhất</SelectItem>
-                      <SelectItem value="progress">Tiến độ</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+        <LessonsHeader
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
 
         <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
           <TabsList className="mb-4">
@@ -201,10 +113,6 @@ export default function LessonsPage() {
               <BookOpen className="h-4 w-4 mr-2" />
               Chủ đề
             </TabsTrigger>
-            {/* <TabsTrigger value="lessons" className="flex items-center">
-              <BookOpen className="h-4 w-4 mr-2" />
-              Tất cả bài học
-            </TabsTrigger> */}
             {selectedTheme && (
               <TabsTrigger value="selectedTheme" className="flex items-center">
                 <BookOpen className="h-4 w-4 mr-2" />
@@ -213,46 +121,16 @@ export default function LessonsPage() {
             )}
           </TabsList>
 
-          {/* courses Tab */}
           <TabsContent value="themes">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-            >
-              {isLoading ? (
-                [...Array(6)].map((_, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                  >
-                    <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
-                  </motion.div>
-                ))
-              ) : (
-                filteredCourses.map((theme, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                  >
-                    <CourseCard
-                      key={theme.id}
-                      theme={theme}
-                      onSelect={(id) => {
-                        setSelectedTheme(id);
-                        setCurrentTab("selectedTheme");
-                      }}
-                      isAuthenticated={isAuthenticated}
-                    />
-                  </motion.div>
-                ))
-              )}
-            </motion.div>
+            <CoursesGrid
+              courses={filteredCourses}
+              isLoading={isLoading}
+              onCourseSelect={(id) => {
+                setSelectedTheme(id);
+                setCurrentTab("selectedTheme");
+              }}
+              isAuthenticated={isAuthenticated}
+            />
             <PaginationCustom
               currentPage={currentPage}
               totalPages={totalPages}
@@ -261,60 +139,8 @@ export default function LessonsPage() {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
             />
-
           </TabsContent>
 
-          {/* <TabsContent value="lessons">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-            >
-              {allLessons
-                .filter(lesson =>
-                  (lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
-                  (difficulty === "all" || lesson.difficulty === difficulty)
-                )
-                .sort((a, b) => {
-                  if (sortBy === "popular") return b.vocabCount - a.vocabCount;
-                  if (sortBy === "newest") return b.id.localeCompare(a.id);
-                  if (sortBy === "progress") return b.progress - a.progress;
-                  return 0;
-                })
-                .map(lesson => (
-                  <LessonCard
-                    key={lesson.id}
-                    lesson={lesson}
-                    onSelect={(id) => handleLessonClick(id)}
-                  />
-                ))} 
-            </motion.div> */}
-
-          {/* {allLessons.filter(lesson =>
-              (lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                lesson.courseName.toLowerCase().includes(searchQuery.toLowerCase())) &&
-              (difficulty === "all" || lesson.difficulty === difficulty)
-            ).length === 0 && (
-                <div className="text-center py-12">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                    <h3 className="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
-                    <p className="text-muted-foreground">Vui lòng thử tìm kiếm với từ khóa khác</p>
-                  </motion.div>
-                </div>
-              )} 
-          /</TabsContent>
-          */}
-
-          {/* Selected Theme Tab */}
           <TabsContent value="selectedTheme">
             {selectedTheme && (
               <motion.div
@@ -322,114 +148,34 @@ export default function LessonsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="mb-6">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setCurrentTab("themes")}
-                    className="mb-4"
-                  >
-                    ← Quay lại chủ đề
-                  </Button>
+                {themes.filter(t => t.id == selectedTheme).map(theme => (
+                  <div key={theme.id} className="space-y-6">
+                    <ThemeHeader
+                      theme={theme}
+                      backgroundColor={backgroundColor}
+                      isAuthenticated={isAuthenticated}
+                      onBack={() => setCurrentTab("themes")}
+                    />
 
-                  {themes.filter(t => t.id == selectedTheme).map(theme => (
-                    <div key={theme.id} className="space-y-6">
-                      <div className={`p-6 rounded-lg `} style={{ backgroundColor }}>
-                        <div className="flex items-center gap-4">
-                          <div className="text-4xl">{theme.icon}</div>
-                          <div>
-                            <h2 className="text-2xl font-bold">{theme.title}</h2>
-                            <p className={``}>{theme.description}</p>
-                          </div>
-                        </div>
-
-                        {isAuthenticated && (
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span>Tiến độ</span>
-                              <span>{theme.progress}%</span>
-                            </div>
-                            <Progress value={theme.progress} className="h-2" />
-                          </div>
-                        )}
-
-                        <div className="mt-4 flex flex-wrap gap-4">
-                          <div className="flex items-center">
-                            <BookOpen className="h-4 w-4 mr-1" />
-                            <span>{theme.lesson_count} bài học</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Users className="h-4 w-4 mr-1" />
-                            <span>{theme.learner_count} người học</span>
-                          </div>
-                          {/* <Badge variant="outline" className="bg-white/20 text-current">
-                          
-                            {theme.difficulty === "beginner" ? "Cơ bản" : 
-                             theme.difficulty === "intermediate" ? "Trung cấp" : "Nâng cao"}
-                          </Badge> */}
-                          {/* {theme.tags.map(tag => (
-                            <Badge key={tag} variant="outline" className="bg-white/20 text-current">
-                              #{tag}
-                            </Badge>
-                          ))} */}
-                        </div>
-                      </div>
-
-                      <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="space-y-4"
-                      >
-                        <h3 className="text-xl font-bold">Bài học trong chủ đề này</h3>
-                        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                          {isLessonsLoading ? (
-                            [...Array(6)].map((_, index) => (
-                              <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                              >
-
-                                <div key={index} className="animate-pulse bg-gray-200 h-40 w-full rounded-lg" />
-                              </motion.div>
-                            ))
-                          ) : lessons.length > 0 ? (
-                            lessons.map((lesson, index) => (
-                              <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                              >
-                                <LessonCard
-                                  key={lesson.id}
-                                  lesson={lesson}
-                                  onSelect={(id) => handleLessonClick(id)}
-                                />
-
-                              </motion.div>
-                            ))
-                          ) : (
-                            <p>Không có bài học nào trong chủ đề này.</p>
-                          )}
-                        </div>
-                      </motion.div>
-                    </div>
-                  ))}
+                    <LessonsGrid
+                      lessons={lessons}
+                      isLoading={isLessonsLoading}
+                      onLessonClick={handleLessonClick}
+                    />
+                  </div>
+                ))}
+                <div className="flex justify-center mt-6">
+                  <PaginationCustom
+                    currentPage={curPage}
+                    totalPages={totalPagesLessons}
+                    onPageChange={(page) => {
+                      sCurPage(page)
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }}
+                  />
                 </div>
               </motion.div>
             )}
-            <div className="flex justify-center mt-6">
-              <PaginationCustom
-                currentPage={curPage}
-                totalPages={totalPagesLessons}
-                onPageChange={(page) => {
-                  sCurPage(page)
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }}
-              />
-            </div>
           </TabsContent>
         </Tabs>
       </motion.div>

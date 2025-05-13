@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
+import { getTimeUntilNextReview } from "@/lib/utils";
 import { TimeUntilNextReview } from "@/services/user-word-service";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
@@ -22,14 +23,14 @@ interface VocabularyLevelsProps {
 const VocabularyLevelsLoading = () => {
   const [heights, setHeights] = useState([0, 0, 0, 0, 0]);
   const finalHeights = [80, 120, 70, 100, 50]; // Different heights for each bar
-  
+
   useEffect(() => {
     // Start with zero heights
     setHeights([0, 0, 0, 0, 0]);
-    
+
     // Animate heights growing
     const growInterval = setInterval(() => {
-      setHeights(prevHeights => 
+      setHeights(prevHeights =>
         prevHeights.map((height, index) => {
           if (height < finalHeights[index]) {
             // Grow by a small amount each interval until reaching final height
@@ -39,7 +40,7 @@ const VocabularyLevelsLoading = () => {
         })
       );
     }, 30);
-    
+
     // Clean up interval on unmount
     return () => clearInterval(growInterval);
   }, []);
@@ -70,6 +71,58 @@ const VocabularyLevelsLoading = () => {
   );
 };
 
+const ReviewTimeDisplay = ({ timeUntilNextReview }: { timeUntilNextReview: TimeUntilNextReview }) => {
+  const { hours, minutes } = timeUntilNextReview;
+  
+  if (hours === 0 && minutes === 0) {
+    return <span className="text-primary font-medium">vài giây nữa</span>;
+  }
+
+  return (
+    <span className="text-primary font-medium">
+      {hours > 0 && `${hours} giờ `}
+      {minutes > 0 && `${minutes} phút`}
+    </span>
+  );
+};
+
+const ReviewInfo = ({ reviewWordCount, timeUntilNextReview }: { 
+  reviewWordCount: number;
+  timeUntilNextReview: TimeUntilNextReview;
+}) => {
+  const hasTimeUntilNextReview = getTimeUntilNextReview(timeUntilNextReview) !== '0';
+
+  return (
+    <>
+      {reviewWordCount === 0 ? (
+        hasTimeUntilNextReview ? (
+          <p className="text-base text-muted-foreground">
+            Tất cả từ đã được ôn. Đợt ôn tiếp theo sau{" "}
+            <ReviewTimeDisplay timeUntilNextReview={timeUntilNextReview} />.
+          </p>
+        ) : (
+          <p className="text-base text-muted-foreground">
+            Tuyệt vời! Hiện không có từ nào cần ôn tập.
+          </p>
+        )
+      ) : hasTimeUntilNextReview ? (
+        <div className="space-y-0.5"> {/* Using a smaller space for a tighter look */}
+          <p className="text-base">
+            Sẵn sàng ôn tập: <span className="text-primary font-medium">{reviewWordCount} từ</span>
+          </p>
+          <p className="text-sm text-muted-foreground"> {/* Slightly smaller text for secondary info */}
+            Thời gian chờ: <ReviewTimeDisplay timeUntilNextReview={timeUntilNextReview} />
+          </p>
+        </div>
+      ) : (
+        <p className="text-base font-medium"> {/* Added font-medium for emphasis */}
+          Đến lúc ôn tập: <span className="text-primary">{reviewWordCount} từ</span>
+        </p>
+      )}
+    </>
+  );
+};
+
 export const VocabularyLevels = React.memo(function VocabularyLevels({
   showLabels = false,
   wordLevel1 = 0,
@@ -79,7 +132,7 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
   wordLevel5 = 0,
   reviewWordCount = 0,
   isLoading = false,
-  timeUntilNextReview
+  timeUntilNextReview = { hours: 0, minutes: 0, seconds: 0 }
 }: VocabularyLevelsProps) {
   const levels = [
     { level: 1, count: wordLevel1, color: "bg-red-500" },
@@ -129,19 +182,10 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
           </div>
 
           <div className="flex flex-col items-center gap-4">
-            {
-              reviewWordCount === 0 && timeUntilNextReview ? 
-              <p className="text-base">
-                Tiếp tục ôn sau: <span className="text-primary font-medium">
-                {timeUntilNextReview.hours > 0 ? `${timeUntilNextReview.hours} giờ ` : ''}
-                {timeUntilNextReview.minutes > 0 ? `${timeUntilNextReview.minutes} phút` : ''}
-                {timeUntilNextReview.hours === 0 && timeUntilNextReview.minutes === 0 ? 'vài giây nữa' : ''}
-                </span>
-              </p>
-              : <p className="text-base">
-                Chuẩn bị ôn tập: <span className="text-primary font-medium">{reviewWordCount} từ</span>
-              </p>
-            }
+            <ReviewInfo 
+              reviewWordCount={reviewWordCount} 
+              timeUntilNextReview={timeUntilNextReview} 
+            />
             <Button
               asChild
               disabled={reviewWordCount === 0}
