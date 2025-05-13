@@ -1,46 +1,39 @@
-# Use Python 3.10 as base image
-FROM python:3.10-slim
+# Stage 1: build dependencies
+FROM python:3.10-slim AS builder
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=backend.settings
-
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    postgresql-client \
     gcc \
-    python3-dev \
     libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements file
 COPY requirements.txt .
 
-# Copy cấu hình Gunicorn
-COPY gunicorn_conf.py /app/gunicorn_conf.py
+RUN pip install --upgrade pip && \
+    pip wheel --no-cache-dir --wheel-dir /wheels -r requirements.txt
 
+# Stage 2: final lightweight image
+FROM python:3.10-slim
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Copy project files
+WORKDIR /app
+
+# Copy wheels from builder
+COPY --from=builder /wheels /wheels
+COPY --from=builder /app/requirements.txt .
+
+RUN pip install --no-cache-dir /wheels/*
+
+# Copy project
 COPY . .
 
-# Create a non-root user and switch to it
-RUN useradd -m appuser
-RUN chown -R appuser:appuser /app
+# Add non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Collect static files
-# RUN python manage.py collectstatic --noinput
-
-# Expose the port the app runs on
 EXPOSE 8000
 
-# Run the application
 CMD ["sh", "-c", "python manage.py migrate && exec gunicorn backend.wsgi:application --config gunicorn_conf.py"]
