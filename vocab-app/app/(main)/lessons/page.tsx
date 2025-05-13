@@ -362,6 +362,7 @@ export default function LessonsPage() {
                             <span>{theme.learner_count} người học</span>
                           </div>
                           {/* <Badge variant="outline" className="bg-white/20 text-current">
+                          
                             {theme.difficulty === "beginner" ? "Cơ bản" : 
                              theme.difficulty === "intermediate" ? "Trung cấp" : "Nâng cao"}
                           </Badge> */}

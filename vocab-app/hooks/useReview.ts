@@ -2,7 +2,7 @@
 
 import userWordService, { WordsByLevel } from "@/services/user-word-service";
 import { useWordLevelStore } from "@/stores/wordLevelStore";
-import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/types/status";
+import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/constants/status";
 import { useEffect, useState, useCallback } from "react";
 
 const useReview = () => {
@@ -29,24 +29,6 @@ const useReview = () => {
         setIsLoading(true);
         setError(null);
         try {
-
-            // Check if data is already in local storage and not expired
-            const isLearn = sessionStorage.getItem(IS_LEARN_KEY);
-            if (isLearn !== "true") {
-                const cachedData = sessionStorage.getItem("wordLevels");
-                if (cachedData) {
-                    const parsedData = JSON.parse(cachedData);
-                    if (parsedData.learnedWords) {
-                        setWordLevels(parsedData.countLevels);
-                        setRewordCount(parsedData.reviewWordCount);
-                        setTimeUntilNextReview(parsedData.timeUntilNextReview);
-                        setWords(parsedData.learnedWords);
-                        setError(null);
-                        return;
-                    }
-                }
-            }
-
             const wordsByLevel: WordsByLevel = await userWordService.fetchWordsLevel();
             const total = Object.values(wordsByLevel.level_counts).reduce((sum, count) => sum + count, 0);
 
@@ -90,7 +72,6 @@ const useReview = () => {
                 }
             }));
 
-            localStorage.setItem(IS_LEARN_KEY, "false");
             setError(null);
         } catch (err: any) {
             setError(err.message || "Failed to fetch review data");

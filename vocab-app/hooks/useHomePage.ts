@@ -1,6 +1,6 @@
 import userWordService, { CountWordsByLevel } from "@/services/user-word-service";
 import { useWordLevelStore } from "@/stores/wordLevelStore";
-import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/types/status";
+import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/constants/status";
 import { useEffect, useState } from "react";
 
 const useHomePage = () => {
@@ -26,19 +26,6 @@ const useHomePage = () => {
     setError(null)
 
     try {
-      // Check if data is already in local storage and not expired
-      const isLearn =  sessionStorage.getItem(IS_LEARN_KEY);
-      if (isLearn !== "true") {
-        const cachedData = sessionStorage.getItem(WORD_LEVELS_KEY);
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
-          setWordLevels(parsedData.countLevels);
-          setTotalWords(parsedData.totalWords);
-          setError(null);
-          return;
-        }
-      }
-
       // Fetch vocabulary levels from the API
       const data: CountWordsByLevel | null = await userWordService.getVocabLevels();
       if (!data) {
@@ -77,9 +64,6 @@ const useHomePage = () => {
         timeUntilNextReview: data.time_until_next_review,
       }));
       
-
-      sessionStorage.setItem(IS_LEARN_KEY, "false");
-
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred')
     } finally {

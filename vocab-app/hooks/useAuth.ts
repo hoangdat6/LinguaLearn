@@ -1,6 +1,6 @@
 "use client";
 
-import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY } from "@/types/status";
+import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY } from "@/constants/status";
 import axios from "axios";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";

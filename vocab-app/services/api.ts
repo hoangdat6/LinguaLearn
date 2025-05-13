@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/types/status";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/constants/status";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { getSession } from "next-auth/react";

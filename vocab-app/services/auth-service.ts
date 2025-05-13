@@ -1,6 +1,6 @@
 import { AUTH } from "@/constants/api-endpoints";
 import { AUTH_ROUTES } from "@/constants/routes";
-import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY, WORD_LEVELS_KEY } from "@/types/status";
+import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY, WORD_LEVELS_KEY } from "@/constants/status";
 import axios from "axios";
 import { signOut } from "next-auth/react";
 import api from "./api";

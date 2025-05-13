@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import authService from "@/services/auth-service";
-import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/types/status";
+import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/constants/status";
 import { Bell, Diamond, FlameIcon, Heart, HelpCircle, LogOut, Settings, Users } from "lucide-react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

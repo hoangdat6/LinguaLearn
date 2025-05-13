@@ -2,7 +2,8 @@
 import { motion } from "framer-motion"
 import { CheckCircle, XCircle, Clock, SkipForward, Award, TrendingUp, BookOpen } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
-import { VocabularyItem } from "@/types/vocabulary"
+import { Button } from "@/components/ui/button"
+import { Word } from "@/types/lesson-types"
 
 interface ResultsProps {
   results: {
@@ -10,10 +11,10 @@ interface ResultsProps {
     incorrect: number
     skipped: number
     totalTime: number
-    questionResults: { word: string; correct: boolean; time: number }[]
+    questionResults: { word: string; correct: boolean; time: number; wordId?: number }[]
   }
   learningQueue?: number[]
-  vocabularyItems?: VocabularyItem[]
+  vocabularyItems?: Word[]
 }
 
 export function ReviewSessionResults({ results, learningQueue = [], vocabularyItems = [] }: ResultsProps) {
@@ -60,6 +61,13 @@ export function ReviewSessionResults({ results, learningQueue = [], vocabularyIt
       progress: (totalQuestions / 10) * 100,
     },
   ]
+
+  // Function to handle pronunciation
+  const speakWord = (word: string) => {
+    const utterance = new SpeechSynthesisUtterance(word)
+    utterance.lang = "en-US"
+    window.speechSynthesis.speak(utterance)
+  }
 
   return (
     <div className="space-y-6">
@@ -136,7 +144,7 @@ export function ReviewSessionResults({ results, learningQueue = [], vocabularyIt
         </div>
       </div>
 
-      {/* Learning Queue Summary */}
+      {/* Learning Queue Summary - Improved with pronunciation buttons */}
       {learningQueue.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -159,9 +167,30 @@ export function ReviewSessionResults({ results, learningQueue = [], vocabularyIt
                 return word ? (
                   <div
                     key={wordIndex}
-                    className="px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-amber-300 dark:border-amber-700 text-sm"
+                    className="px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-amber-300 dark:border-amber-700 text-sm flex items-center"
                   >
                     {word.word}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-5 w-5 ml-1"
+                      onClick={() => speakWord(word.word)}
+                    >
+                      <span className="sr-only">Pronounce {word.word}</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-3 w-3"
+                      >
+                        <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                      </svg>
+                    </Button>
                   </div>
                 ) : null
               })}

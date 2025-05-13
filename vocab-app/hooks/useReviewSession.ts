@@ -26,6 +26,21 @@ export function useReviewSession() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
+  // Results state
+  const [results, setResults] = useState<{
+    correct: number;
+    incorrect: number;
+    skipped: number;
+    totalTime: number;
+    questionResults: { word: string; correct: boolean; time: number; wordId?: number }[];
+  }>({
+    correct: 0,
+    incorrect: 0,
+    skipped: 0,
+    totalTime: 0,
+    questionResults: []
+  });
+
   // ========== DATA FETCHING ==========
 
   /**
@@ -135,13 +150,147 @@ export function useReviewSession() {
   }, [calculateProgress])
 
   /**
-   * Completes the session and sets final progress
+   * Updates results after each answer or skip
+   */
+  const updateResultsForAnswer = useCallback((isCorrect: boolean, isSkipped: boolean, wordId: number) => {
+    const word = reviewWords.find(w => w.id === wordId);
+    if (!word) return;
+    
+    setResults(prevResults => {
+      // Create a new result entry for this word
+      const newResult = {
+        word: word.word.word,
+        correct: isCorrect,
+        time: isSkipped ? 0 : 3.0, // Placeholder timing
+        wordId: wordId
+      };
+      
+      // Check if this word already exists in results (in case of re-answer)
+      const existingIndex = prevResults.questionResults.findIndex(r => r.wordId === wordId);
+      
+      let newQuestionResults = [...prevResults.questionResults];
+      if (existingIndex >= 0) {
+        // Update existing result
+        newQuestionResults[existingIndex] = newResult;
+      } else {
+        // Add new result
+        newQuestionResults.push(newResult);
+      }
+      
+      // Update correct/incorrect/skipped counts
+      let correctCount = isCorrect ? prevResults.correct + 1 : prevResults.correct;
+      let incorrectCount = (!isCorrect && !isSkipped) ? prevResults.incorrect + 1 : prevResults.incorrect;
+      let skippedCount = isSkipped ? prevResults.skipped + 1 : prevResults.skipped;
+      
+      // If updating an existing entry, adjust the counts
+      if (existingIndex >= 0) {
+        const oldResult = prevResults.questionResults[existingIndex];
+        if (oldResult.correct) correctCount--;
+        else if (oldResult.time === 0) skippedCount--;
+        else incorrectCount--;
+      }
+      
+      const newResults = {
+        ...prevResults,
+        correct: correctCount,
+        incorrect: incorrectCount,
+        skipped: skippedCount,
+        totalTime: prevResults.totalTime + (existingIndex >= 0 ? 0 : 3.0), // Add time only for new entries
+        questionResults: newQuestionResults
+      };
+      
+      // Immediately update sessionStorage with the latest results
+      sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
+      
+      return newResults;
+    });
+  }, [reviewWords]);
+
+  /**
+   * Calculates complete result statistics for the review session
+   */
+  const calculateResults = useCallback(() => {
+    if (!reviewWords.length || !reviewQueue.length) return;
+
+    // Create word ID to index map for faster lookups
+    const wordIdToIndex = new Map(reviewWords.map(word => [word.id, word]));
+    
+    // Track unique words that have been answered
+    const processedWords = new Set();
+    const questionResults: { word: string; correct: boolean; time: number; wordId?: number }[] = [];
+    
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let skippedCount = 0;
+    let totalTime = 0;
+
+    // Process review queue to extract statistics
+    reviewQueue.forEach(item => {
+      if (!item.is_reviewed) return;
+      
+      const word = wordIdToIndex.get(item.word_id);
+      if (!word) return;
+
+      // For results display purposes, we want each unique word only once
+      if (!processedWords.has(item.word_id)) {
+        processedWords.add(item.word_id);
+        
+        // We don't have actual time tracking per word in the current implementation
+        // Using a placeholder value (could be enhanced with actual timing)
+        const timeSpent = 3.0; // Placeholder for per-word timing
+        totalTime += timeSpent;
+        
+        questionResults.push({
+          word: word.word.word,
+          correct: item.is_correct === true,
+          time: item.is_skipped ? 0 : timeSpent,
+          wordId: item.word_id
+        });
+        
+        if (item.is_correct === true) {
+          correctCount++;
+        } else if (item.is_skipped) {
+          skippedCount++;
+        } else {
+          incorrectCount++;
+        }
+      }
+    });
+    
+    const newResults = {
+      correct: correctCount,
+      incorrect: incorrectCount,
+      skipped: skippedCount,
+      totalTime,
+      questionResults
+    };
+    
+    // Store results in session storage for persistence
+    sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
+    setResults(newResults);
+    
+    return newResults;
+  }, [reviewWords, reviewQueue]);
+
+  /**
+   * Completes the session and calculates final results
    */
   const completeSession = useCallback(() => {
-    setSessionState("completed")
-    setProgress(100)
-
-  }, [])
+    // First update results to ensure they're complete
+    const finalResults = calculateResults();
+    
+    // Use setTimeout to ensure state updates happen after the current execution context
+    setTimeout(() => {
+      setSessionState("completed");
+      setProgress(100);
+      
+      if (finalResults) {
+        setResults(finalResults);
+      }
+      
+      console.log("Session completed, state updated to:", "completed");
+    }, 100);
+  }, [calculateResults]);
 
   // ========== WORD TRANSITION ==========
 
@@ -187,6 +336,22 @@ export function useReviewSession() {
     sessionStorage.setItem("reviewSession", JSON.stringify(sessionData))
   }, [reviewWords, reviewQueue, sessionState, sessionStartTime, progress, currentWordIndex])
 
+  // Restore results from session storage if session is completed
+  useEffect(() => {
+    if (sessionState === "completed") {
+      const storedResults = sessionStorage.getItem("reviewResults");
+      if (storedResults) {
+        try {
+          setResults(JSON.parse(storedResults));
+        } catch (e) {
+          console.error("Failed to parse stored results", e);
+        }
+      } else {
+        calculateResults();
+      }
+    }
+  }, [sessionState, calculateResults]);
+
   /**
    * Resets session to initial state
    */
@@ -201,6 +366,13 @@ export function useReviewSession() {
    * Initializes a review session from stored data or creates a new one
    */
   const initReviewSession = useCallback((words: WordReviewState[], storedSession?: ReviewSession | null) => {
+    // Don't proceed if no words available
+    if (!words.length) {
+      setIsLoading(false)
+      return
+    }
+    
+    // Set all state updates before setting current word to avoid flicker
     setReviewWords(words)
 
     // Check explicitly if storedSession exists and has a valid reviewQueue
@@ -208,15 +380,14 @@ export function useReviewSession() {
       // Load existing session
       setSessionState(storedSession.session_state)
       setProgress(storedSession.progress)
+      setReviewQueue(storedSession.reviewQueue)
+      setCurrentWordIndex(storedSession.current_word_index)
 
       // Restore estimated correct answers count
       const estimatedCorrect = Math.round((storedSession.progress * storedSession.reviewQueue.length) / 100)
       setCorrectAnswers(estimatedCorrect)
 
-      setCurrentWordIndex(storedSession.current_word_index)
-      setReviewQueue(storedSession.reviewQueue)
-
-      // Set current word
+      // Set current word as the last step
       const wordIndex = storedSession.reviewQueue[storedSession.current_word_index]?.word_index
       if (wordIndex !== undefined && words[wordIndex]) {
         setCurrentWord(words[wordIndex])
@@ -229,11 +400,11 @@ export function useReviewSession() {
       setCorrectAnswers(0)
       setCurrentWordIndex(0)
 
-      // Create and initialize review queue
+      // Create review queue first
       const newReviewQueue = createRandomReviewQueue(words)
-
-      // Set first word
-      if (words.length > 0 && newReviewQueue.length > 0) {
+      
+      // Then set current word as the last step
+      if (newReviewQueue.length > 0) {
         const firstWordIndex = newReviewQueue[0]?.word_index
         if (firstWordIndex !== undefined) {
           setCurrentWord(words[firstWordIndex])
@@ -265,6 +436,9 @@ export function useReviewSession() {
     const updatedQueue = [...reviewQueue]
     updatedQueue[currentWordIndex] = updatedWord
 
+    // Update results immediately
+    updateResultsForAnswer(isCorrect, false, currentReviewItem.word_id);
+
     // Check for session completion
     if (isLastWordInQueue(currentWordIndex, updatedQueue)) {
       setReviewQueue(updatedQueue)
@@ -292,7 +466,8 @@ export function useReviewSession() {
     updateProgressForCorrectAnswer,
     correctAnswers,
     insertWordReview,
-    moveToNextWord
+    moveToNextWord,
+    updateResultsForAnswer
   ])
 
   /**
@@ -311,6 +486,9 @@ export function useReviewSession() {
 
     const updatedQueue = [...reviewQueue]
     updatedQueue[currentWordIndex] = updatedWord
+
+    // Update results immediately
+    updateResultsForAnswer(false, true, currentReviewItem.word_id);
 
     // Check for session completion
     if (isLastWordInQueue(currentWordIndex, updatedQueue)) {
@@ -331,13 +509,19 @@ export function useReviewSession() {
     isLastWordInQueue,
     completeSession,
     insertWordReview,
-    moveToNextWord
+    moveToNextWord,
+    updateResultsForAnswer
   ])
 
   // ========== INITIALIZATION ==========
 
   // Load or initialize session on mount
   useEffect(() => {
+    // Set loading state explicitly at the beginning
+    setIsLoading(true)
+    // Clear current word to prevent flashing of wrong word
+    setCurrentWord(null)
+    
     const loadSession = async () => {
       try {
         // Get stored session if exists
@@ -349,8 +533,6 @@ export function useReviewSession() {
 
         // Initialize session
         initReviewSession(words, parsedSession)
-        // set isLearn to true to  indicate that the user is in review mode
-        sessionStorage.setItem("isLearn", "true")
       } catch (err) {
         console.error("Error initializing review session", err)
         setError(err instanceof Error ? err : new Error("Failed to initialize review session"))
@@ -428,10 +610,39 @@ export function useReviewSession() {
     }
   }, [sessionState, prepareSessionResults])
   
-  const handleBack = useCallback(() => {
-    setSessionState("completed")
-    setProgress(100)
-  }, [])
+  /**
+   * Handles back navigation while ensuring data is saved
+   */
+  const handleBack = useCallback(async () => {
+    // First calculate final results
+    const finalResults = calculateResults();
+    if (finalResults) {
+      // Update the results state directly
+      setResults(finalResults);
+    }
+    
+    // Only proceed if there are words to submit
+    const results = prepareSessionResults();
+    if (results.words.length) {
+      try {
+        // Submit results directly and wait for completion
+        await ReviewService.submitReviewSession(results);
+        console.log("Review session saved on back navigation");
+        
+        // Clear session storage after successful submission
+        sessionStorage.removeItem("reviewSession");
+        sessionStorage.removeItem("reviewWords");
+      } catch (error) {
+        console.error("Error saving review session on back:", error);
+      }
+    }
+    
+    // Update session state with a small delay to ensure results are displayed
+    setTimeout(() => {
+      setSessionState("completed");
+      setProgress(100);
+    }, 100);
+  }, [calculateResults, prepareSessionResults]);
 
   // ========== RETURN VALUES ==========
 
@@ -443,10 +654,13 @@ export function useReviewSession() {
     sessionStartTime,
     currentWordIndex,
     currentWord,
-    learningQueue: reviewQueue,
+    learningQueueIndex: reviewQueue
+      .filter(item => item.is_reviewed && (!item.is_correct || item.is_skipped))
+      .map(item => item.word_index),
     reviewWords,
     isLoading,
     error,
+    results,
     
     // Actions
     handleBack,
