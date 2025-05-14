@@ -40,8 +40,15 @@ interface LessonCardProps {
 }
 
 export function LessonCard({ lesson, onSelect }: LessonCardProps) {
+  const isCompleted = lesson.is_learned;
+
   return (
-    <div onClick={() => onSelect(lesson.id)} className="cursor-pointer">
+    <div
+      onClick={() => {
+        if (!isCompleted) onSelect(lesson.id);
+      }}
+      className={`cursor-pointer ${isCompleted ? 'opacity-60 pointer-events-none' : ''}`}
+    >
       <Card className="h-full">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start">
@@ -51,7 +58,7 @@ export function LessonCard({ lesson, onSelect }: LessonCardProps) {
               </Badge> */}
               <CardTitle className="text-lg">{lesson.title}</CardTitle>
             </div>
-            {lesson.is_learned && (
+            {isCompleted && (
               <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
                 Hoàn thành
               </Badge>

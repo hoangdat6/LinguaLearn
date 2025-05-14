@@ -22,7 +22,6 @@ export function useCourses() {
       setIsLoading(true);
       try {
         const response = await getCoursesByPage(currentPage, NUM_COURSES_PER_PAGE);
-        console.log("Lấy danh sách khoá học thành công:", response);
         setCourses(response.results);
         setTotalPages(Math.ceil(response.count / NUM_COURSES_PER_PAGE)); 
 

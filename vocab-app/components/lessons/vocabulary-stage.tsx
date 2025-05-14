@@ -12,9 +12,11 @@ interface VocabularyStageProps {
   onCorrect: () => void
   onIncorrect: () => void
   onNext: () => void
+
+  disableAutoPlay?: boolean // thêm prop này để kiểm soát auto play từ ngoài
 }
 
-export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext }: VocabularyStageProps) {
+export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext, disableAutoPlay }: VocabularyStageProps) {
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [isLocked, setIsLocked] = useState(false) // chặn click khi submit đáp án
@@ -37,12 +39,13 @@ export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext }:
     }, 1500)
   }
 
+
   // Render different components based on the current stage
   switch (stage) {
     case 1:
-      return <VocabularyFlashcard word={word} onNext={onNext} />
+      return <VocabularyFlashcard word={word} onNext={onNext} disableAutoPlay={disableAutoPlay} />
     case 2:
-      return <VocabularyAudio word={word} showFeedback={showFeedback} isCorrect={isCorrect} onAnswer={handleAnswer} />
+      return <VocabularyAudio word={word} showFeedback={showFeedback} isCorrect={isCorrect} onAnswer={handleAnswer} disableAutoPlay={disableAutoPlay} />
     case 3:
       return <VocabularyTyping word={word} showFeedback={showFeedback} isCorrect={isCorrect} onAnswer={handleAnswer} />
     default:

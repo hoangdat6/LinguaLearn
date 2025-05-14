@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, BookOpen, Check, X } from 'lucide-react'
 import { useParams, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { VocabularyStage } from "@/components/lessons/vocabulary-stage"
 import { Button } from "@/components/ui/button"
@@ -83,11 +83,16 @@ export default function Page() {
     handleNextWord,
     handleReset,
     setShowCompletionDialog,
+    setProgressState,
 
   } = useVocabularyProgress(lessonId)
 
   const router = useRouter();
   sessionStorage.setItem("isLearn", "true");
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const [pendingRoute, setPendingRoute] = useState<string | null>(null);
+  const [progressRestored, setProgressRestored] = useState(false);
+  const [isLearn, setIsLearn] = useState(false);
   useEffect(() => {
     if (showCompletionDialog && words?.length > 0) {
       const learnedWords = words.map(word => ({
@@ -100,7 +105,86 @@ export default function Page() {
     }
   }, [showCompletionDialog]);
 
-  if (loading) {
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    if (!showCompletionDialog) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [showCompletionDialog]);
+
+  // Khôi phục tiến trình 
+  useEffect(() => {
+    const saved = sessionStorage.getItem(`vocab-progress-${lessonId}`);
+    if (saved) {
+      setIsLearn(true);
+      try {
+        const data = JSON.parse(saved);
+        if (
+          data &&
+          words?.length > 0 &&
+          typeof data.currentIndex === 'number' &&
+          typeof data.correctCount === 'number' &&
+          typeof data.incorrectCount === 'number'
+        ) {
+          if (data.currentIndex < words.length) {
+            // Reset, sau đó gán tiến trình
+            handleReset();
+            setTimeout(() => {
+              setProgressState({
+                currentIndex: data.currentIndex,
+                correctCount: data.correctCount,
+                incorrectCount: data.incorrectCount,
+              });
+            }, 0);
+            // Chờ đến khi currentIndex cập nhật xong
+            const interval = setInterval(() => {
+              const current = document.querySelector('#progress-index')?.getAttribute('data-index');
+              if (parseInt(current ?? '0') === data.currentIndex) {
+                clearInterval(interval);
+                setProgressRestored(true);
+              }
+            }, 500);
+
+            return;
+          } else {
+            handleReset();
+            setProgressRestored(true);
+            return;
+          }
+        }
+      } catch { }
+    }
+
+    setProgressRestored(true);
+  }, [words]);
+
+  // Lưu tiến trình học vào sessionStorage mỗi khi thay đổi
+  useEffect(() => {
+    if (words?.length > 0 && !showCompletionDialog && currentIndex > 0) {
+      sessionStorage.setItem(
+        `vocab-progress-${lessonId}`,
+        JSON.stringify({
+          currentIndex,
+          correctCount,
+          incorrectCount
+        })
+      );
+    }
+    // xóa tiến trình
+    if (showCompletionDialog) {
+      sessionStorage.removeItem(`vocab-progress-${lessonId}`);
+    }
+  }, [currentIndex, correctCount, incorrectCount, showCompletionDialog, words]);
+
+  if (loading || !progressRestored || words.length === 0) {
     return (
       <div className="container max-w-3xl py-20 flex justify-center items-center">
         <motion.div
@@ -113,6 +197,7 @@ export default function Page() {
         </motion.div>
       </div>
     );
+
   } else if (!lesson) {
     router.push("/lessons");
     return null;
@@ -126,11 +211,37 @@ export default function Page() {
       exit="exit"
       className="container max-w-4xl py-1"
     >
+      <Dialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Rời khỏi bài học?</DialogTitle>
+            <DialogDescription>
+              Bạn có chắc muốn rời khỏi?
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setShowLeaveDialog(false)}>
+              Ở lại
+            </Button>
+            <Button
+              onClick={() => {
+                if (pendingRoute) router.push(pendingRoute);
+              }}
+            >
+              Rời khỏi
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <Button
             variant="ghost"
-            onClick={() => router.push("/lessons")}
+            onClick={() => {
+              setPendingRoute("/lessons");
+              setShowLeaveDialog(true);
+            }}
             className="gap-1"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -193,17 +304,14 @@ export default function Page() {
 
         <Card>
           <CardContent className="p-6">
-            {words?.length > 0 ? (
-              <VocabularyStage
-                word={words[currentIndex]}
-                stage={currentStage}
-                onCorrect={handleCorrectAnswer}
-                onIncorrect={handleIncorrectAnswer}
-                onNext={handleNextWord}
-              />
-            ) : (
-              <p>Đang tải từ vựng</p> 
-            )}
+            <VocabularyStage
+              word={words[currentIndex]}
+              stage={currentStage}
+              onCorrect={handleCorrectAnswer}
+              onIncorrect={handleIncorrectAnswer}
+              onNext={handleNextWord}
+              disableAutoPlay={isLearn && currentIndex === 0}
+            />
           </CardContent>
         </Card>
 

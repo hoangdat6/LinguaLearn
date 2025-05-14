@@ -45,7 +45,7 @@ export function LessonsGrid({ lessons, isLoading, onLessonClick }: LessonsGridPr
           [...Array(6)].map((_, index) => (
             <LessonCardSkeleton key={index} />
           ))
-        ) : lessons.length > 0 ? (
+        ) : lessons?.length > 0 ? (
           lessons.map((lesson, index) => (
             <motion.div
               key={lesson.id}
