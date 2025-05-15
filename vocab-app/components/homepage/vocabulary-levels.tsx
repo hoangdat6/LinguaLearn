@@ -73,7 +73,7 @@ const VocabularyLevelsLoading = () => {
 
 const ReviewTimeDisplay = ({ timeUntilNextReview }: { timeUntilNextReview: TimeUntilNextReview }) => {
   const { hours, minutes } = timeUntilNextReview;
-  
+
   if (hours === 0 && minutes === 0) {
     return <span className="text-primary font-medium">vài giây nữa</span>;
   }
@@ -86,7 +86,7 @@ const ReviewTimeDisplay = ({ timeUntilNextReview }: { timeUntilNextReview: TimeU
   );
 };
 
-const ReviewInfo = ({ reviewWordCount, timeUntilNextReview }: { 
+const ReviewInfo = ({ reviewWordCount, timeUntilNextReview }: {
   reviewWordCount: number;
   timeUntilNextReview: TimeUntilNextReview;
 }) => {
@@ -106,18 +106,30 @@ const ReviewInfo = ({ reviewWordCount, timeUntilNextReview }: {
           </p>
         )
       ) : hasTimeUntilNextReview ? (
-        <div className="space-y-0.5"> {/* Using a smaller space for a tighter look */}
+        <div className="flex flex-col items-center gap-4"> {/* Using a smaller space for a tighter look */}
           <p className="text-base">
-            Sẵn sàng ôn tập: <span className="text-primary font-medium">{reviewWordCount} từ</span>
+            Chuẩn bị ôn tập: <span className="text-primary font-medium">{reviewWordCount} từ</span>
           </p>
           <p className="text-sm text-muted-foreground"> {/* Slightly smaller text for secondary info */}
             Thời gian chờ: <ReviewTimeDisplay timeUntilNextReview={timeUntilNextReview} />
           </p>
         </div>
       ) : (
-        <p className="text-base font-medium"> {/* Added font-medium for emphasis */}
-          Đến lúc ôn tập: <span className="text-primary">{reviewWordCount} từ</span>
-        </p>
+        <div className="flex flex-col items-center gap-4"> {/* Using a smaller space for a tighter look */}
+          <p className="text-base font-medium"> {/* Added font-medium for emphasis */}
+            Đến lúc ôn tập: <span className="text-primary">{reviewWordCount} từ</span>
+          </p>
+          <Button
+            asChild
+            disabled={reviewWordCount === 0}
+            className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-medium px-8 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <Link href="/review-session" className="flex items-center">
+              <BookOpen className="mr-2 h-5 w-5" />
+              Ôn tập ngay
+            </Link>
+          </Button>
+        </div>
       )}
     </>
   );
@@ -182,20 +194,11 @@ export const VocabularyLevels = React.memo(function VocabularyLevels({
           </div>
 
           <div className="flex flex-col items-center gap-4">
-            <ReviewInfo 
-              reviewWordCount={reviewWordCount} 
-              timeUntilNextReview={timeUntilNextReview} 
+            <ReviewInfo
+              reviewWordCount={reviewWordCount}
+              timeUntilNextReview={timeUntilNextReview}
             />
-            <Button
-              asChild
-              disabled={reviewWordCount === 0}
-              className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-medium px-8 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Link href="/review-session" className="flex items-center">
-                <BookOpen className="mr-2 h-5 w-5" />
-                Ôn tập ngay
-              </Link>
-            </Button>
+
           </div>
         </>
       )}
