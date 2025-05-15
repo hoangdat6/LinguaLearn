@@ -21,10 +21,10 @@ export function useLessons(themeId: string | null) {
       setIsLoading(true);
       try {
         const response = await getLessonsByCourseId(themeId, currentPage, NUM_LESSONS_PER_PAGE); 
-        console.log("Lấy danh sách bài học thành công:", response);
+        
         setLessons(response.results);
         setNextPage(response.next ? currentPage + 1 : null); // cập nhật trang tiếp theo
-        setPrevPage(response.previous ? currentPage - 1 : null); // cập nhật trang trước đó
+        setPrevPage(response.previous ? currentPage - 1 : null);
         setTotalPages(Math.ceil(response.count / NUM_LESSONS_PER_PAGE)); 
       } catch (error) {
         console.error("Lỗi khi lấy danh sách bài học:", error);

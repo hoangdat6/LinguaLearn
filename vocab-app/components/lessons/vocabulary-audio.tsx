@@ -14,17 +14,19 @@ interface VocabularyAudioProps {
   onAnswer: (correct: boolean) => void
 }
 
-export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer }: VocabularyAudioProps) {
+export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disableAutoPlay = false }: VocabularyAudioProps & { disableAutoPlay?: boolean }) {
   const [answer, setAnswer] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-   useEffect(() => {
-      playAudio()
-    }, [word])
 
-    useEffect(() => {
-      inputRef.current?.focus()
-    }, [word])
+  useEffect(() => {
+    if (!disableAutoPlay) {
+      playAudio()
+    }
+  }, [word, disableAutoPlay])
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [word])
 
   const playAudio = () => {
     setIsPlaying(true)

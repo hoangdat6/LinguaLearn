@@ -73,7 +73,6 @@ export function useVocabularyProgress(lessonId: string) {
         updateSpacedRepetition(false)
     }
 
-
     // Update spaced repetition data
     const updateSpacedRepetition = (correct: boolean) => {
         setSpacedRepetition((prev) => {
@@ -126,6 +125,19 @@ export function useVocabularyProgress(lessonId: string) {
         setSpacedRepetition(initialData)
     }
 
+    // cho phép set lại tiến trình từ bên ngoài
+    const setProgressState = (progress: {
+        currentIndex?: number,
+        currentStage?: number,
+        correctCount?: number,
+        incorrectCount?: number
+    }) => {
+        if (typeof progress.currentIndex === 'number') setCurrentIndex(progress.currentIndex)
+        if (typeof progress.currentStage === 'number') setCurrentStage(progress.currentStage)
+        if (typeof progress.correctCount === 'number') setCorrectCount(progress.correctCount)
+        if (typeof progress.incorrectCount === 'number') setIncorrectCount(progress.incorrectCount)
+    }
+
     return {
         currentIndex,
         currentStage,
@@ -142,6 +154,7 @@ export function useVocabularyProgress(lessonId: string) {
         handleNextWord,
         handleReset,
         setShowCompletionDialog,
+        setProgressState, 
     }
 }
 

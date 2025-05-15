@@ -9,18 +9,32 @@ import { Word } from "@/types/lesson-types"
 interface VocabularyFlashcardProps {
   word: Word
   onNext: () => void
+  disableAutoPlay?: boolean //kiểm soát phát âm tự động
 }
 
-export function VocabularyFlashcard({ word, onNext }: VocabularyFlashcardProps) {
+export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: VocabularyFlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped)
   }
+
   // phát âm từ vựng khi component được mount hoặc khi từ vựng thay đổi
   useEffect(() => {
-    playAudio()
-  }, [word])
+    if (!disableAutoPlay) {
+      playAudio()
+    }
+  }, [word, disableAutoPlay])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        setIsFlipped((prev) => !prev)
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   const playAudio = () => {
     const utterance = new SpeechSynthesisUtterance(word.word)

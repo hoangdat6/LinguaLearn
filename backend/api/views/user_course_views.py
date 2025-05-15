@@ -45,23 +45,25 @@ class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
         URL mẫu: /api/user-courses/<course_id>/lessons/
         """
         cache_key = self._generate_cache_key(request)
-        cached_response = cache.get(cache_key)
-        if cached_response:
-            return Response(cached_response)
-        
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
         course = self.get_object()
         lessons = course.lesson_set.annotate(word_count=Count('word')).order_by('id')
 
         page = self.paginate_queryset(lessons)
         if page is not None:
             serializer = UserLessonSerializer(page, many=True, context={'request': request})
-            cache.set(cache_key, serializer.data, timeout=60 * 15)
-            return self.get_paginated_response(serializer.data)
+            paginated_data = self.get_paginated_response(serializer.data).data
+            cache.set(cache_key, paginated_data, timeout=60 * 15)
+            return Response(paginated_data)
 
         serializer = UserLessonSerializer(lessons, many=True, context={'request': request})
         cache.set(cache_key, serializer.data, timeout=60 * 15)
         return Response(serializer.data)
-    
+
+
     def _generate_cache_key(self, request):
         raw_key = f"usercourses:{request.user.id}:{request.get_full_path()}"
         return raw_key
