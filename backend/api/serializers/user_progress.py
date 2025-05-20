@@ -69,7 +69,7 @@ class UserCourseSerializer(serializers.ModelSerializer):
             completed_lessons = UserLesson.objects.filter(user=request.user, lesson__course=obj).count()
 
             if total_lessons > 0:
-                return (completed_lessons / total_lessons) * 100
+                return round((completed_lessons / total_lessons) * 100, 2)
         return 0
     
     def get_is_learned(self, obj):

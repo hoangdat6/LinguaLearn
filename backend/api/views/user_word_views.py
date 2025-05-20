@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.core.cache import cache
 from django.utils import timezone
-from ..models import UserWord, UserLesson, UserCourse
+from ..models import UserWord, UserLesson, UserCourse, LeaderBoard
 from ..pagination import LearnedWordsPagination
 from ..serializers import (
     UserWordInputSerializer, UserWordOutputSerializer, LessonWordsInputSerializer
@@ -116,7 +116,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 }
             )
 
-            leader_board, created_leaderboard = UserCourse.objects.get_or_create(
+            leader_board, created_leaderboard = LeaderBoard.objects.get_or_create(
                 user=user,
                 total_score=score,
                 defaults={
