@@ -2,7 +2,8 @@ from .content import (
     WordSerializer,
     LessonSerializer,
     OnlyLessonSerializer,
-    CourseSerializer
+    CourseSerializer,
+    LeaderBoardSerializer
 )
 
 from .auth import (
@@ -37,4 +38,5 @@ __all__ = [
     'UserWordInputSerializer',
     'UserWordOutputSerializer',
     'LessonWordsInputSerializer',
+    'LeaderBoardSerializer'
 ]

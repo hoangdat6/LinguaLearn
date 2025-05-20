@@ -59,6 +59,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
 
         processed_words = []
         update_list = []
+        score = 0
         for word_data in words_data:
             word_id = word_data['word_id']
             question_type = word_data['question_type']
@@ -66,6 +67,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
 
             if not is_review:
                 # Nếu không phải ôn, reset level và streak
+                score += 1
                 new_level = 1
                 new_streak = 1
             else:
@@ -75,6 +77,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
                     new_streak = 1
                     new_level = max(level - 1, 1)
                 else:
+                    count += level
                     new_streak = min(10, streak + 1)
                     new_level = min(level + 1, 5)
 
@@ -112,6 +115,19 @@ class UserWordViewSet(viewsets.ModelViewSet):
                     'date_completed': timezone.now(),
                 }
             )
+
+            leader_board, created_leaderboard = UserCourse.objects.get_or_create(
+                user=user,
+                total_score=score,
+                defaults={
+                    'total_score': score,
+                }
+            )
+
+            if not created_leaderboard:
+                leader_board.total_score += score
+                leader_board.save()
+
             if not created_lesson:
                 user_lesson.date_completed = timezone.now()
                 user_lesson.save()

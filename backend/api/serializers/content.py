@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Word, Lesson, Course
+from ..models import Word, Lesson, Course, LeaderBoard
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -50,3 +50,13 @@ class CourseSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         return obj.image.url if obj.image else None
+
+class LeaderBoardSerializer(serializers.ModelSerializer):
+    """
+    Serializer cho bảng xếp hạng người dùng.
+    """
+    username = serializers.CharField(source='user.username', read_only=True)
+    class Meta:
+        model = LeaderBoard
+        fields = ['username', 'total_score']
+        read_only_fields = ['username', 'total_score']
