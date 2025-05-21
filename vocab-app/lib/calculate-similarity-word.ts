@@ -22,23 +22,32 @@ export const similarity = (a: string, b: string) => {
 
 // Hàm làm mờ từ đúng trong example, trả về cả example đã che và từ bị che
 export const maskWordInExample = (example: string, word: string) => {
-  const words = example.split(/(\W+)/);
+  const tokens = example.split(/(\W+)/); // Tách từ và giữ cả dấu câu, khoảng trắng
+  const wordTokens = word.split(/\s+/); // Tách từ gốc thành từng từ (bỏ dấu cách)
+
+  const wordLen = wordTokens.length * 2 - 1; // Tính số phần tử tương ứng trong tokens (bao gồm dấu ngăn cách)
   let maxSim = 0;
   let maxIndex = -1;
-  for (let i = 0; i < words.length; i++) {
-    const sim = similarity(words[i].toLowerCase(), word.toLowerCase());
+
+  // Tìm cụm tokens có độ dài phù hợp
+  for (let i = 0; i <= tokens.length - wordLen; i += 2) { // Bỏ qua dấu câu và space
+    const segment = tokens.slice(i, i + wordLen).join("");
+    const sim = similarity(segment.toLowerCase(), word.toLowerCase());
     if (sim > maxSim) {
       maxSim = sim;
       maxIndex = i;
     }
   }
+
   let masked = "";
   let maskedWord = "";
+
   if (maxIndex !== -1) {
-    maskedWord = words[maxIndex];
-    words[maxIndex] = "...";
+    maskedWord = tokens.slice(maxIndex, maxIndex + wordLen).join("");
+    tokens.splice(maxIndex, wordLen, "..."); // Che vội 
   }
-  masked = words.join("");
+
+  masked = tokens.join("");
   return { masked, maskedWord };
-}
+};
 

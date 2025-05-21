@@ -3,6 +3,7 @@ import { getLeaderBoard, UserScore } from "@/services/leader-board-sevice";
 import { PaginatedResponse } from "@/services/course-service";
 
 const NUM_USERS_PER_PAGE = 10;
+const REFRESH_INTERVAL = 10 * 60 * 1000; // 10 phút
 
 export function useLeaderBoard() {
   const [data, setData] = useState<UserScore[]>([]);
@@ -17,9 +18,7 @@ export function useLeaderBoard() {
     setLoading(true);
     setError(null);
     try {
-      const response: PaginatedResponse<UserScore> = await getLeaderBoard(
-        currentPage,
-      );
+      const response: PaginatedResponse<UserScore> = await getLeaderBoard(currentPage);
       setData(response.results);
       setTotalPages(Math.ceil(response.count / NUM_USERS_PER_PAGE));
       setNextPage(response.next ? currentPage + 1 : null);
@@ -34,7 +33,14 @@ export function useLeaderBoard() {
 
   useEffect(() => {
     fetchLeaderBoard();
-  }, [fetchLeaderBoard]);  
+
+    const intervalId = setInterval(() => {
+      fetchLeaderBoard();
+    }, REFRESH_INTERVAL);
+
+    return () => clearInterval(intervalId); 
+  }, [fetchLeaderBoard]);
+
   return {
     users: data,
     loading,

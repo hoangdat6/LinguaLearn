@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, BookOpen, Check, X } from 'lucide-react'
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { VocabularyStage } from "@/components/lessons/vocabulary-stage"
 import { Button } from "@/components/ui/button"
@@ -11,18 +11,11 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { useVocabularyProgress } from "@/hooks/use-vocabulary-progress"
 import userWordService from "@/services/user-word-service"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 // Animation variants
 const pageVariants = {
@@ -93,6 +86,8 @@ export default function Page() {
   const [pendingRoute, setPendingRoute] = useState<string | null>(null);
   const [progressRestored, setProgressRestored] = useState(false);
   const [isLearn, setIsLearn] = useState(false);
+  const completionDialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (showCompletionDialog && words?.length > 0) {
       const learnedWords = words.map(word => ({
@@ -184,22 +179,19 @@ export default function Page() {
     }
   }, [currentIndex, correctCount, incorrectCount, showCompletionDialog, words]);
 
-  // Chặn Enter khi hiện dialog hoàn thành
+  // Chặn Enter khi hiện dialog hoàn thành (dùng capture để chặn sớm nhất)
   useEffect(() => {
-    if (showCompletionDialog) {
+    if (showCompletionDialog && completionDialogRef.current) {
       const handler = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           e.stopPropagation();
           e.preventDefault();
         }
       };
-      // Delay 500ms để tránh block Enter cuối cùng
-      const timeout = setTimeout(() => {
-        window.addEventListener('keydown', handler, true);
-      }, 500);
+      const node = completionDialogRef.current;
+      node.addEventListener('keydown', handler, true);
       return () => {
-        clearTimeout(timeout);
-        window.removeEventListener('keydown', handler, true);
+        node.removeEventListener('keydown', handler, true);
       };
     }
   }, [showCompletionDialog]);
@@ -338,65 +330,85 @@ export default function Page() {
       </div>
 
       {/* Completion Dialog */}
-      <Dialog open={showCompletionDialog} onOpenChange={setShowCompletionDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Chúc mừng!</DialogTitle>
-            <DialogDescription>
-              Bạn đã hoàn thành bài học từ vựng "{lesson.title}"
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="py-4">
-            <div className="space-y-4">
-              <div className="flex items-center justify-center gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-500">{correctCount}</div>
-                  <div className="text-sm text-muted-foreground">Đúng</div>
-                </div>
-
-                <Separator orientation="vertical" className="h-10" />
-
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-red-500">{incorrectCount}</div>
-                  <div className="text-sm text-muted-foreground">Sai</div>
-                </div>
-
-                <Separator orientation="vertical" className="h-10" />
-
-                <div className="text-center">
-                  <div className="text-3xl font-bold">{words?.length}</div>
-                  <div className="text-sm text-muted-foreground">Đã lưu</div>
-                </div>
-              </div>
-
-              <div className="bg-muted p-4 rounded-lg">
-                <p className="text-center mb-4">Độ chính xác</p>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
-                  <div
-                    className="h-full bg-green-500 rounded-full"
-                    style={{ width: `${correctCount > 0 ? (correctCount / (correctCount + incorrectCount) * 100) : 0}%` }}>
-                  </div>
-                </div>
-                <p className="text-center mt-2">
-                  {correctCount > 0 ? Math.round((correctCount / (correctCount + incorrectCount) * 100)) : 0}%
-                </p>
+      {showCompletionDialog && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          style={{ backdropFilter: 'blur(2px)' }}
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-white dark:bg-zinc-900 rounded-lg shadow-lg max-w-md w-full p-6 relative"
+            tabIndex={-1}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            }}
+          >
+            <div className="mb-4">
+              <div className="text-xl font-bold mb-1">Chúc mừng!</div>
+              <div className="text-muted-foreground mb-2">
+                Bạn đã hoàn thành bài học từ vựng "{lesson.title}"
               </div>
             </div>
-          </div>
-
-          <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button variant="outline" onClick={() => router.push("/lessons")} className="sm:flex-1">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Quay lại danh sách
-            </Button>
-            {/* <Button onClick={handleRestart} className="sm:flex-1">
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Học lại
-              </Button> */}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <div className="py-4">
+              <div className="space-y-4">
+                <div className="flex items-center justify-center gap-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-500">{correctCount}</div>
+                    <div className="text-sm text-muted-foreground">Đúng</div>
+                  </div>
+                  <Separator orientation="vertical" className="h-10" />
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-red-500">{incorrectCount}</div>
+                    <div className="text-sm text-muted-foreground">Sai</div>
+                  </div>
+                  <Separator orientation="vertical" className="h-10" />
+                  <div className="text-center">
+                    <div className="text-3xl font-bold">{words?.length}</div>
+                    <div className="text-sm text-muted-foreground">Đã lưu</div>
+                  </div>
+                </div>
+                <div className="bg-muted p-4 rounded-lg">
+                  <p className="text-center mb-4">Độ chính xác</p>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                    <div
+                      className="h-full bg-green-500 rounded-full"
+                      style={{ width: `${correctCount > 0 ? (correctCount / (correctCount + incorrectCount) * 100) : 0}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-center mt-2">
+                    {correctCount > 0 ? Math.round((correctCount / (correctCount + incorrectCount) * 100)) : 0}%
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 mt-6">
+              <button
+                className="sm:flex-1 flex items-center justify-center gap-2 border border-gray-300 dark:border-zinc-700 rounded px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-base"
+                style={{ outline: 'none' }}
+                type="button"
+                tabIndex={-1}
+                onClick={e => {
+                  e.preventDefault();
+                  setShowCompletionDialog(false);
+                  setTimeout(() => router.push("/lessons"), 100);
+                }}
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Quay lại danh sách
+              </button>
+              {/* <button className="sm:flex-1 ...">Học lại</button> */}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </motion.div>
   )
 }
