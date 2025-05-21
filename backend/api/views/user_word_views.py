@@ -116,14 +116,13 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 }
             )
 
-            leader_board, created_leaderboard = LeaderBoard.objects.get_or_create(user=user)
+            if LeaderBoard.objects.filter(user=user).exists():
+                leaderboard = LeaderBoard.objects.get(user=user)
+                leaderboard.total_score += score
+                leaderboard.save()
+            else:
+                LeaderBoard.objects.create(user=user, total_score=score)
 
-            if not created_leaderboard:
-                leader_board.total_score += score
-                leader_board.save()
-            else: 
-                leader_board.total_score = score
-                leader_board.save()
 
             if not created_lesson:
                 user_lesson.date_completed = timezone.now()
@@ -133,7 +132,7 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 user=user,
                 course=user_lesson.lesson.course,
             )
-            
+
         output_serializer = UserWordOutputSerializer(processed_words, many=True, context={'request': request})
         response_data = {
             "is_review": is_review,
