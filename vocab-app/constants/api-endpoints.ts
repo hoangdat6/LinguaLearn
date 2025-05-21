@@ -1,3 +1,5 @@
+import { GET } from "@/app/api/dictionary/route";
+
 // Base URL from environment
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
@@ -44,3 +46,7 @@ export const COURSES = {
   GET_LESSONS_BY_COURSE: (courseId: string) => `user-courses/${courseId}/lessons`,
   GET_WORDS_BY_LESSON: (lessonId: string) => `user-lessons/${lessonId}/words`,
 };
+
+export const LEADERBOARD = {
+  GET_LEADERBOARD: `${API_BASE_URL}leaderboard/`,
+}

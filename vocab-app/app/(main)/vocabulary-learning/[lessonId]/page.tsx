@@ -184,6 +184,26 @@ export default function Page() {
     }
   }, [currentIndex, correctCount, incorrectCount, showCompletionDialog, words]);
 
+  // Chặn Enter khi hiện dialog hoàn thành
+  useEffect(() => {
+    if (showCompletionDialog) {
+      const handler = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      };
+      // Delay 500ms để tránh block Enter cuối cùng
+      const timeout = setTimeout(() => {
+        window.addEventListener('keydown', handler, true);
+      }, 500);
+      return () => {
+        clearTimeout(timeout);
+        window.removeEventListener('keydown', handler, true);
+      };
+    }
+  }, [showCompletionDialog]);
+
   if (loading || !progressRestored || words.length === 0) {
     return (
       <div className="container max-w-3xl py-20 flex justify-center items-center">
