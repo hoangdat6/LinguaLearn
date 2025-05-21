@@ -116,27 +116,22 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 }
             )
 
-            leader_board, created_leaderboard = LeaderBoard.objects.get_or_create(
-                user=user,
-                total_score=score,
-                defaults={
-                    'total_score': score,
-                }
-            )
+            if LeaderBoard.objects.filter(user=user).exists():
+                leaderboard = LeaderBoard.objects.get(user=user)
+                leaderboard.total_score += score
+                leaderboard.save()
+            else:
+                LeaderBoard.objects.create(user=user, total_score=score)
 
-            if not created_leaderboard:
-                leader_board.total_score += score
-                leader_board.save()
 
             if not created_lesson:
                 user_lesson.date_completed = timezone.now()
                 user_lesson.save()
 
-            if not UserCourse.objects.filter(user=user, course=user_lesson.lesson.course).exists():
-                UserCourse.objects.create(
-                    user=user,
-                    course=user_lesson.lesson.course,
-                )
+            UserCourse.objects.get_or_create(
+                user=user,
+                course=user_lesson.lesson.course,
+            )
 
         output_serializer = UserWordOutputSerializer(processed_words, many=True, context={'request': request})
         response_data = {
