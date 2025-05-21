@@ -6,19 +6,22 @@ import { Input } from "@/components/ui/input"
 import { Volume2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Word } from "@/types/lesson-types"
+import { maskWordInExample } from "@/lib/calculate-similarity-word"
 
 interface VocabularyAudioProps {
   word: Word
-  showFeedback: boolean
-  isCorrect: boolean
   onAnswer: (correct: boolean) => void
+  onNext?: () => void // thêm prop này
+  disableAutoPlay?: boolean // kiểm soát phát âm tự động
 }
 
-export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disableAutoPlay = false }: VocabularyAudioProps & { disableAutoPlay?: boolean }) {
+export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = false }: VocabularyAudioProps) {
   const [answer, setAnswer] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
+  const [hasAnsweredCorrect, setHasAnsweredCorrect] = useState(false);
+  const [showLocalFeedback, setShowLocalFeedback] = useState(false); // Thêm state này
   const inputRef = useRef<HTMLInputElement>(null)
-
+  const {masked ,maskedWord } = maskWordInExample(word.example, word.word)
   useEffect(() => {
     if (!disableAutoPlay) {
       playAudio()
@@ -26,6 +29,7 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
   }, [word, disableAutoPlay])
   useEffect(() => {
     inputRef.current?.focus()
+    setShowLocalFeedback(false); // Reset feedback khi sang từ mới
   }, [word])
 
   const playAudio = () => {
@@ -37,7 +41,11 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
   }
 
   const handleSubmit = () => {
-    onAnswer(answer.toLowerCase().trim() === word.word.toLowerCase().trim())
+    if (!answer.trim()) return;
+    const correct = answer.toLowerCase().trim() === word.word.toLowerCase().trim();
+    onAnswer(correct);
+    setShowLocalFeedback(true); // Hiện feedback local
+    if (correct) setHasAnsweredCorrect(true);
   }
 
   return (
@@ -56,9 +64,9 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
               animate={
                 isPlaying
                   ? {
-                      scale: [1, 1.2, 1],
-                      opacity: [0.7, 1, 0.7],
-                    }
+                    scale: [1, 1.2, 1],
+                    opacity: [0.7, 1, 0.7],
+                  }
                   : {}
               }
               transition={{
@@ -75,9 +83,9 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
               animate={
                 isPlaying
                   ? {
-                      scale: 1.5,
-                      opacity: 0,
-                    }
+                    scale: 1.5,
+                    opacity: 0,
+                  }
                   : {}
               }
               transition={{
@@ -87,6 +95,38 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
             />
           </Button>
         </motion.div>
+        <motion.p
+          className="text-xl mb-2 text-primary mt-3"
+          animate={{
+            scale: [1, 1.03, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
+        >
+          {word.meaning}
+        </motion.p>
+        <p className="text-muted-foreground italic">
+          {hasAnsweredCorrect && maskedWord
+            ? (
+                <>
+                  {(() => {
+                    const idx = masked.indexOf("...");
+                    if (idx !== -1) {
+                      return <>
+                        {masked.slice(0, idx)}
+                        <b className="text-primary font-bold">{maskedWord}</b>
+                        {masked.slice(idx + 3)}
+                      </>;
+                    }
+                    return masked;
+                  })()}
+                </>
+              )
+            : masked}
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -94,12 +134,13 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
           <Input
             type="text"
             value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
+            onChange={(e) => { setAnswer(e.target.value); setShowLocalFeedback(false); }}
             placeholder="Nhập từ bạn nghe được..."
             className="text-lg pr-10"
             onKeyDown={(e) => {
-              if (e.key === "Enter" && answer.trim()) {
-                handleSubmit()
+              if (e.key === "Enter") {
+                if (hasAnsweredCorrect && onNext) onNext();
+                else handleSubmit();
               }
             }}
             ref={inputRef}
@@ -116,19 +157,18 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
         </div>
 
         <AnimatePresence>
-          {showFeedback && (
+          {(showLocalFeedback) && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={`p-4 rounded-lg text-center ${
-                isCorrect
+              className={`p-4 rounded-lg text-center ${hasAnsweredCorrect
                   ? "bg-green-100 text-green-700 dark:bg-green-900/20"
                   : "bg-red-100 text-red-700 dark:bg-red-900/20"
-              }`}
+                }`}
             >
-              {isCorrect ? (
+              {hasAnsweredCorrect ? (
                 <motion.p
                   className="font-medium"
                   initial={{ scale: 0.8 }}
@@ -154,8 +194,8 @@ export function VocabularyAudio({ word, showFeedback, isCorrect, onAnswer, disab
 
       <div className="flex justify-end">
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Button onClick={handleSubmit} disabled={!answer.trim() || showFeedback} className="relative overflow-hidden">
-            <span>Kiểm tra</span>
+          <Button onClick={hasAnsweredCorrect ? onNext : handleSubmit} disabled={!answer.trim()} className="relative overflow-hidden">
+            <span>{hasAnsweredCorrect ? "Tiếp tục" : "Kiểm tra"}</span>
             <motion.span
               className="absolute inset-0 bg-white/20 rounded-md"
               initial={{ x: "-100%", opacity: 0.5 }}

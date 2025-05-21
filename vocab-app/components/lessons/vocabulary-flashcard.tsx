@@ -19,6 +19,15 @@ export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: Vocabular
     setIsFlipped(!isFlipped)
   }
 
+  // Chặn Enter bị "lan" từ stage trước
+  const [justMounted, setJustMounted] = useState(true)
+  useEffect(() => {
+    setIsFlipped(false)
+    setJustMounted(true)
+    const timer = setTimeout(() => setJustMounted(false), 200)
+    return () => clearTimeout(timer)
+  }, [word])
+
   // phát âm từ vựng khi component được mount hoặc khi từ vựng thay đổi
   useEffect(() => {
     if (!disableAutoPlay) {
@@ -28,13 +37,17 @@ export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: Vocabular
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter") {
-        setIsFlipped((prev) => !prev)
+      if (e.key === "Enter" && !justMounted) {
+        if (!isFlipped) {
+          setIsFlipped(true)
+        } else {
+          onNext()
+        }
       }
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  }, [justMounted, isFlipped, onNext])
 
   const playAudio = () => {
     const utterance = new SpeechSynthesisUtterance(word.word)
