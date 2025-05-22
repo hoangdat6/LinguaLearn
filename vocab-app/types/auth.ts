@@ -3,9 +3,9 @@ interface AuthResponse {
     refresh: string;
     user: {
         id: string;
-        username: string;
+        name: string;
         email?: string;
-        avatar?: string;
+        image?: string;
     }
 }
 
@@ -13,6 +13,6 @@ interface AuthResponse {
 interface User {
     id: string;
     email: string;
-    username: string;
-    avatar?: string;
+    name: string;
+    image?: string;
 }

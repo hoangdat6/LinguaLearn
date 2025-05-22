@@ -7,6 +7,7 @@ import { TranslationQuestion } from "@/components/review/review-session/translat
 import { ReviewService } from "@/services/review-service"
 import { Word } from "@/types/lesson-types"
 import type { QuestionType, WordReviewState as ReviewWord } from "@/types/review"
+import { ListeningMultipleChoiceQuestion } from "./review-session/listening-multiple-choice-question"
 
 interface ReviewQuestionProps {
   questionType: QuestionType
@@ -26,7 +27,7 @@ export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onA
 
   const options =
     questionType === "L1" 
-    ? ReviewService.generateMultipleChoiceOptions(vocabularyItem.word, reviewWords) 
+    ? ReviewService.generateMultipleChoiceOptions(vocabularyItem, reviewWords) 
     : []
 
   // Render the appropriate question component based on type
@@ -39,6 +40,8 @@ export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onA
       return <FillInBlankQuestion vocabularyItem={vocabularyItem} onAnswer={onAnswer} onSkip={onSkip} />
     case "L2":
       return <ListeningQuestion vocabularyItem={vocabularyItem} onAnswer={onAnswer} onSkip={onSkip} />
+    case "L5":
+      return <ListeningMultipleChoiceQuestion vocabularyItem={vocabularyItem} options={options} onAnswer={onAnswer} onSkip={onSkip} />
     default:
       return null
   }

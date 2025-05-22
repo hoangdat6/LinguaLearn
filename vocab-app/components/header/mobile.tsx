@@ -22,26 +22,15 @@ const MobileSidebar = ({ pathname }: { pathname: string }) => {
             if (!session || !session.accessToken)
                 return;
 
-            const userData = localStorage.getItem(USER_KEY);
-            const isProfileChanged = localStorage.getItem(IS_PROFILE_CHANGED_KEY);
-
-            if (!userData && (!session || !session.user)) {
-                const userFromSession = session.user;
+            if (!session || !session.user) {
+                const userFromSession = session.user as User;
                 setUser(userFromSession);
-                return;
-            }
-
-            if (isProfileChanged !== "true" && userData && userData !== "null") {
-                const parsedUser = JSON.parse(userData);
-                setUser(parsedUser);
                 return;
             }
 
             try {
                 const currentUser = await authService.getUser();
                 setUser(currentUser);
-                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                localStorage.setItem(IS_PROFILE_CHANGED_KEY, "false");
             } catch (error) {
                 console.error("Không thể lấy thông tin người dùng:", error);
             }
@@ -114,13 +103,13 @@ const MobileSidebar = ({ pathname }: { pathname: string }) => {
                     <div>
                         <div className="flex items-center gap-3 mb-4">
                             <Avatar className="h-10 w-10 border-2 border-duolingo-green">
-                                <AvatarImage src={user.avatar || "/placeholder.svg?height=40&width=40"} alt="User" />
+                                <AvatarImage src={user.image || "/placeholder.svg?height=40&width=40"} alt="User" />
                                 <AvatarFallback className="bg-duolingo-green text-white">
-                                    {user.username?.charAt(0).toUpperCase() || "U"}
+                                    {user.name?.charAt(0).toUpperCase() || "U"}
                                 </AvatarFallback>
                             </Avatar>
                             <div>
-                                <p className="font-bold text-sm">{user.username}</p>
+                                <p className="font-bold text-sm">{user.name}</p>
                                 <p className="text-xs text-muted-foreground">{user.email}</p>
                             </div>
                         </div>

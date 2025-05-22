@@ -1,5 +1,5 @@
 import { LEADERBOARD } from "@/constants/api-endpoints";
-import api from "./api";
+import { publicApi } from "./api";
 import { PaginatedResponse } from "./course-service";
 
 export interface UserScore {
@@ -8,12 +8,11 @@ export interface UserScore {
 }
 export const getLeaderBoard = async (page: number = 1): Promise<PaginatedResponse<UserScore>> => {
     try {
-        const response = await api.get(LEADERBOARD.GET_LEADERBOARD, {
+        const response = await publicApi.get(LEADERBOARD.GET_LEADERBOARD, {
             params: { page }
         });
         return response.data;
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách từ vựng:", error);
         return { count: 0, next: null, previous: null, results: [] };
     }
 }

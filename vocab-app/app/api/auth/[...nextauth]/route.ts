@@ -46,7 +46,7 @@ const handler = NextAuth({
             // Return the tokens and any user data
             return {
               id: data.user?.id || "unknown",
-              name: data.user?.username || credentials.username,
+              name: data.user?.name || credentials.username,
               email: data.user?.email,
               accessToken: data.access,
               refreshToken: data.refresh,

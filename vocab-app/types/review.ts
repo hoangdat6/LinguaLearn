@@ -1,11 +1,12 @@
 import { Word } from "./lesson-types";
 
 // export type QuestionType = "multiple-choice" | "listening"  | "translation" | "fill-in-blank" 
-export type QuestionType = "L1" | "L2" | "L3" | "L4"
+export type QuestionType = "L1" | "L2" | "L3" | "L4" | "L5"
 // "L1" = multiple-choice
 // "L2" = listening
 // "L3" = translation
 // "L4" = fill-in-blank
+// "L5" = listening multiple-choice
 
 /**
  * Đầu tiên sẽ lưu lại ReviewSessionState 

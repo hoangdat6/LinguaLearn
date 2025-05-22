@@ -5,12 +5,18 @@ import { getSession } from "next-auth/react";
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 export const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 
-// Tạo instance Axios
+// Tạo instance Axios cho API yêu cầu xác thực
 const api = axios.create({
-    baseURL: API_BASE_URL, // Thay đổi base URL nếu cần
+    baseURL: API_BASE_URL, 
     headers: { "Content-Type": "application/json" },
 });
 
+// Tạo instance Axios hoàn toàn riêng biệt cho các API công khai
+// Instance này không có interceptor xử lý authentication
+const publicApi = axios.create({
+    baseURL: API_BASE_URL,
+    headers: { "Content-Type": "application/json" },
+});
 
 // Biến lưu trạng thái refresh token đang được gọi
 let isRefreshing = false;
@@ -49,7 +55,7 @@ const refreshAccessToken = async () => {
 
             return newAccessToken;
         } catch (error) {
-            console.error("Refresh token failed", error);
+            // console.error("Refresh token failed", error);
             return null;
         } finally {
             isRefreshing = false;
@@ -60,16 +66,16 @@ const refreshAccessToken = async () => {
     });
 };
 
-// **Interceptor Request**: Thêm Access Token vào Header
+// **Interceptor Request**: Thêm Access Token vào Header - CHỈ cho api, KHÔNG cho publicApi
 api.interceptors.request.use(async (config) => {
     const session = await getSession();
     if (session?.accessToken) {
       config.headers.Authorization = `Bearer ${session.accessToken}`;
     }
     return config;
-  });
+});
 
-// **Interceptor Response**: Xử lý khi Access Token hết hạn (401)
+// **Interceptor Response**: Xử lý khi Access Token hết hạn (401) - CHỈ cho api, KHÔNG cho publicApi
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -87,4 +93,6 @@ api.interceptors.response.use(
     }
 );
 
+// Export hai instance riêng biệt
+export { publicApi };
 export default api;

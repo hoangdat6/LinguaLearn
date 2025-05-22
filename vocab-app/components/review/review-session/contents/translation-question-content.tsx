@@ -22,10 +22,6 @@ export function TranslationQuestionContent({ vocabularyItem }: TranslationQuesti
         <div className="space-y-6">
             <div className="text-center">
                 <h2 className="text-2xl font-bold mb-2">{vocabularyItem.meaning}</h2>
-                {/* <div className="flex items-center justify-center gap-2">
-            <span className="text-muted-foreground">{vocabularyItem.pronunciation}</span>
-            <AudioButton text={vocabularyItem.word} />
-          </div> */}
             </div>
 
             <div className="py-4">

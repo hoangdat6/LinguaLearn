@@ -1,12 +1,18 @@
-import { Button } from "@/components/ui/button"; // Replace with your custom Button component
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext";
+import { createSentenceWithBlank } from "@/lib/utils";
 import { Word } from "@/types/lesson-types";
 import { useEffect, useRef } from "react";
 
 function FillInBlankQuestionContent({ vocabularyItem }: { vocabularyItem: Word }) {
-    const sentenceWithBlank = vocabularyItem.example.replace(vocabularyItem.word, "_".repeat(vocabularyItem.word.length));
-    const { answer, setAnswer, handleSubmit } = useBaseQuestion() // Lấy handleSubmit từ context
+    // Cải thiện cách tìm và thay thế từ trong câu
+    const sentenceWithBlank = createSentenceWithBlank(
+        vocabularyItem.example, 
+        vocabularyItem.word
+    );
+    
+    const { answer, setAnswer, handleSubmit } = useBaseQuestion()
     const inputRef = useRef<HTMLInputElement>(null)
     useEffect(() => {
         if (inputRef.current) {
@@ -27,7 +33,7 @@ function FillInBlankQuestionContent({ vocabularyItem }: { vocabularyItem: Word }
                         {getWordOptions().map((word, index) => (
                             <Button
                                 key={index}
-                                variant="outline" // Ensure this prop is supported by the new Button component
+                                variant="outline"
                                 size="sm"
                                 onClick={() => setAnswer(word)}
                                 className={answer === word ? "border-primary bg-primary/5" : ""}
@@ -58,7 +64,5 @@ function FillInBlankQuestionContent({ vocabularyItem }: { vocabularyItem: Word }
         return [vocabularyItem.word, "example", "different", "another", "word"].sort(() => Math.random() - 0.5);
     }
 }
-
-
 
 export default FillInBlankQuestionContent

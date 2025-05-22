@@ -1,6 +1,6 @@
+import { WORD_LEVELS_KEY } from "@/constants/status";
 import userWordService, { CountWordsByLevel } from "@/services/user-word-service";
 import { useWordLevelStore } from "@/stores/wordLevelStore";
-import { IS_LEARN_KEY, WORD_LEVELS_KEY } from "@/constants/status";
 import { useEffect, useState } from "react";
 
 const useHomePage = () => {

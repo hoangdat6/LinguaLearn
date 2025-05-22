@@ -8,7 +8,7 @@ export interface TimeUntilNextReview {
     seconds: number;
 }
 
-export interface CountWordsByLevel  {
+export interface CountWordsByLevel {
     level_counts: {
         count_level1?: number;
         count_level2?: number;
@@ -47,7 +47,7 @@ export interface UserWord {
     level?: number;
     streak?: number;
     is_correct?: boolean;
-    question_type: string; 
+    question_type: string;
 }
 
 const getVocabLevels = async () => {
@@ -55,7 +55,6 @@ const getVocabLevels = async () => {
         const response = await api.get<CountWordsByLevel>(USER_VOCABULARY.GET_VOCAB_LEVELS);
         return response.data;
     } catch (error) {
-        console.error("Lỗi khi lấy thông tin người dùng:", error);
         return null;
     }
 }
@@ -65,22 +64,31 @@ const fetchWordsLevel = async () => {
         const response = await api.get<WordsByLevel>(USER_VOCABULARY.GET_LEARNED_WORD);
         return response.data;
     } catch (error) {
-        console.error("Error fetching words level:", error);
         throw error;
     }
 };
+
+const fetchWordsLevelPagination = async (level: number, page: number, page_size = 10) => {
+    try {
+        const response = await api.get<WordReviewState[]>(USER_VOCABULARY.GET_LEARNED_WORD_PAGINATION(level, page, page_size));
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const submitLearnedWords = async ({ lessonId, words }: { lessonId: number; words: UserWord[] }) => {
     try {
-      const response = await api.post(USER_VOCABULARY.SUBMIT_LEARNED_WORDS, {
-        is_review: false,
-        lesson_id: lessonId,
-        words: words,
-      });
-      return response;
+        const response = await api.post(USER_VOCABULARY.SUBMIT_LEARNED_WORDS, {
+            is_review: false,
+            lesson_id: lessonId,
+            words: words,
+        });
+        return response;
     } catch (error) {
-      console.error("Lỗi khi submit từ vựng:", error);
+        return null
     }
-  };
-  
-const userWordService = { getVocabLevels, fetchWordsLevel, submitLearnedWords };
+};
+
+const userWordService = { getVocabLevels, fetchWordsLevel, submitLearnedWords, fetchWordsLevelPagination };
 export default userWordService;

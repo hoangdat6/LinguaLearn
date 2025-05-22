@@ -37,12 +37,13 @@ export function BaseQuestion({
 
     setIsCorrect(correct);
     setShowResult(true);
+    
+  };
 
-    setTimeout(() => {
-      setShowResult(false);
-      onAnswer(correct, timeSpent);
-      setAnswer("");
-    }, 1500);
+  const handleContinue = () => {
+    setShowResult(false);
+    onAnswer(isCorrect, (Date.now() - startTime) / 1000);
+    setAnswer("");
   };
 
   return (
@@ -51,9 +52,18 @@ export function BaseQuestion({
         {children}
 
         <AnimatePresence>
-          {showResult && <QuestionFeedback isCorrect={isCorrect} correctAnswer={correctAnswer} />}
+          {showResult && (
+            <QuestionFeedback 
+              isCorrect={isCorrect} 
+              correctAnswer={correctAnswer} 
+              vocabularyItem={vocabularyItem}
+              onContinue={handleContinue} 
+            />
+          )}
         </AnimatePresence>
-        <QuestionActions onSubmit={handleSubmit} onSkip={onSkip} disabled={!answer} />
+        {!showResult && (
+          <QuestionActions onSubmit={handleSubmit} onSkip={onSkip} disabled={!answer} />
+        )}
       </div>
     </BaseQuestionContext.Provider>
   );
@@ -70,10 +80,18 @@ export function QuestionActions({
 }) {
   return (
     <div className="flex justify-between mt-6">
-      <Button variant="outline" onClick={onSkip}>
+      <Button 
+        variant="outline" 
+        onClick={onSkip}
+        className="border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800/50"
+      >
         Mình không nhớ từ này (^_^)
       </Button>
-      <Button onClick={onSubmit} disabled={disabled}>
+      <Button 
+        onClick={onSubmit} 
+        disabled={disabled}
+        className="px-6 font-medium"
+      >
         Kiểm tra
       </Button>
     </div>

@@ -25,6 +25,8 @@ export const AUTH = {
 export const USER_VOCABULARY = {
   GET_VOCAB_LEVELS: `${API_BASE_URL}user-words/count_words-by-level`,
   GET_LEARNED_WORD: `${API_BASE_URL}user-words/learned-words`,
+  GET_LEARNED_WORD_PAGINATION: (level: number, page: number, page_size: number) =>
+    `${API_BASE_URL}user-words/learned-words-pagination?level=${level}&page=${page}&page_size=${page_size}`,
   GET_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   UPDATE_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   GET_REVIEW_WORDS: `${API_BASE_URL}vocabulary/review-words/`,

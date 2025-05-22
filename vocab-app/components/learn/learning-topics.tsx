@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Button } from "../ui/button"
 
 
 export function CoursesOverview() {
@@ -38,10 +39,35 @@ export function CoursesOverview() {
           </motion.div>
         ))}
       </div>
-      <div className="text-center mt-4">
-        <Link href="/lessons">
-          <button className="btn">Xem tất cả chủ đề</button>
-        </Link>
+
+      <div className="flex justify-center mt-8">
+        <Button 
+          asChild 
+          className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 
+                     text-white font-medium px-8 py-6 rounded-full shadow-md hover:shadow-lg 
+                     transform transition-all duration-300 hover:scale-105"
+          size="lg"
+        >
+          <Link href="/lessons" className="flex items-center justify-center space-x-2">
+            <span>Xem tất cả chủ đề</span>
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className="ml-1 transition-transform duration-300 group-hover:translate-x-1"
+            >
+              <path 
+                d="M13.5 19L20 12L13.5 5M4 19L10.5 12L4 5" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+        </Button>
       </div>
     </div>
   )

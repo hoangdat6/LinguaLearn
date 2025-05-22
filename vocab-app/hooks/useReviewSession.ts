@@ -627,13 +627,12 @@ export function useReviewSession() {
       try {
         // Submit results directly and wait for completion
         await ReviewService.submitReviewSession(results);
-        console.log("Review session saved on back navigation");
         
         // Clear session storage after successful submission
         sessionStorage.removeItem("reviewSession");
         sessionStorage.removeItem("reviewWords");
       } catch (error) {
-        console.error("Error saving review session on back:", error);
+        console.error("Error submitting review session:", error);
       }
     }
     

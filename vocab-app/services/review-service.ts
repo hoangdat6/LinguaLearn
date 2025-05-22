@@ -124,14 +124,14 @@ export const ReviewService = {
   },
 
   // Generate options for multiple choice questions
-  generateMultipleChoiceOptions(correctWord: string, reviewWords: WordReviewState[]): string[] {
+  generateMultipleChoiceOptions(correctWord: Word, reviewWords: WordReviewState[]): Word[] {
     // Filter out the correct word from the list of review words
-    const filteredWords = reviewWords.filter((word) => word.word.word !== correctWord)
+    const filteredWords = reviewWords.filter((word) => word.word.word !== correctWord.word)
     // Shuffle the filtered words and select 3 random options
     const randomWords = filteredWords
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
-      .map((word) => word.word.word)
+      .map((word) => word.word)
     // Add the correct word to the options
     randomWords.push(correctWord)
     // Shuffle the options again before returning

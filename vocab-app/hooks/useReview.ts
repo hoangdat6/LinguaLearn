@@ -30,47 +30,25 @@ const useReview = () => {
         setError(null);
         try {
             const wordsByLevel: WordsByLevel = await userWordService.fetchWordsLevel();
-            const total = Object.values(wordsByLevel.level_counts).reduce((sum, count) => sum + count, 0);
 
             setWords({
-                words_by_level1: wordsByLevel.words_level1,
-                words_by_level2: wordsByLevel.words_level2,
-                words_by_level3: wordsByLevel.words_level3,
-                words_by_level4: wordsByLevel.words_level4,
-                words_by_level5: wordsByLevel.words_level5
+                words_by_level1: wordsByLevel.words_level1 || [],
+                words_by_level2: wordsByLevel.words_level2 || [],
+                words_by_level3: wordsByLevel.words_level3 || [],
+                words_by_level4: wordsByLevel.words_level4 || [],
+                words_by_level5: wordsByLevel.words_level5 || []
             });
 
             setWordLevels({
-                countLevel1: wordsByLevel.level_counts.count_level1,
-                countLevel2: wordsByLevel.level_counts.count_level2,
-                countLevel3: wordsByLevel.level_counts.count_level3,
-                countLevel4: wordsByLevel.level_counts.count_level4,
-                countLevel5: wordsByLevel.level_counts.count_level5,
+                countLevel1: wordsByLevel.level_counts.count_level1 ?? 0,
+                countLevel2: wordsByLevel.level_counts.count_level2 ?? 0,
+                countLevel3: wordsByLevel.level_counts.count_level3 ?? 0,
+                countLevel4: wordsByLevel.level_counts.count_level4 ?? 0,
+                countLevel5: wordsByLevel.level_counts.count_level5 ?? 0,
             });
 
             setRewordCount(wordsByLevel.review_word_count);
             setTimeUntilNextReview(wordsByLevel.time_until_next_review);
-
-            // Update local storage with the new data
-            sessionStorage.setItem(WORD_LEVELS_KEY, JSON.stringify({
-                totalWords: total,
-                countLevels: {
-                    countLevel1: wordsByLevel.level_counts.count_level1,
-                    countLevel2: wordsByLevel.level_counts.count_level2,
-                    countLevel3: wordsByLevel.level_counts.count_level3,
-                    countLevel4: wordsByLevel.level_counts.count_level4,
-                    countLevel5: wordsByLevel.level_counts.count_level5,
-                },
-                reviewWordCount: wordsByLevel.review_word_count,
-                timeUntilNextReview: wordsByLevel.time_until_next_review,
-                learnedWords: {
-                    words_by_level1: wordsByLevel.words_level1,
-                    words_by_level2: wordsByLevel.words_level2,
-                    words_by_level3: wordsByLevel.words_level3,
-                    words_by_level4: wordsByLevel.words_level4,
-                    words_by_level5: wordsByLevel.words_level5
-                }
-            }));
 
             setError(null);
         } catch (err: any) {

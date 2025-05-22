@@ -3,9 +3,10 @@
 import type { BaseQuestionProps } from "@/components/review/review-session/base-question"
 import { BaseQuestion } from "@/components/review/review-session/base-question"
 import { MultipleChoiceQuestionContent } from "./contents/multiple-choice-question-content"
+import { Word } from "@/types/lesson-types"
 
 interface MultipleChoiceQuestionProps extends BaseQuestionProps {
-  options: string[]
+  options: Word[]
 }
 
 export function MultipleChoiceQuestion({ vocabularyItem, options, onAnswer, onSkip }: MultipleChoiceQuestionProps) {

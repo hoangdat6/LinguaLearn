@@ -1,14 +1,13 @@
 "use client"
 
-import React, { useMemo } from "react";
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs } from "@/components/ui/tabs";
+import { useMemo } from "react";
 
-import { VocabularyLevels } from "@/components/homepage/vocabulary-levels"
-import { ReviewWordList } from "@/components/review/review-word-list"
-import { BookOpen } from "lucide-react"
-import useReview from "@/hooks/useReview"
+import { VocabularyLevels } from "@/components/homepage/vocabulary-levels";
+import { ReviewWordList } from "@/components/review/review-word-list";
+import useReview from "@/hooks/useReview";
+import { BookOpen } from "lucide-react";
 
 export default function ReviewPage() {
   const {
