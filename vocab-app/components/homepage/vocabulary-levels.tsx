@@ -82,7 +82,7 @@ const ReviewTimeDisplay = ({ timeUntilNextReview }: { timeUntilNextReview: TimeU
     <span className="text-primary font-medium">
       {hours > 0 && `${hours} giờ `}
       {minutes > 0 && `${minutes} phút`}
-    </span>
+    </span> 
   );
 };
 
