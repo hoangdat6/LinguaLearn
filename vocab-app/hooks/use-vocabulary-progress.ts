@@ -22,7 +22,7 @@ export function useVocabularyProgress(lessonId: string) {
     const [incorrectCount, setIncorrectCount] = useState(0)
     const [showCompletionDialog, setShowCompletionDialog] = useState(false);
     const [spacedRepetition, setSpacedRepetition] = useState<SpacedRepetitionData[]>([])
-
+    
     // Initialize spaced repetition data
     useEffect(() => {
         async function fetchWords() {
