@@ -24,20 +24,20 @@ export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext, d
   const handleAnswer = (correct: boolean) => {
     setIsCorrect(correct)
     setShowFeedback(true)
-    setAnswered(correct)
-    if (!correct) {
-      onIncorrect();
-    }
+    setAnswered(true) 
   }
 
   const handleNext = () => {
-    if (answered) {
-      setShowFeedback(false);
-      setAnswered(false);
-      setIsCorrect(false);
+    if (!answered) return;
+    setShowFeedback(false);
+    setAnswered(false);
+    setIsCorrect(false);
+    if (isCorrect) {
       onCorrect();
-      onNext();
+    } else {
+      onIncorrect();
     }
+    onNext();
   }
 
   // Render different components based on the current stage

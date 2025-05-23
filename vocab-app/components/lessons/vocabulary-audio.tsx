@@ -19,6 +19,7 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
   const [answer, setAnswer] = useState("")
   const [isPlaying, setIsPlaying] = useState(false)
   const [hasAnsweredCorrect, setHasAnsweredCorrect] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false); // Thêm state này
   const [showLocalFeedback, setShowLocalFeedback] = useState(false); // Thêm state này
   const inputRef = useRef<HTMLInputElement>(null)
   const {masked ,maskedWord } = maskWordInExample(word.example, word.word)
@@ -45,7 +46,13 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
     const correct = answer.toLowerCase().trim() === word.word.toLowerCase().trim();
     onAnswer(correct);
     setShowLocalFeedback(true); // Hiện feedback local
+    setHasAnswered(true); // Đánh dấu đã trả lời
     if (correct) setHasAnsweredCorrect(true);
+    else setHasAnsweredCorrect(false);
+    // Không tự động chuyển tiếp khi sai
+    if (correct && onNext) {
+      setTimeout(() => onNext(), 600); // Tự động chuyển tiếp sau khi đúng
+    }
   }
 
   return (
@@ -127,6 +134,9 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
               )
             : masked}
         </p>
+        {showLocalFeedback && (
+          <p className="text-muted-foreground ">{word.example_vi}</p>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -139,7 +149,7 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
             className="text-lg pr-10"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                if (hasAnsweredCorrect && onNext) onNext();
+                if (hasAnswered && onNext) onNext();
                 else handleSubmit();
               }
             }}
@@ -194,8 +204,8 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
 
       <div className="flex justify-end">
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Button onClick={hasAnsweredCorrect ? onNext : handleSubmit} disabled={!answer.trim()} className="relative overflow-hidden">
-            <span>{hasAnsweredCorrect ? "Tiếp tục" : "Kiểm tra"}</span>
+          <Button onClick={hasAnswered ? onNext : handleSubmit} disabled={!answer.trim()} className="relative overflow-hidden">
+            <span>{hasAnswered ? "Tiếp tục" : "Kiểm tra"}</span>
             <motion.span
               className="absolute inset-0 bg-white/20 rounded-md"
               initial={{ x: "-100%", opacity: 0.5 }}

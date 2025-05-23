@@ -71,6 +71,14 @@ export function useVocabularyProgress(lessonId: string) {
     const handleIncorrectAnswer = () => {
         setIncorrectCount((prev) => prev + 1)
         updateSpacedRepetition(false)
+        // Chuyển từ hiện tại về cuối mảng nếu còn nhiều hơn 1 từ
+        setWords((prevWords) => {
+            if (prevWords.length <= 1) return prevWords;
+            const wordToMove = prevWords[currentIndex];
+            const newWords = prevWords.filter((_, idx) => idx !== currentIndex);
+            newWords.push(wordToMove);
+            return newWords;
+        });
     }
 
     // Update spaced repetition data
