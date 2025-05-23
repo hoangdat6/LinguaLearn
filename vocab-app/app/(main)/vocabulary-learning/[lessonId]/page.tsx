@@ -77,8 +77,9 @@ export default function Page() {
     handleReset,
     setShowCompletionDialog,
     setProgressState,
-
-  } = useVocabularyProgress(lessonId)
+    queue, // destructure queue
+    setQueue, // destructure setQueue
+  } = useVocabularyProgress(lessonId) 
 
   const router = useRouter();
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
@@ -113,7 +114,7 @@ export default function Page() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [showCompletionDialog]);
-
+  console.log(currentIndex, currentStage)
   // Khôi phục tiến trình 
   useEffect(() => {
     const saved = sessionStorage.getItem(`vocab-progress-${lessonId}`);
@@ -126,7 +127,8 @@ export default function Page() {
           words?.length > 0 &&
           typeof data.currentIndex === 'number' &&
           typeof data.correctCount === 'number' &&
-          typeof data.incorrectCount === 'number'
+          typeof data.incorrectCount === 'number' &&
+          Array.isArray(data.queue)
         ) {
           if (data.currentIndex < words.length) {
             // Reset, sau đó gán tiến trình
@@ -137,6 +139,8 @@ export default function Page() {
                 correctCount: data.correctCount,
                 incorrectCount: data.incorrectCount,
               });
+              // Khôi phục queue
+              if (typeof setQueue === 'function') setQueue(data.queue);
             }, 0);
             // Chờ đến khi currentIndex cập nhật xong
             const interval = setInterval(() => {
@@ -162,13 +166,14 @@ export default function Page() {
 
   // Lưu tiến trình học vào sessionStorage mỗi khi thay đổi
   useEffect(() => {
-    if (words?.length > 0 && !showCompletionDialog && currentIndex > 0) {
+    if (words?.length > 0 && !showCompletionDialog && currentIndex >= 0 && queue?.length > 0) {
       sessionStorage.setItem(
         `vocab-progress-${lessonId}`,
         JSON.stringify({
           currentIndex,
           correctCount,
-          incorrectCount
+          incorrectCount,
+          queue
         })
       );
     }
@@ -176,7 +181,7 @@ export default function Page() {
     if (showCompletionDialog) {
       sessionStorage.removeItem(`vocab-progress-${lessonId}`);
     }
-  }, [currentIndex, correctCount, incorrectCount, showCompletionDialog, words]);
+  }, [currentIndex, correctCount, incorrectCount, showCompletionDialog, words, queue]);
 
   // Chặn Enter khi hiện dialog hoàn thành (dùng capture để chặn sớm nhất)
   useEffect(() => {
@@ -316,6 +321,7 @@ export default function Page() {
         <Card>
           <CardContent className="p-6">
             <VocabularyStage
+              key={currentIndex + '-' + currentStage + '-' + queue.length}
               word={words[currentIndex]}
               stage={currentStage}
               onCorrect={handleCorrectAnswer}

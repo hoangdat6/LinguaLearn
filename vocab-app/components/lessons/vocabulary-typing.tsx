@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { motion, AnimatePresence } from "framer-motion"
 import { Word } from "@/types/lesson-types"
 import { maskWordInExample } from "@/lib/calculate-similarity-word"
@@ -19,14 +18,21 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
   const [answer, setAnswer] = useState("");
   const [charCount, setCharCount] = useState<number[]>([]);
   const [hasAnsweredCorrect, setHasAnsweredCorrect] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false); // Thêm state này
   const [showLocalFeedback, setShowLocalFeedback] = useState<false | "correct" | "wrong">(false);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     inputRef.current?.focus();
     setHasAnsweredCorrect(false); // Reset khi sang từ mới
+    setHasAnswered(false); // Reset khi sang từ mới
     setAnswer("");
     setCharCount([]);
     setShowLocalFeedback(false); // Reset feedback khi sang từ mới
+    // Focus vào ô đầu tiên khi sang từ mới
+    setTimeout(() => {
+      const firstInput = document.getElementById('char-input-0');
+      if (firstInput) (firstInput as HTMLInputElement).focus();
+    }, 0);
   }, [word])
   // Create character boxes for visual feedback
   const updateCharCount = (value: string) => {
@@ -41,9 +47,14 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
     setCharCount(chars)
   }
 
+  // Sửa handleChange để giới hạn số ký tự nhập vào
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value);
-    updateCharCount(e.target.value);
+    let value = e.target.value;
+    if (value.length > word.word.length) {
+      value = value.slice(0, word.word.length);
+    }
+    setAnswer(value);
+    updateCharCount(value);
     setShowLocalFeedback(false); // Ẩn feedback khi sửa đáp án
   };
 
@@ -52,11 +63,10 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
     const correct = answer.toLowerCase().trim() === word.word.toLowerCase().trim();
     onAnswer(correct);
     setShowLocalFeedback(correct ? "correct" : "wrong");
+    setHasAnswered(true);
     if (correct) setHasAnsweredCorrect(true);
     else setHasAnsweredCorrect(false);
-    if (correct && onNext) {
-      setTimeout(() => onNext(), 600); // Tự động chuyển tiếp sau khi đúng
-    }
+    // ĐÃ BỎ tự động chuyển tiếp khi đúng
   };
 
   // Sử dụng maskWordInExample để lấy cả example đã che và từ bị che
@@ -99,56 +109,72 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
         <p className="text-muted-foreground italic">
           {exampleParts}
         </p>
+        {showLocalFeedback && (
+          <p className="text-muted-foreground ">{word.example_vi}</p>
+        )}
       </motion.div>
 
       <div className="space-y-4">
         <div className="relative">
-          <Input
-            type="text"
-            value={answer}
-            onChange={handleChange}
-            placeholder="Nhập từ tiếng Anh..."
-            className="text-lg pr-10"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                if (hasAnsweredCorrect && onNext) onNext();
-                else handleSubmit();
-              }
-            }}
-            ref={inputRef}
-          />
           {answer && (
             <motion.button
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               onClick={() => {
+                if (hasAnswered) return; // Không cho xóa khi đã trả lời
                 setAnswer("");
                 updateCharCount("");
               }}
               whileTap={{ scale: 0.9 }}
+              disabled={hasAnswered}
             >
               ✕
             </motion.button>
           )}
         </div>
 
-        {/* Character boxes for visual feedback */}
         <div className="flex justify-center gap-1 my-4">
-          {word.word.split("").map((_, index) => (
-            <motion.div
+          {word.word.split("").map((char, index) => (
+            <input
               key={index}
-              className={`w-8 h-10 flex items-center justify-center rounded-md border-2 ${charCount[index] ? "border-primary bg-primary/5" : "border-muted"
-                }`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                borderColor: charCount[index] ? "hsl(var(--primary))" : "hsl(var(--muted))",
-                backgroundColor: charCount[index] ? "hsla(var(--primary), 0.05)" : "transparent",
+              type="text"
+              maxLength={1}
+              value={answer[index] || ""}
+              onChange={e => {
+                if (hasAnswered) return; // Không cho sửa khi đã trả lời
+                let val = e.target.value;
+                if (val.length > 1) val = val.slice(-1);
+                const newAnswer = answer.split("");
+                newAnswer[index] = val;
+                const joined = newAnswer.join("").slice(0, word.word.length);
+                setAnswer(joined);
+                updateCharCount(joined);
+                setShowLocalFeedback(false);
+                // Tự động focus 
+                if (val && index < word.word.length - 1) {
+                  const next = document.getElementById(`char-input-${index + 1}`);
+                  if (next) (next as HTMLInputElement).focus();
+                }
               }}
-              transition={{ delay: index * 0.05 }}
-            >
-              {charCount[index] ? answer[index] || "" : ""}
-            </motion.div>
+              onKeyDown={e => {
+                if (hasAnswered && e.key !== "Enter") {
+                  e.preventDefault();
+                  return;
+                }
+                if (e.key === "Backspace" && !answer[index] && index > 0) {
+                  // Nếu xóa ở ô rỗng thì focus về ô trước
+                  const prev = document.getElementById(`char-input-${index - 1}`);
+                  if (prev) (prev as HTMLInputElement).focus();
+                }
+                if (e.key === "Enter") {
+                  if (hasAnswered && onNext) onNext();
+                  else handleSubmit();
+                }
+              }}
+              id={`char-input-${index}`}
+              className={`w-8 h-10 text-center text-lg rounded-md border-2 ${answer[index] ? "border-primary bg-primary/5" : "border-muted"}${hasAnswered ? " opacity-60 cursor-not-allowed" : ""}`}
+              autoComplete="off"
+              style={{ imeMode: "disabled" }}
+            />
           ))}
         </div>
 
@@ -193,11 +219,12 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
       <div className="flex justify-end">
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Button
-            onClick={hasAnsweredCorrect ? onNext : handleSubmit}
-            disabled={!answer.trim()}
+            onClick={hasAnswered ? onNext : handleSubmit}
+            disabled={word.word.length !== answer.length || !answer.trim()}
             className="relative overflow-hidden"
+            
           >
-            <span>{hasAnsweredCorrect ? "Tiếp tục" : "Kiểm tra"}</span>
+            <span>{hasAnswered ? "Tiếp tục" : "Kiểm tra"}</span>
             <motion.span
               className="absolute inset-0 bg-white/20 rounded-md"
               initial={{ x: "-100%", opacity: 0.5 }}
