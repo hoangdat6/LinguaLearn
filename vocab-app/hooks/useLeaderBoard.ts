@@ -3,7 +3,6 @@ import { getLeaderBoard, UserScore } from "@/services/leader-board-sevice";
 import { PaginatedResponse } from "@/services/course-service";
 
 const NUM_USERS_PER_PAGE = 10;
-const REFRESH_INTERVAL = 10 * 60 * 1000; // 10 phút
 
 export function useLeaderBoard() {
   const [data, setData] = useState<UserScore[]>([]);
@@ -33,12 +32,8 @@ export function useLeaderBoard() {
 
   useEffect(() => {
     fetchLeaderBoard();
-
-    const intervalId = setInterval(() => {
-      fetchLeaderBoard();
-    }, REFRESH_INTERVAL);
-
-    return () => clearInterval(intervalId); 
+    // Đã bỏ interval tự động 10 phút
+    // Không còn setInterval ở đây nữa
   }, [fetchLeaderBoard]);
 
   return {

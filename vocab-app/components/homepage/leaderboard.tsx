@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLeaderBoard } from "@/hooks/useLeaderBoard";
 import PaginationCustom from "../ui/pagination-custom";
 import { Clock } from "lucide-react"; // ⏱️ icon
+import { Owl } from "../owl";
 
 function getRankStyle(index: number) {
   if (index === 0) {
@@ -79,12 +80,11 @@ export function Leaderboard() {
               {index + 1 + (currentPage - 1) * 10}
             </div>
             <Avatar className={`h-10 w-10 ${rankRing}`}>
-              <AvatarFallback>
-                {user.username
-                  .split(" ")
-                  .map((n: string) => n[0])
-                  .join("")}
-              </AvatarFallback>
+              {user.avatar ? (
+                <img src={user.avatar} alt={user.username} className="h-10 w-10 rounded-full object-cover" />
+              ) : (
+                <Owl className="h-10 w-10" />
+              )}
             </Avatar>
             <div className="flex-1">
               <p className="text-sm font-medium leading-none">{user.username}</p>

@@ -89,11 +89,9 @@ export function useVocabularyProgress(lessonId: string) {
             const newQueue = prev.slice(1)
             if (newQueue.length > 0) {
                 const [nextIndex, nextStage] = newQueue[0]
-                console.log(nextIndex, nextStage)
                 setCurrentIndex(nextIndex)
                 setCurrentStage(nextStage)
             }
-            console.log("Queue after correct answer:", newQueue)
             return newQueue
         })
     }
@@ -105,10 +103,8 @@ export function useVocabularyProgress(lessonId: string) {
                 const [first, ...rest] = prev
                 const newQueue = [...rest, first]
                 const [nextIndex, nextStage] = newQueue[0]
-                console.log(nextIndex, nextStage)
                 setCurrentIndex(nextIndex)
                 setCurrentStage(nextStage)
-                console.log("Queue after incorrect answer:", newQueue)
                 return newQueue
             }
             return prev
@@ -123,7 +119,6 @@ export function useVocabularyProgress(lessonId: string) {
                 setCurrentIndex(nextIndex)
                 setCurrentStage(nextStage)
             }
-            console.log("Queue after incorrect answer:", newQueue)
             return newQueue
         })
     }

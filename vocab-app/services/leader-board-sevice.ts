@@ -5,6 +5,7 @@ import { PaginatedResponse } from "./course-service";
 export interface UserScore {
     username: string;
     total_score: number;
+    avatar: string;
 }
 export const getLeaderBoard = async (page: number = 1): Promise<PaginatedResponse<UserScore>> => {
     try {

@@ -131,16 +131,19 @@ export default function Page() {
           Array.isArray(data.queue)
         ) {
           if (data.currentIndex < words.length) {
-            // Reset, sau đó gán tiến trình
             handleReset();
             setTimeout(() => {
               setProgressState({
-                currentIndex: data.currentIndex,
                 correctCount: data.correctCount,
                 incorrectCount: data.incorrectCount,
               });
-              // Khôi phục queue
               if (typeof setQueue === 'function') setQueue(data.queue);
+              if (data.queue && data.queue.length > 0) {
+                setProgressState({
+                  currentIndex: data.queue[0][0],
+                  currentStage: data.queue[0][1],
+                });
+              }
             }, 0);
             // Chờ đến khi currentIndex cập nhật xong
             const interval = setInterval(() => {
@@ -166,7 +169,7 @@ export default function Page() {
 
   // Lưu tiến trình học vào sessionStorage mỗi khi thay đổi
   useEffect(() => {
-    if (words?.length > 0 && !showCompletionDialog && currentIndex >= 0 && queue?.length > 0) {
+    if (words?.length > 0 && !showCompletionDialog && currentStage >= 0 && queue?.length > 0) {
       sessionStorage.setItem(
         `vocab-progress-${lessonId}`,
         JSON.stringify({
@@ -321,7 +324,7 @@ export default function Page() {
         <Card>
           <CardContent className="p-6">
             <VocabularyStage
-              key={currentIndex + '-' + currentStage + '-' + queue.length}
+              key={currentIndex + '-' + currentStage + '-' + queue.length + Date.now()}
               word={words[currentIndex]}
               stage={currentStage}
               onCorrect={handleCorrectAnswer}

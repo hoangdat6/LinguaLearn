@@ -91,7 +91,7 @@ export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: Vocabular
           >
             <h3 className="text-3xl font-bold mb-4 text-secondary">{word.meaning}</h3>
            
-            <p className="text-center italic text-sm text-secondary-foreground/80">→ {word.example_vi}</p>
+            <p className="text-center italic text-sm text-muted-foreground">→ {word.example_vi}</p>
           </div>
 
         </motion.div>
