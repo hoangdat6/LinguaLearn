@@ -81,7 +81,6 @@ export default function Page() {
   } = useVocabularyProgress(lessonId)
 
   const router = useRouter();
-  sessionStorage.setItem("isLearn", "true");
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
   const [pendingRoute, setPendingRoute] = useState<string | null>(null);
   const [progressRestored, setProgressRestored] = useState(false);

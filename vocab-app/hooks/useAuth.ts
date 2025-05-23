@@ -1,7 +1,6 @@
 "use client";
 
 import { AUTH } from "@/constants/api-endpoints";
-import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY } from "@/constants/status";
 import axios from "axios";
 import { useFormik } from "formik";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -65,9 +64,6 @@ function useAuth() {
         return false;
       }
       
-      // Set local storage items
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
       
       setMessage("Đăng nhập thành công! Đang chuyển hướng...");
       router.push(callbackUrl);
@@ -117,8 +113,7 @@ function useAuth() {
       
       // Note: we don't set these manually since the redirect will happen automatically
       // and we'll handle these on successful login callback in NextAuth
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
+
       
       return true;
     } catch (err) {
@@ -136,8 +131,6 @@ function useAuth() {
     try {
       await signIn('facebook', { callbackUrl });
       
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
       
       return true;
     } catch (err) {

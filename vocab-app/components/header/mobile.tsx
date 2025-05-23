@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import authService from "@/services/auth-service";
-import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/constants/status";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
 

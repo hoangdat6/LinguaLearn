@@ -130,6 +130,7 @@ const handler = NextAuth({
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
+          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour from now
           user: {
             id: user.id,
             name: user.name,
@@ -139,7 +140,12 @@ const handler = NextAuth({
       }
 
       // Return previous token if the access token has not expired
-      return token;
+      if (Date.now() < (token.accessTokenExpires as number)) {
+        return token;
+      }
+      
+      // Access token has expired, try to refresh it
+      return await refreshAccessToken(token);
     },
     async session({ session, token }) {
       if (token) {
@@ -161,5 +167,33 @@ const handler = NextAuth({
   },
   debug: process.env.NODE_ENV === 'development',
 });
+
+// Helper function to refresh token
+async function refreshAccessToken(token: any) {
+  try {
+    // Make a request to the token endpoint with the refresh token
+    const response = await axios.post(API_BASE_URL + "users/refresh-token/", { 
+      refresh: token.refreshToken 
+    });
+
+    // Get the new tokens
+    const refreshedTokens = response.data;
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.access,
+      refreshToken: refreshedTokens.refresh || token.refreshToken, // Fall back to old refresh token
+      accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour from now
+    };
+  } catch (error) {
+    console.error("Error refreshing access token", error);
+    
+    // The error property will be used client-side to handle the refresh token error
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    };
+  }
+}
 
 export { handler as GET, handler as POST };
