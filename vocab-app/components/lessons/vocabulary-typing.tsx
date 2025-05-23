@@ -66,10 +66,7 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
     setHasAnswered(true);
     if (correct) setHasAnsweredCorrect(true);
     else setHasAnsweredCorrect(false);
-    // Không tự động chuyển tiếp khi sai
-    if (correct && onNext) {
-      setTimeout(() => onNext(), 600); // Tự động chuyển tiếp sau khi đúng
-    }
+    // ĐÃ BỎ tự động chuyển tiếp khi đúng
   };
 
   // Sử dụng maskWordInExample để lấy cả example đã che và từ bị che
@@ -225,6 +222,7 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
             onClick={hasAnswered ? onNext : handleSubmit}
             disabled={word.word.length !== answer.length || !answer.trim()}
             className="relative overflow-hidden"
+            
           >
             <span>{hasAnswered ? "Tiếp tục" : "Kiểm tra"}</span>
             <motion.span

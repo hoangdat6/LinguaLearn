@@ -49,10 +49,7 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
     setHasAnswered(true); // Đánh dấu đã trả lời
     if (correct) setHasAnsweredCorrect(true);
     else setHasAnsweredCorrect(false);
-    // Không tự động chuyển tiếp khi sai
-    if (correct && onNext) {
-      setTimeout(() => onNext(), 600); // Tự động chuyển tiếp sau khi đúng
-    }
+    // ĐÃ BỎ tự động chuyển tiếp khi đúng
   }
 
   return (
