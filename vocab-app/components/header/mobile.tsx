@@ -21,7 +21,7 @@ const MobileSidebar = ({ pathname }: { pathname: string }) => {
             if (!session || !session.accessToken)
                 return;
 
-            if (!session || !session.user) {
+            if (session && session.user) {
                 const userFromSession = session.user as User;
                 setUser(userFromSession);
                 return;

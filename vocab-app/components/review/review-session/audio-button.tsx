@@ -29,11 +29,11 @@ export const AudioButton = forwardRef<HTMLButtonElement, AudioButtonProps>(
     // Use a ref to track if audio has been played to prevent double playing
     const hasPlayedRef = useRef(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    
+
     useEffect(() => {
       // Reset the flag when the component props change
       hasPlayedRef.current = false;
-      
+
       // Only play if it hasn't been played yet
       if (!hasPlayedRef.current) {
         setTimeout(() => {
@@ -45,13 +45,13 @@ export const AudioButton = forwardRef<HTMLButtonElement, AudioButtonProps>(
 
     const handleAudioPlay = async () => {
       setIsPlaying(true);
-      
+
       try {
-        if (audioUrl && audioUrl !== "") {
-          await playAudioByUrl(audioUrl);
-        } else {
-          await playAudioByWord(word, lang);
-        }
+        // if (audioUrl && audioUrl !== "") {
+        //   await playAudioByUrl(audioUrl);
+        // } else {
+        await playAudioByWord(word, lang);
+        // }
       } catch (error) {
         console.error("Error during audio playback:", error);
       } finally {
@@ -60,12 +60,12 @@ export const AudioButton = forwardRef<HTMLButtonElement, AudioButtonProps>(
     }
 
     return (
-      <Button 
+      <Button
         ref={ref}
-        variant={variant} 
-        size={size} 
-        onClick={handleAudioPlay} 
-        className={className} 
+        variant={variant}
+        size={size}
+        onClick={handleAudioPlay}
+        className={className}
         type="button"
         disabled={isPlaying}
       >

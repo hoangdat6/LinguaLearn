@@ -1,14 +1,13 @@
 "use client"
 
-import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import { RadioGroup } from "@/components/ui/radio-group"
 import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
+import { createSentenceWithBlank, playAudioByWord } from "@/lib/utils"
 import { Word } from "@/types/lesson-types"
 import { motion } from "framer-motion"
-import { createSentenceWithBlank, playAudioByUrl, playAudioByWord } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { useEffect, useState } from "react"
 import { Volume2 } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface ListeningMultipleChoiceQuestionContentProps {
     vocabularyItem: Word
@@ -17,7 +16,7 @@ interface ListeningMultipleChoiceQuestionContentProps {
 
 export function ListeningMultipleChoiceQuestionContent({ vocabularyItem, options }: ListeningMultipleChoiceQuestionContentProps) {
     const sentenceWithBlank = createSentenceWithBlank(
-        vocabularyItem.example, 
+        vocabularyItem.example,
         vocabularyItem.word
     );
     const { answer, setAnswer, handleSubmit } = useBaseQuestion();
@@ -44,14 +43,13 @@ export function ListeningMultipleChoiceQuestionContent({ vocabularyItem, options
             window.removeEventListener("keydown", handleKeyDown);
         };
     }, [answer, options, setAnswer, handleSubmit]);
-
     const playAudio = async (index: number) => {
         setPlayingIndex(index);
         try {
-            if (options[index].audio) {
-                playAudioByUrl(options[index].audio);
-                return
-            }
+            // if (options[index].audio) {
+            //     playAudioByUrl(options[index].audio);
+            //     return
+            // }
             playAudioByWord(options[index].word);
         } finally {
             setPlayingIndex(null);

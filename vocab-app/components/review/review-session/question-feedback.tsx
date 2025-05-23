@@ -6,6 +6,7 @@ import { Word } from "@/types/lesson-types"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import React from "react"
+import { playAudioByUrl, playAudioByWord } from "@/lib/utils"
 
 interface QuestionFeedbackProps {
   isCorrect: boolean
@@ -23,17 +24,6 @@ export function QuestionFeedback({
   const [showTranslation, setShowTranslation] = useState(false);
   const continueButtonRef = React.useRef<HTMLButtonElement>(null);
 
-  // // Auto-advance if the answer is correct
-  // useEffect(() => {
-  //   if (isCorrect) {
-  //     const timer = setTimeout(() => {
-  //       onContinue();
-  //     }, 2000); // Auto advance after 2 seconds when correct
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isCorrect, onContinue]);
-
   useEffect(() => {
     // Focus the continue button when the component mounts
     setTimeout(() => {
@@ -49,8 +39,8 @@ export function QuestionFeedback({
       // Only proceed if the Enter key is pressed
       if (e.key === 'Enter') {
         // Check if the continueButton is the active element or close to it in the focus tree
-        if (document.activeElement === continueButtonRef.current || 
-            document.activeElement?.tagName === 'BODY') {
+        if (document.activeElement === continueButtonRef.current ||
+          document.activeElement?.tagName === 'BODY') {
           e.preventDefault();
           onContinue();
         }
@@ -58,18 +48,24 @@ export function QuestionFeedback({
     };
 
     window.addEventListener('keydown', handleKeyPress);
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [onContinue]);
 
-  const handlePlayAudio = () => {
-    // Create a speech synthesis utterance for the word
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(vocabularyItem.word);
-      utterance.lang = "en-US";
-      window.speechSynthesis.speak(utterance);
+  const handlePlayAudio = async () => {
+    const audioUrl = vocabularyItem.audio;
+    const lang = "en"; // Assuming the language is English, you can modify this as needed
+    const word = vocabularyItem.word;
+    try {
+      //   if (audioUrl && audioUrl !== "") {
+      //     await playAudioByUrl(audioUrl);
+      //   } else {
+      await playAudioByWord(word, lang);
+      // }
+    } catch (error) {
+      console.error("Error during audio playback:", error);
     }
   };
 
@@ -79,8 +75,8 @@ export function QuestionFeedback({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className={`p-5 rounded-lg shadow-md ${isCorrect
-          ? "bg-green-50 border border-green-200 dark:bg-green-900/30 dark:border-green-800"
-          : "bg-red-50 border border-red-200 dark:bg-red-900/30 dark:border-red-800"
+        ? "bg-green-50 border border-green-200 dark:bg-green-900/30 dark:border-green-800"
+        : "bg-red-50 border border-red-200 dark:bg-red-900/30 dark:border-red-800"
         }`}
     >
       <div className="text-center mb-4">
