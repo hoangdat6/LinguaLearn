@@ -3,7 +3,7 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
-from ..models import Lesson
+from ..models import Lesson, UserLesson
 from ..serializers import UserLessonSerializer, WordSerializer
 from ..pagination import CustomPagination
 
@@ -24,6 +24,15 @@ class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):
         Lấy danh sách từ vựng của bài học cụ thể mà không phân trang.
         URL mẫu: /api/user-lessons/<lesson_id>/words/
         """
+        
+        user_lesson = UserLesson.objects.filter(user=request.user, lesson_id=pk).first()
+        if user_lesson:
+            return Response(
+                {
+                    'message': 'Bạn đã hoàn thành bài học này.',
+                }
+            )
+
         lesson = self.get_object()
         words = lesson.word_set.all()
         serializer = WordSerializer(words, many=True, context={'request': request})

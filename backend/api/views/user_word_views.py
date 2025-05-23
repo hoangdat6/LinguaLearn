@@ -82,7 +82,6 @@ class UserWordViewSet(viewsets.ModelViewSet):
                     new_level = min(level + 1, 5)
 
             next_review_value = calculate_next_review(new_level, new_streak, question_type)
-
             # Tìm hoặc tạo đối tượng UserWord
             user_word, created = UserWord.objects.get_or_create(    
                 user=user,
@@ -116,14 +115,6 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 }
             )
 
-            if LeaderBoard.objects.filter(user=user).exists():
-                leaderboard = LeaderBoard.objects.get(user=user)
-                leaderboard.total_score += score
-                leaderboard.save()
-            else:
-                LeaderBoard.objects.create(user=user, total_score=score)
-
-
             if not created_lesson:
                 user_lesson.date_completed = timezone.now()
                 user_lesson.save()
@@ -132,6 +123,15 @@ class UserWordViewSet(viewsets.ModelViewSet):
                 user=user,
                 course=user_lesson.lesson.course,
             )
+
+        if LeaderBoard.objects.filter(user=user).exists():
+            leaderboard = LeaderBoard.objects.get(user=user)
+            leaderboard.total_score += score
+            leaderboard.save()
+        else:
+            LeaderBoard.objects.create(user=user, total_score=score)
+
+
 
         output_serializer = UserWordOutputSerializer(processed_words, many=True, context={'request': request})
         response_data = {
