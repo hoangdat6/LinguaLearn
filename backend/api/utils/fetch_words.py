@@ -131,12 +131,17 @@ def add_pos_to_words(lesson):
             )
 
 
-
-
 def fetch_words():
     """Hàm chính để tải toàn bộ từ vựng"""
     lessons = Lesson.objects.all()
     with ThreadPoolExecutor(max_workers=10) as executor:  # Giới hạn 3 luồng tải bài học
         executor.map(add_pos_to_words, lessons)
+
+def update_audio(word_id, url):
+    word = Word.objects.get(id=word_id)
+    audio = upload_to_cloudinary(url, "audio", "video")
+    word.audio = audio
+    word.save()
+    print(f"✅ Đã cập nhật audio cho từ {word.word} với URL: {audio}")  
 
 

@@ -16,5 +16,5 @@ def get_review_ready_words(user):
         # Trong trường hợp không có từ nào, cutoff_time có thể là now
         cutoff_time = now
         return cutoff_time, UserWord.objects.none()
-    cutoff_time = max(min_next_review + timedelta(minutes=180), now)
+    cutoff_time = max(min_next_review + timedelta(minutes=60), now)
     return cutoff_time, UserWord.objects.filter(user=user, next_review__lte=cutoff_time)
