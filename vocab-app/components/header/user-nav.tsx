@@ -10,15 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ACCOUNT_NAV_LINKS } from "@/constants/routes";
 import authService from "@/services/auth-service";
-import { ACCESS_TOKEN_KEY, IS_PROFILE_CHANGED_KEY, USER_KEY } from "@/constants/status";
-import { Bell, Diamond, FlameIcon, Heart, HelpCircle, LogOut, Settings, Users } from "lucide-react";
+import { Bell, Diamond, FlameIcon, Heart, LogOut } from "lucide-react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../theme/theme-toggle";
-import { Session } from "next-auth";
-import { ACCOUNT_NAV_LINKS } from "@/constants/routes";
 
 
 export function UserNav() {
@@ -26,42 +24,26 @@ export function UserNav() {
   const [user, setUser] = useState<User | null>(null); // Xác định kiểu dữ liệu cụ thể
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const session: Session | null = await getSession();
-      // Kiểm tra xem người dùng đã đăng nhập hay chưa
-      if (!session || !session.accessToken) 
-        return;
+        const fetchUser = async () => {
+            const session = await getSession();
+            if (!session || !session.accessToken)
+                return;
 
-      // Nếu đã đăng nhập, gọi API để lấy thông tin người dùng
-      const userData = localStorage.getItem(USER_KEY);
-      const isProfileChanged = localStorage.getItem(IS_PROFILE_CHANGED_KEY);
+            if (!session || !session.user) {
+                const userFromSession = session.user as User;
+                setUser(userFromSession);
+                return;
+            }
 
-      if (!userData && (!session || !session.user)) {
-        // lấy ở seession
-        const userFromSession = session.user;
-        setUser(userFromSession);
-        return;
-      }
-
-      if (isProfileChanged !== "true" && userData && userData !== "null") {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        return;
-      }
-      // Nếu có thay đổi thì gọi API để lấy thông tin người dùng
-      try {
-        const currentUser: User | null = await authService.getUser(); // API này phải trả về kiểu User hoặc null
-        setUser(currentUser);
-        // Lưu thông tin người dùng vào local storage
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        // Reset trạng thái thay đổi profile
-        localStorage.setItem(IS_PROFILE_CHANGED_KEY, "false");
-      } catch (error) {
-        router.replace("/auth");
-      }
-    };
-    fetchUser();
-  }, []);
+            try {
+                const currentUser = await authService.getUser();
+                setUser(currentUser);
+            } catch (error) {
+                console.error("Không thể lấy thông tin người dùng:", error);
+            }
+        };
+        fetchUser();
+    }, []);
 
   const handleLogout = async () => {
     try {
@@ -103,9 +85,9 @@ export function UserNav() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="rounded-full p-0 h-10 w-10">
                 <Avatar className="h-10 w-10 border-2 border-duolingo-green">
-                  <AvatarImage src={user.avatar || "/placeholder.svg?height=40&width=40"} alt="User" />
+                  <AvatarImage src={user.image || "/placeholder.svg?height=40&width=40"} alt="User" />
                   <AvatarFallback className="bg-duolingo-green text-white">
-                    {user.username?.charAt(0).toUpperCase()}
+                    {user.name?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -113,7 +95,7 @@ export function UserNav() {
             <DropdownMenuContent align="end" className="w-56">
                {/* chào người dùng */}
               <DropdownMenuLabel className="font-bold text-sm">
-                Chào mừng, {user.username}!
+                Chào mừng, {user.name}!
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {[...ACCOUNT_NAV_LINKS].map((item, index) => (

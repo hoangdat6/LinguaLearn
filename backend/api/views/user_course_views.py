@@ -20,7 +20,7 @@ learner_count_subquery = UserCourse.objects.filter(course=OuterRef('pk')) \
     .values('course') \
     .annotate(cnt=Count('id')) \
     .values('cnt')
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = UserCourseSerializer

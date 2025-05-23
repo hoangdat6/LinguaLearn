@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/hooks/useAuth"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 
 export default function LoginPage() {
@@ -19,6 +21,23 @@ export default function LoginPage() {
     handleGoogleLogin,
     handleFacebookLogin
   } = useAuth();
+  
+  // Lấy tham số từ URL
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+
+  // Xác định tab mặc định từ URL param
+  const [activeTab, setActiveTab] = useState<string>("login");
+  
+  // Cập nhật tab khi URL thay đổi
+  useEffect(() => {
+    // Nếu có param 'tab' trong URL và giá trị là 'register', hiển thị tab đăng ký
+    if (tabParam === "register") {
+      setActiveTab("register");
+    } else {
+      setActiveTab("login");
+    }
+  }, [tabParam]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -28,7 +47,7 @@ export default function LoginPage() {
       </div>
 
       <Card className="w-full max-w-md">
-        <Tabs defaultValue="login">
+        <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid grid-cols-2 w-full">
             <TabsTrigger value="login">Đăng nhập</TabsTrigger>
             <TabsTrigger value="register">Đăng ký</TabsTrigger>
@@ -95,7 +114,7 @@ export default function LoginPage() {
                       <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                       <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                     </svg>
-                    Đăng nhập với Google
+                    Google
                   </Button>
                   <Button 
                     type="button" 

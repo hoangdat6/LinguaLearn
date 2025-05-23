@@ -1,11 +1,10 @@
-from ..serializers import LeaderBoardSerializer
-from ..models import LeaderBoard
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets
-from ..pagination import LeaderBoardPagination
 from django.core.cache import cache
+from rest_framework import viewsets
 from rest_framework.response import Response
 
+from ..models import LeaderBoard
+from ..pagination import LeaderBoardPagination
+from ..serializers import LeaderBoardSerializer
 
 
 class LeaderBoardViewSet(viewsets.ReadOnlyModelViewSet):
@@ -13,7 +12,7 @@ class LeaderBoardViewSet(viewsets.ReadOnlyModelViewSet):
     API trả về bảng xếp hạng người dùng.
     """
     serializer_class = LeaderBoardSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = LeaderBoardPagination
 
     def get_queryset(self):

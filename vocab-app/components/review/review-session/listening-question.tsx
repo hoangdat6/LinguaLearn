@@ -1,11 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { BaseQuestion } from "@/components/review/review-session/base-question"
-import { AudioButton } from "@/components/review/review-session/audio-button"
 import type { BaseQuestionProps } from "@/components/review/review-session/base-question"
-import { useBaseQuestion } from "@/contexts/BaseQuestionContext"
+import { BaseQuestion } from "@/components/review/review-session/base-question"
 import ListeningQuestionContent from "./contents/listening-question-content"
 
 export function ListeningQuestion({ vocabularyItem, onAnswer, onSkip }: BaseQuestionProps) {

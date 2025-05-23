@@ -1,18 +1,16 @@
 "use client";
 
-import { IS_LEARN_KEY, IS_PROFILE_CHANGED_KEY } from "@/constants/status";
+import { AUTH } from "@/constants/api-endpoints";
 import axios from "axios";
 import { useFormik } from "formik";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { AUTH } from "@/constants/api-endpoints";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 
-export function useAuth() {
+function useAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -66,9 +64,6 @@ export function useAuth() {
         return false;
       }
       
-      // Set local storage items
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
       
       setMessage("Đăng nhập thành công! Đang chuyển hướng...");
       router.push(callbackUrl);
@@ -118,8 +113,7 @@ export function useAuth() {
       
       // Note: we don't set these manually since the redirect will happen automatically
       // and we'll handle these on successful login callback in NextAuth
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
+
       
       return true;
     } catch (err) {
@@ -137,8 +131,6 @@ export function useAuth() {
     try {
       await signIn('facebook', { callbackUrl });
       
-      sessionStorage.setItem(IS_PROFILE_CHANGED_KEY, "true");
-      sessionStorage.setItem(IS_LEARN_KEY, "true");
       
       return true;
     } catch (err) {
@@ -179,3 +171,41 @@ export function useAuth() {
     setError
   };
 }
+
+/**
+ * Hook kiểm tra trạng thái xác thực của người dùng
+ * Cung cấp thông tin về việc người dùng đã đăng nhập hay chưa
+ */
+const useAuthStatus = () => {
+  const { data: session, status } = useSession();
+  const [isLoading, setIsLoading] = useState<boolean>(status === 'loading');
+  
+  const isAuthenticated = !!session;
+  const userEmail = session?.user?.email || null;
+  const userName = session?.user?.name || null;
+
+  // Xử lý đăng xuất
+  const logout = async (): Promise<void> => {
+    try {
+      await signOut({ callbackUrl: "/login" });
+    } catch (error) {
+      console.error("Lỗi khi đăng xuất:", error);
+    }
+  };
+
+  // Cập nhật trạng thái loading khi status thay đổi
+  useEffect(() => {
+    setIsLoading(status === 'loading');
+  }, [status]);
+
+  return {
+    isAuthenticated,
+    isLoading,
+    userEmail,
+    userName,
+    logout
+  };
+};
+
+export { useAuth, useAuthStatus };
+

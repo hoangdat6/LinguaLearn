@@ -260,5 +260,5 @@ class UserWordViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(level=level)
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = LearnedWordsSerializer(paginated_queryset, many=True, context={'request': request})
-        return paginator.get_paginated_response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

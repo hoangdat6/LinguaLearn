@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 
 interface MultipleChoiceQuestionContentProps {
     vocabularyItem: Word
-    options: string[]
+    options: Word[]
 }
 
 import { Badge } from "@/components/ui/badge"
@@ -24,7 +24,7 @@ export function MultipleChoiceQuestionContent({ vocabularyItem, options }: Multi
             if (["1", "2", "3", "4"].includes(key)) {
                 const index = parseInt(key, 10) - 1;
                 if (index >= 0 && index < options.length) {
-                    setAnswer(options[index]);
+                    setAnswer(options[index].word);
                 }
             }
             if (event.key === "Enter" && answer) {
@@ -54,21 +54,21 @@ export function MultipleChoiceQuestionContent({ vocabularyItem, options }: Multi
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.2, delay: index * 0.1 }}
                             className={`flex items-center space-x-3 rounded-lg border p-4 transition-colors hover:bg-accent ${
-                                answer === option ? "border-primary bg-primary/10 shadow-md" : ""
+                                answer === option.word ? "border-primary bg-primary/10 shadow-md" : ""
                             }`}
-                            onClick={() => setAnswer(option)}
+                            onClick={() => setAnswer(option.word)}
                         >
                             {/* Hiển thị số thứ tự với Badge */}
                             <Badge
-                                variant={answer === option ? "default" : "outline"}
+                                variant={answer === option.word ? "default" : "outline"}
                                 className={`w-6 h-6 flex items-center justify-center  font-bold rounded-full ${
-                                    answer === option ? "bg-primary text-white" : "bg-gray-200 text-gray-800"
+                                    answer === option.word ? "bg-primary text-white" : "bg-gray-200 text-gray-800"
                                 }`}
                             >
                                 {index + 1}
                             </Badge>
                             <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer font-medium">
-                                {option}
+                                {option.word}
                             </Label>
                         </motion.div>
                     ))}

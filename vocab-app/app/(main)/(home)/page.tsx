@@ -10,9 +10,11 @@ import { CoursesOverview } from "@/components/learn/learning-topics"
 import { Owl } from "@/components/owl"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { useAuthStatus } from "@/hooks/useAuth"
 import useHomePage from "@/hooks/useHomePage"
 import { motion } from "framer-motion"
-import { useEffect } from "react"
+import { ArrowRight, LogIn } from "lucide-react"
+import Link from "next/link"
 
 export default function Home() {
   const {
@@ -26,14 +28,9 @@ export default function Home() {
     reviewWordCount,
     timeUntilNextReview,
     isLoading,
-    error
   } = useHomePage();
 
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching data:", error);
-    }
-  }, [error]);
+  const { isAuthenticated, userName } = useAuthStatus();
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -102,9 +99,41 @@ export default function Home() {
               <Card className="overflow-hidden">
                 <CardContent className="p-6 flex flex-col items-center">
                   <Owl className="w-32 h-32 mb-4" />
-                  <h3 className="text-lg font-bold mb-2">Chào mừng trở lại!</h3>
-                  <p className="text-center text-muted-foreground mb-4">Bạn đã học được {totalWords} từ. Hãy tiếp tục!</p>
-                  <Button className="w-full">Tiếp tục học</Button>
+                  
+                  {isAuthenticated ? (
+                    // Đã đăng nhập - Hiển thị chào mừng và tổng số từ đã học
+                    <>
+                      <h3 className="text-lg font-bold mb-2">Chào mừng trở lại, {userName || "bạn"}!</h3>
+                      <p className="text-center text-muted-foreground mb-4">
+                        Bạn đã học được {totalWords} từ. Hãy tiếp tục!
+                      </p>
+                      <Button asChild className="w-full">
+                        <Link href="/lessons" className="flex items-center justify-center">
+                          Tiếp tục học
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </>
+                  ) : (
+                    // Chưa đăng nhập - Hiển thị hướng dẫn đăng nhập
+                    <>
+                      <h3 className="text-lg font-bold mb-2">Chào mừng đến với Vocab App!</h3>
+                      <p className="text-center text-muted-foreground mb-4">
+                        Đăng nhập để bắt đầu hành trình học tiếng Anh của bạn và theo dõi tiến trình.
+                      </p>
+                      <div className="flex gap-3 w-full">
+                        <Button asChild variant="outline" className="flex-1">
+                          <Link href="/auth?tab=register">Đăng ký</Link>
+                        </Button>
+                        <Button asChild className="flex-1">
+                          <Link href="/auth?tab=login" className="flex items-center justify-center">
+                            <LogIn className="mr-2 h-4 w-4" />
+                            Đăng nhập
+                          </Link>
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
               
@@ -121,7 +150,6 @@ export default function Home() {
                   <SavedWords />
                 </CardContent>
               </Card>
-
             </motion.div>
           </div>
         </div>

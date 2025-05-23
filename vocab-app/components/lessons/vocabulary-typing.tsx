@@ -7,20 +7,26 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { motion, AnimatePresence } from "framer-motion"
 import { Word } from "@/types/lesson-types"
+import { maskWordInExample } from "@/lib/calculate-similarity-word"
 
 interface VocabularyTypingProps {
   word: Word
-  showFeedback: boolean
-  isCorrect: boolean
   onAnswer: (correct: boolean) => void
+  onNext?: () => void // thêm prop này
 }
 
-export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: VocabularyTypingProps) {
-  const [answer, setAnswer] = useState("")
-  const [charCount, setCharCount] = useState<number[]>([])
-  const inputRef = useRef<HTMLInputElement>(null)
+export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingProps) {
+  const [answer, setAnswer] = useState("");
+  const [charCount, setCharCount] = useState<number[]>([]);
+  const [hasAnsweredCorrect, setHasAnsweredCorrect] = useState(false);
+  const [showLocalFeedback, setShowLocalFeedback] = useState<false | "correct" | "wrong">(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    inputRef.current?.focus()
+    inputRef.current?.focus();
+    setHasAnsweredCorrect(false); // Reset khi sang từ mới
+    setAnswer("");
+    setCharCount([]);
+    setShowLocalFeedback(false); // Reset feedback khi sang từ mới
   }, [word])
   // Create character boxes for visual feedback
   const updateCharCount = (value: string) => {
@@ -36,12 +42,36 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value)
-    updateCharCount(e.target.value)
-  }
+    setAnswer(e.target.value);
+    updateCharCount(e.target.value);
+    setShowLocalFeedback(false); // Ẩn feedback khi sửa đáp án
+  };
 
   const handleSubmit = () => {
-    onAnswer(answer.toLowerCase().trim() === word.word.toLowerCase().trim())
+    if (!answer.trim()) return;
+    const correct = answer.toLowerCase().trim() === word.word.toLowerCase().trim();
+    onAnswer(correct);
+    setShowLocalFeedback(correct ? "correct" : "wrong");
+    if (correct) setHasAnsweredCorrect(true);
+    else setHasAnsweredCorrect(false);
+    if (correct && onNext) {
+      setTimeout(() => onNext(), 600); // Tự động chuyển tiếp sau khi đúng
+    }
+  };
+
+  // Sử dụng maskWordInExample để lấy cả example đã che và từ bị che
+  const { masked, maskedWord } = maskWordInExample(word.example, word.word);
+  // Tách mảng để render React element
+  let exampleParts: Array<string | React.ReactNode> = [masked];
+  if (showLocalFeedback === "correct" && maskedWord) {
+    const idx = masked.indexOf("...");
+    if (idx !== -1) {
+      exampleParts = [
+        masked.slice(0, idx),
+        <b key="maskedWord" className="text-primary font-bold">{maskedWord}</b>,
+        masked.slice(idx + 3)
+      ];
+    }
   }
 
   return (
@@ -66,7 +96,9 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
         >
           {word.meaning}
         </motion.p>
-        <p className="text-muted-foreground italic">{word.example}</p>
+        <p className="text-muted-foreground italic">
+          {exampleParts}
+        </p>
       </motion.div>
 
       <div className="space-y-4">
@@ -78,8 +110,9 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
             placeholder="Nhập từ tiếng Anh..."
             className="text-lg pr-10"
             onKeyDown={(e) => {
-              if (e.key === "Enter" && answer.trim()) {
-                handleSubmit()
+              if (e.key === "Enter") {
+                if (hasAnsweredCorrect && onNext) onNext();
+                else handleSubmit();
               }
             }}
             ref={inputRef}
@@ -88,8 +121,8 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
             <motion.button
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               onClick={() => {
-                setAnswer("")
-                updateCharCount("")
+                setAnswer("");
+                updateCharCount("");
               }}
               whileTap={{ scale: 0.9 }}
             >
@@ -122,18 +155,18 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
         <p className="text-sm text-center text-muted-foreground">Từ này có {word.word.length} ký tự</p>
 
         <AnimatePresence>
-          {showFeedback && (
+          {showLocalFeedback && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className={`p-4 rounded-lg text-center ${isCorrect
+              className={`p-4 rounded-lg text-center ${showLocalFeedback === "correct"
                 ? "bg-green-100 text-green-700 dark:bg-green-900/20"
                 : "bg-red-100 text-red-700 dark:bg-red-900/20"
                 }`}
             >
-              {isCorrect ? (
+              {showLocalFeedback === "correct" ? (
                 <motion.p
                   className="font-medium"
                   initial={{ scale: 0.8 }}
@@ -159,8 +192,12 @@ export function VocabularyTyping({ word, showFeedback, isCorrect, onAnswer }: Vo
 
       <div className="flex justify-end">
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Button onClick={handleSubmit} disabled={!answer.trim() || showFeedback} className="relative overflow-hidden">
-            <span>Kiểm tra</span>
+          <Button
+            onClick={hasAnsweredCorrect ? onNext : handleSubmit}
+            disabled={!answer.trim()}
+            className="relative overflow-hidden"
+          >
+            <span>{hasAnsweredCorrect ? "Tiếp tục" : "Kiểm tra"}</span>
             <motion.span
               className="absolute inset-0 bg-white/20 rounded-md"
               initial={{ x: "-100%", opacity: 0.5 }}

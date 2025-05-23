@@ -1,61 +1,107 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useLeaderBoard } from "@/hooks/useLeaderBoard";
+import PaginationCustom from "../ui/pagination-custom";
+
+function getRankStyle(index: number) {
+  if (index === 0) {
+    return {
+      rankBg: "bg-gradient-to-r from-yellow-300 to-amber-400 text-amber-900 shadow-lg",
+      rankRing: "ring-2 ring-amber-400",
+      rankText: "text-2xl font-extrabold"
+    };
+  } else if (index === 1) {
+    return {
+      rankBg: "bg-gradient-to-r from-slate-300 to-slate-400 text-slate-800 shadow",
+      rankRing: "ring-2 ring-slate-400",
+      rankText: "text-xl font-bold"
+    };
+  } else if (index === 2) {
+    return {
+      rankBg: "bg-gradient-to-r from-orange-200 to-orange-400 text-orange-900 shadow",
+      rankRing: "ring-2 ring-orange-300",
+      rankText: "text-lg font-bold"
+    };
+  }
+  return {
+    rankBg: "bg-muted text-muted-foreground",
+    rankRing: "",
+    rankText: ""
+  };
+}
 
 export function Leaderboard() {
-  const users = [
-    { id: 1, name: "Nguyễn Văn A", points: 340, image: "/placeholder.svg" },
-    { id: 2, name: "Trần Thị B", points: 310, image: "/placeholder.svg" },
-    { id: 3, name: "Lê Văn C", points: 290, image: "/placeholder.svg" },
-    { id: 4, name: "Phạm Thị D", points: 275, image: "/placeholder.svg" },
-    { id: 5, name: "Hoàng Văn E", points: 250, image: "/placeholder.svg" },
-  ]
+  const {
+    users,
+    loading,
+    error,
+    nextPage,
+    prevPage,
+    currentPage,
+    setCurrentPage,
+    totalPages
+  } = useLeaderBoard();
 
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className="flex items-center gap-3 animate-pulse">
+            <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700" />
+            <div className="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+            <div className="flex-1">
+              <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded mb-1" />
+              <div className="h-3 w-16 bg-slate-100 dark:bg-slate-800 rounded" />
+            </div>
+            <div className="h-6 w-10 rounded-full bg-slate-100 dark:bg-slate-800" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (error) {
+    return <div className="text-center py-4 text-red-500">Đã xảy ra lỗi khi tải bảng xếp hạng.</div>;
+  }
   return (
     <div className="space-y-4">
-      {users.map((user, index) => (
-        <div key={user.id} className="flex items-center gap-3">
-          <div
-            className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold
-            ${
-              index === 0
-                ? "bg-amber-100 text-amber-600 dark:bg-amber-900/60 dark:text-amber-300"
-                : index === 1
-                  ? "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-                  : index === 2
-                    ? "bg-orange-100 text-orange-600 dark:bg-orange-900/60 dark:text-orange-300"
-                    : "bg-muted text-muted-foreground"
-            }`}
-          >
-            {index + 1}
-          </div>
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={user.image} alt={user.name} />
-            <AvatarFallback>
-              {user.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs text-muted-foreground">{user.points} XP</p>
-          </div>
-          {index < 3 && (
+      {users.map((user, index) => {
+        const { rankBg, rankRing, rankText } = getRankStyle(index);
+        return (
+          <div key={user.username || index} className="flex items-center gap-3">
             <div
-              className={`text-xs font-medium px-2 py-1 rounded-full
-              ${
-                index === 0
-                  ? "bg-amber-100 text-amber-600 dark:bg-amber-900/60 dark:text-amber-300"
-                  : index === 1
-                    ? "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-                    : "bg-orange-100 text-orange-600 dark:bg-orange-900/60 dark:text-orange-300"
-              }`}
+              className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold ${rankBg} ${rankText}`}
             >
-              #{index + 1}
+              {index + 1 + (currentPage - 1) * 10}
             </div>
-          )}
-        </div>
-      ))}
+            <Avatar className={`h-10 w-10 ${rankRing}`}>
+              <AvatarFallback>
+                {user.username
+                  .split(" ")
+                  .map((n: string) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <p className="text-sm font-medium leading-none">{user.username}</p>
+              <p className="text-xs text-muted-foreground">{user.total_score ?? 0} XP</p>
+            </div>
+            {index < 3 && (
+              <div
+                className={`text-xs font-semibold px-2 py-1 rounded-full ${rankBg} ${rankText} border border-white shadow`}
+              >
+                #{index + 1 + (currentPage - 1) * 10}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <PaginationCustom
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => {
+          setCurrentPage(page)
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }}
+      />
     </div>
   )
 }

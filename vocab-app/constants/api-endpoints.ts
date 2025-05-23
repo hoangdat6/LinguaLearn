@@ -1,3 +1,5 @@
+import { GET } from "@/app/api/dictionary/route";
+
 // Base URL from environment
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
@@ -23,6 +25,8 @@ export const AUTH = {
 export const USER_VOCABULARY = {
   GET_VOCAB_LEVELS: `${API_BASE_URL}user-words/count_words-by-level`,
   GET_LEARNED_WORD: `${API_BASE_URL}user-words/learned-words`,
+  GET_LEARNED_WORD_PAGINATION: (level: number, page: number, page_size: number) =>
+    `${API_BASE_URL}user-words/learned-words-pagination?level=${level}&page=${page}&page_size=${page_size}`,
   GET_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   UPDATE_USER_WORD: (id: number) => `${API_BASE_URL}vocabulary/user-words/${id}/`,
   GET_REVIEW_WORDS: `${API_BASE_URL}vocabulary/review-words/`,
@@ -44,3 +48,7 @@ export const COURSES = {
   GET_LESSONS_BY_COURSE: (courseId: string) => `user-courses/${courseId}/lessons`,
   GET_WORDS_BY_LESSON: (lessonId: string) => `user-lessons/${lessonId}/words`,
 };
+
+export const LEADERBOARD = {
+  GET_LEADERBOARD: `${API_BASE_URL}leaderboard/`,
+}
