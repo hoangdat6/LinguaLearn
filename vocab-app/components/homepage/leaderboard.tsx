@@ -1,6 +1,7 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLeaderBoard } from "@/hooks/useLeaderBoard";
 import PaginationCustom from "../ui/pagination-custom";
+import { Clock } from "lucide-react"; // ⏱️ icon
 
 function getRankStyle(index: number) {
   if (index === 0) {
@@ -58,11 +59,16 @@ export function Leaderboard() {
       </div>
     );
   }
+
   if (error) {
     return <div className="text-center py-4 text-red-500">Đã xảy ra lỗi khi tải bảng xếp hạng.</div>;
   }
+
   return (
     <div className="space-y-4">
+      {/* Updated status message */}
+
+
       {users.map((user, index) => {
         const { rankBg, rankRing, rankText } = getRankStyle(index);
         return (
@@ -94,15 +100,18 @@ export function Leaderboard() {
           </div>
         );
       })}
+      <div className="flex justify-center items-center text-sm text-muted-foreground gap-2 mb-2 mt-2">
+        <Clock className="w-4 h-4 text-yellow-500 animate-pulse" />
+        <span>Bảng xếp hạng được cập nhật mỗi 10 phút</span>
+      </div>
       <PaginationCustom
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={(page) => {
-          setCurrentPage(page)
-          window.scrollTo({ top: 0, behavior: 'smooth' })
+          setCurrentPage(page);
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
     </div>
-  )
+  );
 }
-

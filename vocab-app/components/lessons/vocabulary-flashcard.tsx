@@ -70,6 +70,7 @@ export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: Vocabular
           >
             <h2 className="text-4xl font-bold mb-4 text-primary">{word.word}</h2>
             <p className="text-muted-foreground text-sm mb-2">{word.pronunciation}</p>
+             <p className="text-center text-muted-foreground mb-2">{word.example}</p>
             <Button
               variant="ghost"
               size="icon"
@@ -89,8 +90,10 @@ export function VocabularyFlashcard({ word, onNext, disableAutoPlay }: Vocabular
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", zIndex: isFlipped ? 2 : 1 }}
           >
             <h3 className="text-3xl font-bold mb-4 text-secondary">{word.meaning}</h3>
-            <p className="text-center text-muted-foreground">{word.example}</p>
+           
+            <p className="text-center italic text-sm text-secondary-foreground/80">→ {word.example_vi}</p>
           </div>
+
         </motion.div>
       </div>
 
