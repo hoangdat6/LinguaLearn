@@ -31,7 +31,8 @@ export interface ReviewResultTemp {
 
 // Lưu lại trạng thái ôn tập của từ trong review queue
 export interface WordReviewResult {
-  word_id : number;
+  word_id: number;
+  word_state_id : number;
   word_index: number;
   is_correct?: boolean | null;
   is_reviewed?: boolean | null;

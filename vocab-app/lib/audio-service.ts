@@ -31,7 +31,6 @@ class AudioService {
           };
           
           this.audioElement.onerror = (error) => {
-            console.error("Error playing audio:", error);
             reject(error);
           };
           
@@ -45,13 +44,11 @@ class AudioService {
               .catch(error => {
                 // Only log real errors, not abort errors from intentional stops
                 if (error.name !== 'AbortError') {
-                  console.error("Error playing audio:", error);
                 }
                 reject(error);
               });
           }
         } catch (error) {
-          console.error("Error setting up audio:", error);
           reject(error);
         }
       });
@@ -76,7 +73,6 @@ class AudioService {
         
         utterance.onerror = (event) => {
           this.isSpeaking = false;
-          console.error("Speech synthesis error:", event);
           reject(event);
         };
         
@@ -84,7 +80,6 @@ class AudioService {
         window.speechSynthesis.speak(utterance);
       } catch (error) {
         this.isSpeaking = false;
-        console.error("Speech synthesis setup error:", error);
         reject(error);
       }
     });

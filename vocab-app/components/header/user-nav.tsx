@@ -17,6 +17,8 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../theme/theme-toggle";
+import { USER_INFO_KEY } from "@/constants/status";
+import { Owl2 } from "../owl2";
 
 
 export function UserNav() {
@@ -24,26 +26,26 @@ export function UserNav() {
   const [user, setUser] = useState<User | null>(null); // Xác định kiểu dữ liệu cụ thể
 
   useEffect(() => {
-        const fetchUser = async () => {
-            const session = await getSession();
-            if (!session || !session.accessToken)
-                return;
+    const fetchUser = async () => {
+      const session = await getSession();
+      if (!session || !session.accessToken)
+        return;
+      
+      if (session && session.user) {
+        const userFromSession = session.user as User;
+        setUser(userFromSession);
+        return;
+      }
 
-            if (!session || !session.user) {
-                const userFromSession = session.user as User;
-                setUser(userFromSession);
-                return;
-            }
-
-            try {
-                const currentUser = await authService.getUser();
-                setUser(currentUser);
-            } catch (error) {
-                console.error("Không thể lấy thông tin người dùng:", error);
-            }
-        };
-        fetchUser();
-    }, []);
+      try {
+        const currentUser = await authService.getUser();
+        setUser(currentUser);
+      } catch (error) {
+        console.error("Không thể lấy thông tin người dùng:", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -84,16 +86,19 @@ export function UserNav() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="rounded-full p-0 h-10 w-10">
-                <Avatar className="h-10 w-10 border-2 border-duolingo-green">
-                  <AvatarImage src={user.image || "/placeholder.svg?height=40&width=40"} alt="User" />
-                  <AvatarFallback className="bg-duolingo-green text-white">
-                    {user.name?.charAt(0).toUpperCase()}
-                  </AvatarFallback>
+                <Avatar className="h-10 w-10 border-duolingo-green">
+                  {
+                    user.image != null  ? (
+                      <AvatarImage src={user.image} alt="User" />
+                    ) : (
+                      <Owl2 className="h-10 w-10" />
+                    )
+                  }                  
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-               {/* chào người dùng */}
+              {/* chào người dùng */}
               <DropdownMenuLabel className="font-bold text-sm">
                 Chào mừng, {user.name}!
               </DropdownMenuLabel>

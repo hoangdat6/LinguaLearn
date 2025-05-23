@@ -87,7 +87,8 @@ export function useReviewSession() {
 
     const newReviewQueue = randomQueue.map((index) => {
       return {
-        word_id: words[index].id,
+        word_id: words[index].word.id,
+        word_state_id: words[index].id,
         word_index: index,
         is_reviewed: false,
         is_correct: null,
@@ -228,12 +229,12 @@ export function useReviewSession() {
     reviewQueue.forEach(item => {
       if (!item.is_reviewed) return;
       
-      const word = wordIdToIndex.get(item.word_id);
+      const word = wordIdToIndex.get(item.word_state_id);
       if (!word) return;
 
       // For results display purposes, we want each unique word only once
-      if (!processedWords.has(item.word_id)) {
-        processedWords.add(item.word_id);
+      if (!processedWords.has(item.word_state_id)) {
+        processedWords.add(item.word_state_id);
         
         // We don't have actual time tracking per word in the current implementation
         // Using a placeholder value (could be enhanced with actual timing)
@@ -244,7 +245,7 @@ export function useReviewSession() {
           word: word.word.word,
           correct: item.is_correct === true,
           time: item.is_skipped ? 0 : timeSpent,
-          wordId: item.word_id
+          wordId: item.word_state_id
         });
         
         if (item.is_correct === true) {
@@ -288,7 +289,6 @@ export function useReviewSession() {
         setResults(finalResults);
       }
       
-      console.log("Session completed, state updated to:", "completed");
     }, 100);
   }, [calculateResults]);
 
@@ -369,6 +369,7 @@ export function useReviewSession() {
     // Don't proceed if no words available
     if (!words.length) {
       setIsLoading(false)
+      console.warn("No review words available");
       return
     }
     
@@ -437,7 +438,7 @@ export function useReviewSession() {
     updatedQueue[currentWordIndex] = updatedWord
 
     // Update results immediately
-    updateResultsForAnswer(isCorrect, false, currentReviewItem.word_id);
+    updateResultsForAnswer(isCorrect, false, currentReviewItem.word_state_id);
 
     // Check for session completion
     if (isLastWordInQueue(currentWordIndex, updatedQueue)) {
@@ -488,7 +489,7 @@ export function useReviewSession() {
     updatedQueue[currentWordIndex] = updatedWord
 
     // Update results immediately
-    updateResultsForAnswer(false, true, currentReviewItem.word_id);
+    updateResultsForAnswer(false, true, currentReviewItem.word_state_id);
 
     // Check for session completion
     if (isLastWordInQueue(currentWordIndex, updatedQueue)) {
@@ -534,7 +535,6 @@ export function useReviewSession() {
         // Initialize session
         initReviewSession(words, parsedSession)
       } catch (err) {
-        console.error("Error initializing review session", err)
         setError(err instanceof Error ? err : new Error("Failed to initialize review session"))
         setIsLoading(false)
       }
@@ -560,11 +560,11 @@ export function useReviewSession() {
     // Duyệt `reviewQueue` và lấy lần đầu tiên của mỗi từ
     results.words = reviewQueue.reduce((acc, reviewItem) => {
       if (!reviewItem.is_reviewed) return acc // Bỏ qua từ chưa được ôn tập
-      if (!wordMap.has(reviewItem.word_id)) return acc // Bỏ qua từ không có trong danh sách ôn tập
+      if (!wordMap.has(reviewItem.word_state_id)) return acc // Bỏ qua từ không có trong danh sách ôn tập
 
       // Nếu từ chưa có trong kết quả, thêm vào
       if (!acc.some(entry => entry.word_id === reviewItem.word_id)) {
-        const item = wordMap.get(reviewItem.word_id)!
+        const item = wordMap.get(reviewItem.word_state_id)!
         acc.push({
           word_id: item.word.id,
           level: item.level,

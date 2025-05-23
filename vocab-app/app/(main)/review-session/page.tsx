@@ -12,10 +12,11 @@ import { useReviewSession } from "@/hooks/useReviewSession"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowLeft, CheckCircle, Trophy, Volume2, XCircle } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function ReviewSessionPage() {
-  // Fetch vocabulary data
+  const router = useRouter();
 
   // Ensure this useEffect is always called in the same order
   useEffect(() => {
@@ -75,11 +76,12 @@ export default function ReviewSessionPage() {
     learningQueueIndex
   } = useReviewSession()
 
-  // Add a debug log to monitor the session state
+  // Redirect to review page if there are no words to review
   useEffect(() => {
-    console.log("ReviewSessionPage - Current session state:", sessionState);
-    console.log("ReviewSessionPage - Results:", results);
-  }, [sessionState, results]);
+    if (!isLoading && reviewWords.length === 0) {
+      router.push("/review");
+    }
+  }, [isLoading, reviewWords, router]); 
 
   // Show loading state
   if (isLoading) {
@@ -96,6 +98,24 @@ export default function ReviewSessionPage() {
             <p className="text-muted-foreground mb-6">{error.message}</p>
             <Button asChild>
               <Link href="/review">Quay lại</Link>
+            </Button>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // If no review words are available but we're not loading or showing an error,
+  // show a message and link to review page
+  if (reviewWords.length === 0) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background">
+        <main className="flex-1 container py-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="text-2xl font-bold mb-4">Không có từ vựng để ôn tập</h1>
+            <p className="text-muted-foreground mb-6">Bạn chưa có từ vựng nào để ôn tập hoặc đã hoàn thành tất cả các bài ôn tập.</p>
+            <Button asChild>
+              <Link href="/review">Quay lại danh sách từ vựng</Link>
             </Button>
           </div>
         </main>

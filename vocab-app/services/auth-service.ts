@@ -37,6 +37,8 @@ const logout = async () => {
     redirect: false 
   });
 };
+
+
 const register = async (username: string, email: string, password: string, password2: string): Promise<void> => {
   try {
     await axios.post(
