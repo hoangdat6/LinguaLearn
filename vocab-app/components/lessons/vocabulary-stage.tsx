@@ -26,7 +26,6 @@ export function VocabularyStage({ word, stage, onCorrect, onIncorrect, onNext, d
     setShowFeedback(true)
     setAnswered(true) 
   }
-
   const handleNext = () => {
     if (!answered) return;
     setShowFeedback(false);

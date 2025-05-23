@@ -77,8 +77,10 @@ export default function Page() {
     handleReset,
     setShowCompletionDialog,
     setProgressState,
-
+    setCurrentStage,
   } = useVocabularyProgress(lessonId)
+  console.log(currentIndex + " " + currentStage + " " + words[currentIndex]?.word)  
+  
 
   console.log(currentIndex, currentStage, words)
   const router = useRouter();

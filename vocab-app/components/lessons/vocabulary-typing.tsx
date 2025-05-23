@@ -123,10 +123,12 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
             <motion.button
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               onClick={() => {
+                if (hasAnswered) return; // Không cho xóa khi đã trả lời
                 setAnswer("");
                 updateCharCount("");
               }}
               whileTap={{ scale: 0.9 }}
+              disabled={hasAnswered}
             >
               ✕
             </motion.button>
@@ -141,8 +143,8 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
               maxLength={1}
               value={answer[index] || ""}
               onChange={e => {
+                if (hasAnswered) return; // Không cho sửa khi đã trả lời
                 let val = e.target.value;
-                // Chỉ nhận 1 ký tự, cho phép dấu cách
                 if (val.length > 1) val = val.slice(-1);
                 const newAnswer = answer.split("");
                 newAnswer[index] = val;
@@ -157,6 +159,10 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
                 }
               }}
               onKeyDown={e => {
+                if (hasAnswered && e.key !== "Enter") {
+                  e.preventDefault();
+                  return;
+                }
                 if (e.key === "Backspace" && !answer[index] && index > 0) {
                   // Nếu xóa ở ô rỗng thì focus về ô trước
                   const prev = document.getElementById(`char-input-${index - 1}`);
@@ -168,7 +174,7 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
                 }
               }}
               id={`char-input-${index}`}
-              className={`w-8 h-10 text-center text-lg rounded-md border-2 ${answer[index] ? "border-primary bg-primary/5" : "border-muted"}`}
+              className={`w-8 h-10 text-center text-lg rounded-md border-2 ${answer[index] ? "border-primary bg-primary/5" : "border-muted"}${hasAnswered ? " opacity-60 cursor-not-allowed" : ""}`}
               autoComplete="off"
               style={{ imeMode: "disabled" }}
             />
@@ -217,7 +223,7 @@ export function VocabularyTyping({ word, onAnswer, onNext }: VocabularyTypingPro
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Button
             onClick={hasAnswered ? onNext : handleSubmit}
-            disabled={!answer.trim()}
+            disabled={word.word.length !== answer.length || !answer.trim()}
             className="relative overflow-hidden"
           >
             <span>{hasAnswered ? "Tiếp tục" : "Kiểm tra"}</span>

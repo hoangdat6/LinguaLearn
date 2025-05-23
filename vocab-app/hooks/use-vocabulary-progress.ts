@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { Lesson, Word } from "@/types/lesson-types"
 import { getWordsByLessonId } from "@/services/course-service"
+import { set } from "date-fns"
 
 interface SpacedRepetitionData {
     wordId: number
@@ -30,6 +31,7 @@ export function useVocabularyProgress(lessonId: string) {
             try {
                 const response = await getWordsByLessonId(lessonId)
                 setWords(response.words)
+                console.log
                 setLesson({
                     id: response.lessonId,
                     title: response.lesson_title,
@@ -64,23 +66,34 @@ export function useVocabularyProgress(lessonId: string) {
     // Handle correct answer
     const handleCorrectAnswer = () => {
         setCorrectCount((prev) => prev + 1)
+        if (currentStage < 3) {
+            setCurrentStage((prev) => prev + 1)
+        } else {
+            // Khi đã đạt stage 3, chuyển sang từ tiếp theo và reset stage về 1
+            if (currentIndex < words.length - 1) {
+                setCurrentIndex((prev) => prev + 1)
+                setCurrentStage(1)
+            } else {
+                setShowCompletionDialog(true);
+            }
+        }
         updateSpacedRepetition(true)
     }
 
     // Handle incorrect answer
     const handleIncorrectAnswer = () => {
-        setIncorrectCount((prev) => prev + 1)
-        updateSpacedRepetition(false)
-        // Chuyển từ hiện tại về cuối mảng nếu còn nhiều hơn 1 từ
+        setIncorrectCount((prev) => prev + 1);
         setWords((prevWords) => {
-            if (prevWords.length <= 1) return prevWords;
-            const wordToMove = prevWords[currentIndex];
-            const newWords = prevWords.filter((_, idx) => idx !== currentIndex);
-            newWords.push(wordToMove);
+            const wordToCopy = prevWords[currentIndex];
+            const newWords = [...prevWords, wordToCopy];
+            // Đảm bảo currentIndex luôn trỏ đúng từ tiếp theo sau khi thêm bản sao
+            setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, newWords.length - 1));
             return newWords;
         });
+        setCurrentStage(1);
+        updateSpacedRepetition(false);
     }
-
+    console.log(words)
     // Update spaced repetition data
     const updateSpacedRepetition = (correct: boolean) => {
         setSpacedRepetition((prev) => {
@@ -163,6 +176,7 @@ export function useVocabularyProgress(lessonId: string) {
         handleReset,
         setShowCompletionDialog,
         setProgressState, 
+        setCurrentStage,
     }
 }
 

@@ -144,10 +144,14 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
           <Input
             type="text"
             value={answer}
-            onChange={(e) => { setAnswer(e.target.value); setShowLocalFeedback(false); }}
+            onChange={(e) => { if (hasAnswered) return; setAnswer(e.target.value); setShowLocalFeedback(false); }}
             placeholder="Nhập từ bạn nghe được..."
-            className="text-lg pr-10"
+            className={`text-lg pr-10${hasAnswered ? " opacity-60 cursor-not-allowed" : ""}`}
             onKeyDown={(e) => {
+              if (hasAnswered && e.key !== "Enter") {
+                e.preventDefault();
+                return;
+              }
               if (e.key === "Enter") {
                 if (hasAnswered && onNext) onNext();
                 else handleSubmit();
@@ -158,8 +162,9 @@ export function VocabularyAudio({ word, onAnswer, onNext, disableAutoPlay = fals
           {answer && (
             <motion.button
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              onClick={() => setAnswer("")}
+              onClick={() => { if (hasAnswered) return; setAnswer(""); }}
               whileTap={{ scale: 0.9 }}
+              disabled={hasAnswered}
             >
               ✕
             </motion.button>
