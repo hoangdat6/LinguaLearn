@@ -19,19 +19,19 @@ export interface WordsResponse {
 export const getCoursesByPage = async (page: number = 1, page_size: number = 6): Promise<PaginatedResponse<Course>> => {
   try {
     // Sử dụng publicApi không cần xác thực để lấy danh sách khóa học
-    const response = await publicApi.get<PaginatedResponse<Course>>(COURSES.GET_COURSES, { params: { page, page_size } });
+    const response = await api.get<PaginatedResponse<Course>>(COURSES.GET_COURSES, { params: { page, page_size } });
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy danh sách khóa học:", error);
     return { count: 0, next: null, previous: null, results: [] };
   }
-}
+} 
 
 //lấy danh sách bài học theo khóa học (có phân trang)
 export const getLessonsByCourseId = async (courseId: string | null, page: number = 1, page_size: number = 6): Promise<PaginatedResponse<Lesson>> => {
   if (!courseId) return { count: 0, next: null, previous: null, results: [] };
   try {
-    const response = await publicApi.get<PaginatedResponse<Lesson>>(COURSES.GET_LESSONS_BY_COURSE(courseId), {
+    const response = await api.get<PaginatedResponse<Lesson>>(COURSES.GET_LESSONS_BY_COURSE(courseId), {
       params: { page, page_size }
     });
     return response.data;
