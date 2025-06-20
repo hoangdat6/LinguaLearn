@@ -1,6 +1,10 @@
 import { Word } from "@/types/lesson-types"
 import type { QuestionType, ReviewResultTemp, ReviewSessionResults, WordReviewResult, WordReviewState } from "@/types/review"
+import { createLogger } from '@/lib/logger';
 import api from "./api"
+import { USER_VOCABULARY } from "@/constants/api-endpoints";
+
+const logger = createLogger('ReviewService');
 
 // Question types
 export const QUESTION_TYPES: QuestionType[] = ["L1", "L2", "L3", "L4"]
@@ -73,10 +77,10 @@ export const ReviewService = {
   // 📌 Gọi API lấy danh sách từ vựng cần ôn tập
   async fetchReviewWords(): Promise<WordReviewState[]> {
     try {
-      const response = await api.get(`user-words/review-words/`)
+      const response = await api.get(USER_VOCABULARY.GET_REVIEW_WORDS)
       return response.data.words
     } catch (error) {
-      console.error("Error fetching review words:", error)
+      logger.error("Error fetching review words:", error)
       return []
     }
   },
@@ -84,10 +88,10 @@ export const ReviewService = {
   // 📌 Gọi API để lưu kết quả bài ôn tập
   async submitReviewSession(results: ReviewSessionResults): Promise<boolean> {
     try {
-      await api.post(`user-words/submit-words/`, results)
+      await api.post(USER_VOCABULARY.SUBMIT_LEARNED_WORDS, results)
       return true
     } catch (error) {
-      console.error("Error submitting review session results:", error)
+      logger.error("Error submitting review session results:", error)
       return false
     }
   },

@@ -59,7 +59,7 @@ const useReview = () => {
 
     useEffect(() => {
         fetchReviewData();
-    }, [fetchReviewData]);
+    }, []);
 
     return {
         totalWords,

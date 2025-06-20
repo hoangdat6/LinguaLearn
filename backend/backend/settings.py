@@ -91,7 +91,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'accounts',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -100,9 +99,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'rest_framework.authtoken',
     'corsheaders',
-    'api',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    # custom app
+    'apps.accounts',
+    'apps.gamification',
+    'apps.learning',
+    'apps.progress',
 ]
 
 REST_FRAMEWORK = {
@@ -237,8 +240,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Thời gian sống của refresh token
 }
 
 AUTHENTICATION_BACKENDS = (

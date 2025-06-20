@@ -1,27 +1,3 @@
-## docker-compose.yml (root)
-#version: '3.8'
-#
-#services:
-#  web:
-#    image: ${DOCKER_IMAGE}
-#    restart: always
-#    env_file:
-#      - ./.env
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - check-db
-#
-#  check-db:
-#    image: alpine:3.18
-#    command: >
-#      sh -c "
-#      until nc -z -v -w30 ${DATABASE_HOST} ${DATABASE_PORT};
-#      do sleep 5;
-#      done
-#      "
-
-
 version: '3.8'
 
 services:
@@ -51,6 +27,7 @@ services:
 
   redis:
     image: redis:latest
+    restart: always
     networks:
       - app_network
     healthcheck:

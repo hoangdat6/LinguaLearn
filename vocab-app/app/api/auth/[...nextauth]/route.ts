@@ -7,6 +7,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 import authService from '@/services/auth-service';
 import { AUTH } from '@/constants/api-endpoints';
+import { createLogger } from '@/lib/logger';
+import { publicApi } from '@/services/api';
+const logger = createLogger('auth');
+
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
@@ -28,12 +32,13 @@ const handler = NextAuth({
       }
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'credentials',
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        logger.info("Authorizing user with credentials:", credentials?.username);
         if (!credentials?.username || !credentials?.password) return null;
         
         try {
@@ -172,7 +177,7 @@ const handler = NextAuth({
 async function refreshAccessToken(token: any) {
   try {
     // Make a request to the token endpoint with the refresh token
-    const response = await axios.post(API_BASE_URL + "users/refresh-token/", { 
+    const response = await publicApi.post(AUTH.REFRESH_TOKEN, { 
       refresh: token.refreshToken 
     });
 

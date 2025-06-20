@@ -2,7 +2,7 @@ import { AUTH } from "@/constants/api-endpoints";
 import { AUTH_ROUTES } from "@/constants/routes";
 import axios from "axios";
 import { signOut } from "next-auth/react";
-import api from "./api";
+import api, { publicApi } from "./api";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
@@ -10,7 +10,7 @@ const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 // Hàm đăng nhập
 const login = async (username: string, password: string): Promise<AuthResponse> => {
   try {
-    const response = await axios.post<AuthResponse>(
+    const response = await publicApi.post<AuthResponse>(
       AUTH.LOGIN,
       { username, password },
       {
@@ -41,7 +41,7 @@ const logout = async () => {
 
 const register = async (username: string, email: string, password: string, password2: string): Promise<void> => {
   try {
-    await axios.post(
+    await publicApi.post(
       AUTH.REGISTER,
       { username, email, password, password2 },
       {

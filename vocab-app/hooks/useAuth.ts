@@ -1,14 +1,11 @@
 "use client";
 
-import { AUTH } from "@/constants/api-endpoints";
-import axios from "axios";
+import authService from "@/services/auth-service";
 import { useFormik } from "formik";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
-
-const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
 
 function useAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,17 +50,17 @@ function useAuth() {
     setMessage("");
     setError("");
     try {
+      console.log("Đang đăng nhập với username:", username, "và password đã được ẩn");
       const result = await signIn('credentials', {
         username,
         password,
         redirect: false,
       });
-
+      console.log("SignIn result:", result);
       if (result?.error) {
         setError(result.error || "Tài khoản hoặc mật khẩu không đúng");
         return false;
       }
-      
       
       setMessage("Đăng nhập thành công! Đang chuyển hướng...");
       router.push(callbackUrl);
@@ -82,17 +79,7 @@ function useAuth() {
     setMessage("");
     setError("");
     try {
-      await axios.post(
-        AUTH.REGISTER,
-        { username, email, password, password2: confirmPassword },
-        {
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "X-CSRFTOKEN": CSRF_TOKEN,
-          },
-        }
-      );
+      authService.register(username, email, password, confirmPassword);
       setMessage("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       return true;
     } catch (err: any) {
@@ -111,10 +98,6 @@ function useAuth() {
     try {
       await signIn('google', { callbackUrl });
       
-      // Note: we don't set these manually since the redirect will happen automatically
-      // and we'll handle these on successful login callback in NextAuth
-
-      
       return true;
     } catch (err) {
       setError("Đăng nhập với Google thất bại. Vui lòng thử lại.");
@@ -130,8 +113,6 @@ function useAuth() {
     setError("");
     try {
       await signIn('facebook', { callbackUrl });
-      
-      
       return true;
     } catch (err) {
       setError("Đăng nhập với Facebook thất bại. Vui lòng thử lại.");

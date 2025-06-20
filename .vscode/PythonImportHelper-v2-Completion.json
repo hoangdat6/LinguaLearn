@@ -1,0 +1,2800 @@
+[
+    {
+        "label": "django.contrib.auth.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.validators",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.validators",
+        "description": "django.contrib.auth.validators",
+        "detail": "django.contrib.auth.validators",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "now",
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "isExtraImport": true,
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "permissions",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "password_validation",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "authenticate",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_model",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "password_validation",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetail",
+        "importPath": "accounts.models",
+        "description": "accounts.models",
+        "isExtraImport": true,
+        "detail": "accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetail",
+        "importPath": "accounts.models",
+        "description": "accounts.models",
+        "isExtraImport": true,
+        "detail": "accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUser",
+        "importPath": "accounts.models",
+        "description": "accounts.models",
+        "isExtraImport": true,
+        "detail": "accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "AllowAny",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "AllowAny",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "send_mail",
+        "importPath": "django.core.mail",
+        "description": "django.core.mail",
+        "isExtraImport": true,
+        "detail": "django.core.mail",
+        "documentation": {}
+    },
+    {
+        "label": "RefreshToken",
+        "importPath": "rest_framework_simplejwt.tokens",
+        "description": "rest_framework_simplejwt.tokens",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.tokens",
+        "documentation": {}
+    },
+    {
+        "label": "RefreshToken",
+        "importPath": "rest_framework_simplejwt.tokens",
+        "description": "rest_framework_simplejwt.tokens",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.tokens",
+        "documentation": {}
+    },
+    {
+        "label": "default_token_generator",
+        "importPath": "django.contrib.auth.tokens",
+        "description": "django.contrib.auth.tokens",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.tokens",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "id_token",
+        "importPath": "google.oauth2",
+        "description": "google.oauth2",
+        "isExtraImport": true,
+        "detail": "google.oauth2",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "importPath": "google.auth.transport",
+        "description": "google.auth.transport",
+        "isExtraImport": true,
+        "detail": "google.auth.transport",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "cloudinary.uploader",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cloudinary.uploader",
+        "description": "cloudinary.uploader",
+        "detail": "cloudinary.uploader",
+        "documentation": {}
+    },
+    {
+        "label": "get_object_or_404",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "get_object_or_404",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "get_object_or_404",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetailSerializer",
+        "importPath": "accounts.serializers",
+        "description": "accounts.serializers",
+        "isExtraImport": true,
+        "detail": "accounts.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "importPath": "time",
+        "description": "time",
+        "isExtraImport": true,
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "cloudinary.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cloudinary.models",
+        "description": "cloudinary.models",
+        "detail": "cloudinary.models",
+        "documentation": {}
+    },
+    {
+        "label": "CloudinaryField",
+        "importPath": "cloudinary.models",
+        "description": "cloudinary.models",
+        "isExtraImport": true,
+        "detail": "cloudinary.models",
+        "documentation": {}
+    },
+    {
+        "label": "CloudinaryField",
+        "importPath": "cloudinary.models",
+        "description": "cloudinary.models",
+        "isExtraImport": true,
+        "detail": "cloudinary.models",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleAuthView",
+        "importPath": "accounts.views",
+        "description": "accounts.views",
+        "isExtraImport": true,
+        "detail": "accounts.views",
+        "documentation": {}
+    },
+    {
+        "label": "FacebookAuthView",
+        "importPath": "accounts.views",
+        "description": "accounts.views",
+        "isExtraImport": true,
+        "detail": "accounts.views",
+        "documentation": {}
+    },
+    {
+        "label": "AuthViewSet",
+        "importPath": "accounts.views.auth_view",
+        "description": "accounts.views.auth_view",
+        "isExtraImport": true,
+        "detail": "accounts.views.auth_view",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetailViewSet",
+        "importPath": "accounts.views.user_view",
+        "description": "accounts.views.user_view",
+        "isExtraImport": true,
+        "detail": "accounts.views.user_view",
+        "documentation": {}
+    },
+    {
+        "label": "randint",
+        "importPath": "random",
+        "description": "random",
+        "isExtraImport": true,
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "google.generativeai",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "google.generativeai",
+        "description": "google.generativeai",
+        "detail": "google.generativeai",
+        "documentation": {}
+    },
+    {
+        "label": "list_models",
+        "importPath": "google.generativeai",
+        "description": "google.generativeai",
+        "isExtraImport": true,
+        "detail": "google.generativeai",
+        "documentation": {}
+    },
+    {
+        "label": "Word",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Course",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Lesson",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Course",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Word",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Lesson",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserWord",
+        "importPath": "api.models",
+        "description": "api.models",
+        "isExtraImport": true,
+        "detail": "api.models",
+        "documentation": {}
+    },
+    {
+        "label": "ThreadPoolExecutor",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "isExtraImport": true,
+        "detail": "concurrent.futures",
+        "documentation": {}
+    },
+    {
+        "label": "ThreadPoolExecutor",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "isExtraImport": true,
+        "detail": "concurrent.futures",
+        "documentation": {}
+    },
+    {
+        "label": "ThreadPoolExecutor",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "isExtraImport": true,
+        "detail": "concurrent.futures",
+        "documentation": {}
+    },
+    {
+        "label": "as_completed",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
+        "isExtraImport": true,
+        "detail": "concurrent.futures",
+        "documentation": {}
+    },
+    {
+        "label": "Min",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "OuterRef",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Subquery",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "IntegerField",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Value",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Case",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "When",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "IntegerField",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Coalesce",
+        "importPath": "django.db.models.functions",
+        "description": "django.db.models.functions",
+        "isExtraImport": true,
+        "detail": "django.db.models.functions",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularAPIView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularSwaggerView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularRedocView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "cloudinary",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cloudinary",
+        "description": "cloudinary",
+        "detail": "cloudinary",
+        "documentation": {}
+    },
+    {
+        "label": "cloudinary.api",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cloudinary.api",
+        "description": "cloudinary.api",
+        "detail": "cloudinary.api",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "multiprocessing",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "multiprocessing",
+        "description": "multiprocessing",
+        "detail": "multiprocessing",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.accounts.migrations.0001_initial",
+        "description": "backend.accounts.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='CustomUser',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "backend.accounts.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.accounts.migrations.0002_userdetail",
+        "description": "backend.accounts.migrations.0002_userdetail",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('accounts', '0001_initial'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='UserDetail',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('name', models.CharField(blank=True, max_length=255, null=True)),",
+        "detail": "backend.accounts.migrations.0002_userdetail",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.accounts.migrations.0003_alter_userdetail_learning_time",
+        "description": "backend.accounts.migrations.0003_alter_userdetail_learning_time",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('accounts', '0002_userdetail'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='userdetail',\n            name='learning_time',\n            field=models.DurationField(default=datetime.timedelta(0)),\n        ),",
+        "detail": "backend.accounts.migrations.0003_alter_userdetail_learning_time",
+        "documentation": {}
+    },
+    {
+        "label": "UserRegisterSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.auth",
+        "description": "backend.accounts.serializers.auth",
+        "peekOfCode": "class UserRegisterSerializer(serializers.ModelSerializer):\n    password2 = serializers.CharField(write_only=True)\n    class Meta:\n        model = CustomUser\n        fields = [\"username\", \"email\", \"password\", \"password2\"]\n    def validate(self, attrs):\n        if attrs[\"password\"] != attrs[\"password2\"]:\n            raise serializers.ValidationError({\"password\": \"Mật khẩu không khớp!\"})\n        if CustomUser.objects.filter(username=attrs['username']).exists():\n            raise serializers.ValidationError({\"username\": \"Tên đăng nhập đã tồn tại!\"})",
+        "detail": "backend.accounts.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "UserLoginSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.auth",
+        "description": "backend.accounts.serializers.auth",
+        "peekOfCode": "class UserLoginSerializer(serializers.Serializer):\n    username = serializers.CharField()\n    password = serializers.CharField(write_only=True)\nclass ChangePasswordSerializer(serializers.Serializer):\n    old_password = serializers.CharField(required=True)\n    new_password = serializers.CharField(required=True)\n    confirm_new_password = serializers.CharField(required=True)\n    def validate_old_password(self, value):\n        user = self.context[\"request\"].user\n        if not user.check_password(value):",
+        "detail": "backend.accounts.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "ChangePasswordSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.auth",
+        "description": "backend.accounts.serializers.auth",
+        "peekOfCode": "class ChangePasswordSerializer(serializers.Serializer):\n    old_password = serializers.CharField(required=True)\n    new_password = serializers.CharField(required=True)\n    confirm_new_password = serializers.CharField(required=True)\n    def validate_old_password(self, value):\n        user = self.context[\"request\"].user\n        if not user.check_password(value):\n            raise serializers.ValidationError(\"Mật khẩu cũ không đúng!\")\n        return value\n    def validate(self, attrs):",
+        "detail": "backend.accounts.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "ResetPasswordSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.auth",
+        "description": "backend.accounts.serializers.auth",
+        "peekOfCode": "class ResetPasswordSerializer(serializers.Serializer):\n    email = serializers.EmailField(required=True)\nclass LogoutSerializer(serializers.Serializer):\n    refresh = serializers.CharField()",
+        "detail": "backend.accounts.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "LogoutSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.auth",
+        "description": "backend.accounts.serializers.auth",
+        "peekOfCode": "class LogoutSerializer(serializers.Serializer):\n    refresh = serializers.CharField()",
+        "detail": "backend.accounts.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "WordSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.content",
+        "description": "backend.accounts.serializers.content",
+        "peekOfCode": "class WordSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()\n    audio = serializers.SerializerMethodField()\n    class Meta:\n        model = Word\n        fields = ['id', 'word', 'pronunciation', 'pos', 'meaning', 'example', 'example_vi', 'image', 'audio', 'cefr']\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\n    def get_audio(self, obj):\n        return obj.audio.url if obj.audio else None",
+        "detail": "backend.accounts.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "LessonSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.content",
+        "description": "backend.accounts.serializers.content",
+        "peekOfCode": "class LessonSerializer(serializers.ModelSerializer):\n    words = WordSerializer(many=True, read_only=True, source='word_set')  # Lấy danh sách Word của Lesson\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = '__all__' \n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\nclass OnlyLessonSerializer(serializers.ModelSerializer):\n    word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()",
+        "detail": "backend.accounts.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "OnlyLessonSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.content",
+        "description": "backend.accounts.serializers.content",
+        "peekOfCode": "class OnlyLessonSerializer(serializers.ModelSerializer):\n    word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = ['id', 'title', 'description', 'image', 'word_count']\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\nclass CourseSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()",
+        "detail": "backend.accounts.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "CourseSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.content",
+        "description": "backend.accounts.serializers.content",
+        "peekOfCode": "class CourseSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Course\n        fields = '__all__'\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None",
+        "detail": "backend.accounts.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetailSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_detail",
+        "description": "backend.accounts.serializers.user_detail",
+        "peekOfCode": "class UserDetailSerializer(serializers.ModelSerializer):\n    email = serializers.EmailField(source='user.email', read_only=True)\n    avatar = serializers.URLField(source='user.avatar', read_only=True)\n    joinedDate = serializers.DateTimeField(source='joined_date', read_only=True)\n    completedLessons = serializers.IntegerField(source='completed_lessons')\n    totalLessons = serializers.IntegerField(source='total_lessons')\n    completedTopics = serializers.IntegerField(source='completed_topics')\n    totalTopics = serializers.IntegerField(source='total_topics')\n    learningTime = serializers.DurationField(source='learning_time')\n    subscriptionExpiry = serializers.DateTimeField(source='subscription_expiry', allow_null=True)",
+        "detail": "backend.accounts.serializers.user_detail",
+        "documentation": {}
+    },
+    {
+        "label": "UserLessonSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class UserLessonSerializer(serializers.ModelSerializer):\n    is_learned = serializers.SerializerMethodField()\n    word_count = serializers.IntegerField(read_only=True)\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = [\n            'id',\n            'title',\n            'description',",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserCourseSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class UserCourseSerializer(serializers.ModelSerializer):\n    is_learned = serializers.SerializerMethodField()\n    # lessons = LessonWithStatusSerializer(many=True, read_only=True, source='lesson_set')\n    lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()\n    # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.\n    image = serializers.SerializerMethodField()\n    progress = serializers.SerializerMethodField()\n    learner_count = serializers.IntegerField(read_only=True)\n    class Meta:\n        model = Course",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserWordInputSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class UserWordInputSerializer(serializers.Serializer):\n    word_id = serializers.IntegerField(required=True)\n    level = serializers.IntegerField(required=True, min_value=1, max_value=5)\n    streak = serializers.IntegerField(required=True, min_value=1, max_value=10)\n    # is_correct được yêu cầu nếu is_review = true ở cấp cha; để đây tùy chọn:\n    is_correct = serializers.BooleanField(required=False)\n    question_type = serializers.CharField(required=True)\n    def validate_word_id(self, value):\n        if not Word.objects.filter(id=value).exists():\n            raise serializers.ValidationError(\"Từ với ID này không tồn tại.\")",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserWordOutputSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class UserWordOutputSerializer(serializers.ModelSerializer):\n    word = WordSerializer()\n    class Meta:\n        model = UserWord\n        fields = '__all__'\nclass LessonWordsInputSerializer(serializers.Serializer):\n    is_review = serializers.BooleanField(required=True)\n    lesson_id = serializers.IntegerField(required=False)  # Bắt buộc nếu is_review == false\n    words = UserWordInputSerializer(many=True, required=True)\n    def validate(self, attrs):",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "LessonWordsInputSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class LessonWordsInputSerializer(serializers.Serializer):\n    is_review = serializers.BooleanField(required=True)\n    lesson_id = serializers.IntegerField(required=False)  # Bắt buộc nếu is_review == false\n    words = UserWordInputSerializer(many=True, required=True)\n    def validate(self, attrs):\n        is_review = attrs.get(\"is_review\")\n        lesson_id = attrs.get(\"lesson_id\")\n        if not is_review and lesson_id is None:\n            raise serializers.ValidationError({\n                \"lesson_id\": \"Trường này là bắt buộc khi is_review là False.\"",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "LearnedWordsSerializer",
+        "kind": 6,
+        "importPath": "backend.accounts.serializers.user_progress",
+        "description": "backend.accounts.serializers.user_progress",
+        "peekOfCode": "class LearnedWordsSerializer(serializers.ModelSerializer):\n    word = WordSerializer()\n    class Meta:\n        model = UserWord\n        fields = '__all__'",
+        "detail": "backend.accounts.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "AuthViewSet",
+        "kind": 6,
+        "importPath": "backend.accounts.views.auth_view",
+        "description": "backend.accounts.views.auth_view",
+        "peekOfCode": "class AuthViewSet(viewsets.ModelViewSet):\n    queryset = User.objects.all()\n    serializer_class = UserRegisterSerializer\n    @action(detail=False, methods=[\"post\"], url_path=\"register\")\n    def register(self, request):\n        serializer = UserRegisterSerializer(data=request.data)\n        if serializer.is_valid():\n            user = serializer.save()\n            user.is_active = False  # Tài khoản chưa được kích hoạt\n            user.save()",
+        "detail": "backend.accounts.views.auth_view",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleAuthView",
+        "kind": 6,
+        "importPath": "backend.accounts.views.social_auth_view",
+        "description": "backend.accounts.views.social_auth_view",
+        "peekOfCode": "class GoogleAuthView(APIView):\n    def post(self, request, *args, **kwargs):\n        # Handle Google login logic here\n        # Nhận id_token từ request\n        id_token_str = request.data.get('id_token')\n        if not id_token_str:\n            return Response({\"error\": \"id_token is required\"}, status=400)\n        try:\n            # Xác thực id_token với Google\n            client_id = settings.GOOGLE_OAUTH_CLIENT_ID",
+        "detail": "backend.accounts.views.social_auth_view",
+        "documentation": {}
+    },
+    {
+        "label": "FacebookAuthView",
+        "kind": 6,
+        "importPath": "backend.accounts.views.social_auth_view",
+        "description": "backend.accounts.views.social_auth_view",
+        "peekOfCode": "class FacebookAuthView(APIView):\n    def post(self, request):\n        access_token = request.data.get('access_token')\n        if not access_token:\n            return Response({\"error\": \"access_token is required\"}, status=400)\n        try:\n            # Verify token with Facebook\n            graph_url = f\"https://graph.facebook.com/me?fields=id,name,email,picture&access_token={access_token}\"\n            response = http_requests.get(graph_url)\n            fb_data = response.json()",
+        "detail": "backend.accounts.views.social_auth_view",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 5,
+        "importPath": "backend.accounts.views.social_auth_view",
+        "description": "backend.accounts.views.social_auth_view",
+        "peekOfCode": "User = get_user_model()\n# Create your views here.\nclass GoogleAuthView(APIView):\n    def post(self, request, *args, **kwargs):\n        # Handle Google login logic here\n        # Nhận id_token từ request\n        id_token_str = request.data.get('id_token')\n        if not id_token_str:\n            return Response({\"error\": \"id_token is required\"}, status=400)\n        try:",
+        "detail": "backend.accounts.views.social_auth_view",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetailViewSet",
+        "kind": 6,
+        "importPath": "backend.accounts.views.user_view",
+        "description": "backend.accounts.views.user_view",
+        "peekOfCode": "class UserDetailViewSet(viewsets.ModelViewSet):\n    serializer_class = UserDetailSerializer\n    permission_classes = [permissions.IsAuthenticated]\n    def get_queryset(self):\n        return UserDetail.objects.filter(user=self.request.user)\n    def retrieve(self, request, *args, **kwargs):\n        user_detail, created = UserDetail.objects.get_or_create(user=request.user)\n        serializer = self.get_serializer(user_detail)\n        return Response(serializer.data)\n    def update(self, request, *args, **kwargs):",
+        "detail": "backend.accounts.views.user_view",
+        "documentation": {}
+    },
+    {
+        "label": "AccountsConfig",
+        "kind": 6,
+        "importPath": "backend.accounts.apps",
+        "description": "backend.accounts.apps",
+        "peekOfCode": "class AccountsConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'accounts'",
+        "detail": "backend.accounts.apps",
+        "documentation": {}
+    },
+    {
+        "label": "CustomUser",
+        "kind": 6,
+        "importPath": "backend.accounts.models",
+        "description": "backend.accounts.models",
+        "peekOfCode": "class CustomUser(AbstractUser):\n    email_verified = models.BooleanField(default=False)\n    verification_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)\n    avatar = models.URLField(max_length=255, null=True, blank=True)\n    # for social login\n    is_social = models.BooleanField(default=False)\n    provider = models.CharField(max_length=50, null=True, blank=True)  # 'google', 'facebook', etc.\n    social_uid = models.CharField(max_length=255, null=True, blank=True, unique=True)  # id của Google user\nclass UserDetail(models.Model):\n    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='user_detail')",
+        "detail": "backend.accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserDetail",
+        "kind": 6,
+        "importPath": "backend.accounts.models",
+        "description": "backend.accounts.models",
+        "peekOfCode": "class UserDetail(models.Model):\n    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='user_detail')\n    name = models.CharField(max_length=255, blank=True, null=True)\n    phone = models.CharField(max_length=20, blank=True, null=True)\n    birthday = models.DateField(blank=True, null=True)\n    address = models.CharField(max_length=255, blank=True, null=True)\n    bio = models.TextField(blank=True, null=True)\n    language = models.CharField(max_length=50, blank=True, null=True)\n    joined_date = models.DateTimeField(auto_now_add=True)\n    level = models.CharField(max_length=50, blank=True, null=True)",
+        "detail": "backend.accounts.models",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "backend.accounts.urls",
+        "description": "backend.accounts.urls",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', AuthViewSet, basename='user')\nrouter.register(r'profile', UserDetailViewSet, basename='profile')\nurlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),  # Chưa có\n]",
+        "detail": "backend.accounts.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.accounts.urls",
+        "description": "backend.accounts.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),  # Chưa có\n]",
+        "detail": "backend.accounts.urls",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.api.migrations.0001_initial",
+        "description": "backend.api.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Course',\n            fields=[\n                ('id', models.AutoField(primary_key=True, serialize=False)),",
+        "detail": "backend.api.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.api.migrations.0002_alter_usercourse_table",
+        "description": "backend.api.migrations.0002_alter_usercourse_table",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('api', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterModelTable(\n            name='usercourse',\n            table='user_course',\n        ),\n    ]",
+        "detail": "backend.api.migrations.0002_alter_usercourse_table",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.api.migrations.0003_alter_usercourse_table",
+        "description": "backend.api.migrations.0003_alter_usercourse_table",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('api', '0002_alter_usercourse_table'),\n    ]\n    operations = [\n        migrations.AlterModelTable(\n            name='usercourse',\n            table=None,\n        ),\n    ]",
+        "detail": "backend.api.migrations.0003_alter_usercourse_table",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.api.migrations.0004_leaderboard",
+        "description": "backend.api.migrations.0004_leaderboard",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('api', '0003_alter_usercourse_table'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='LeaderBoard',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "backend.api.migrations.0004_leaderboard",
+        "documentation": {}
+    },
+    {
+        "label": "UserRegisterSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.auth",
+        "description": "backend.api.serializers.auth",
+        "peekOfCode": "class UserRegisterSerializer(serializers.ModelSerializer):\n    password2 = serializers.CharField(write_only=True)\n    class Meta:\n        model = CustomUser\n        fields = [\"username\", \"email\", \"password\", \"password2\"]\n    def validate(self, attrs):\n        if attrs[\"password\"] != attrs[\"password2\"]:\n            raise serializers.ValidationError({\"password\": \"Mật khẩu không khớp!\"})\n        if CustomUser.objects.filter(username=attrs['username']).exists():\n            raise serializers.ValidationError({\"username\": \"Tên đăng nhập đã tồn tại!\"})",
+        "detail": "backend.api.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "UserLoginSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.auth",
+        "description": "backend.api.serializers.auth",
+        "peekOfCode": "class UserLoginSerializer(serializers.Serializer):\n    username = serializers.CharField()\n    password = serializers.CharField(write_only=True)\nclass ChangePasswordSerializer(serializers.Serializer):\n    old_password = serializers.CharField(required=True)\n    new_password = serializers.CharField(required=True)\n    confirm_new_password = serializers.CharField(required=True)\n    def validate_old_password(self, value):\n        user = self.context[\"request\"].user\n        if not user.check_password(value):",
+        "detail": "backend.api.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "ChangePasswordSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.auth",
+        "description": "backend.api.serializers.auth",
+        "peekOfCode": "class ChangePasswordSerializer(serializers.Serializer):\n    old_password = serializers.CharField(required=True)\n    new_password = serializers.CharField(required=True)\n    confirm_new_password = serializers.CharField(required=True)\n    def validate_old_password(self, value):\n        user = self.context[\"request\"].user\n        if not user.check_password(value):\n            raise serializers.ValidationError(\"Mật khẩu cũ không đúng!\")\n        return value\n    def validate(self, attrs):",
+        "detail": "backend.api.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "ResetPasswordSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.auth",
+        "description": "backend.api.serializers.auth",
+        "peekOfCode": "class ResetPasswordSerializer(serializers.Serializer):\n    email = serializers.EmailField(required=True)\nclass LogoutSerializer(serializers.Serializer):\n    refresh = serializers.CharField()",
+        "detail": "backend.api.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "LogoutSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.auth",
+        "description": "backend.api.serializers.auth",
+        "peekOfCode": "class LogoutSerializer(serializers.Serializer):\n    refresh = serializers.CharField()",
+        "detail": "backend.api.serializers.auth",
+        "documentation": {}
+    },
+    {
+        "label": "WordSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.content",
+        "description": "backend.api.serializers.content",
+        "peekOfCode": "class WordSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()\n    audio = serializers.SerializerMethodField()\n    class Meta:\n        model = Word\n        fields = ['id', 'word', 'pronunciation', 'pos', 'meaning', 'example', 'example_vi', 'image', 'audio', 'cefr']\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\n    def get_audio(self, obj):\n        return obj.audio.url if obj.audio else None",
+        "detail": "backend.api.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "LessonSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.content",
+        "description": "backend.api.serializers.content",
+        "peekOfCode": "class LessonSerializer(serializers.ModelSerializer):\n    words = WordSerializer(many=True, read_only=True, source='word_set')  # Lấy danh sách Word của Lesson\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = '__all__' \n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\nclass OnlyLessonSerializer(serializers.ModelSerializer):\n    word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()",
+        "detail": "backend.api.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "OnlyLessonSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.content",
+        "description": "backend.api.serializers.content",
+        "peekOfCode": "class OnlyLessonSerializer(serializers.ModelSerializer):\n    word_count = serializers.IntegerField(read_only=True)  # Thêm field word_count từ annotate()\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = ['id', 'title', 'description', 'image', 'word_count']\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\nclass CourseSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()",
+        "detail": "backend.api.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "CourseSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.content",
+        "description": "backend.api.serializers.content",
+        "peekOfCode": "class CourseSerializer(serializers.ModelSerializer):\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Course\n        fields = '__all__'\n    def get_image(self, obj):\n        return obj.image.url if obj.image else None\nclass LeaderBoardSerializer(serializers.ModelSerializer):\n    \"\"\"\n    Serializer cho bảng xếp hạng người dùng.",
+        "detail": "backend.api.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "LeaderBoardSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.content",
+        "description": "backend.api.serializers.content",
+        "peekOfCode": "class LeaderBoardSerializer(serializers.ModelSerializer):\n    \"\"\"\n    Serializer cho bảng xếp hạng người dùng.\n    \"\"\"\n    username = serializers.CharField(source='user.username', read_only=True)\n    avatar = serializers.SerializerMethodField()\n    class Meta:\n        model = LeaderBoard\n        fields = ['username', 'total_score', 'avatar']\n        read_only_fields = ['username', 'total_score', 'avatar']",
+        "detail": "backend.api.serializers.content",
+        "documentation": {}
+    },
+    {
+        "label": "UserLessonSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class UserLessonSerializer(serializers.ModelSerializer):\n    is_learned = serializers.SerializerMethodField()\n    word_count = serializers.IntegerField(read_only=True)\n    image = serializers.SerializerMethodField()\n    class Meta:\n        model = Lesson\n        fields = [\n            'id',\n            'title',\n            'description',",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserCourseSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class UserCourseSerializer(serializers.ModelSerializer):\n    is_learned = serializers.SerializerMethodField()\n    # lessons = LessonWithStatusSerializer(many=True, read_only=True, source='lesson_set')\n    lesson_count = serializers.IntegerField(read_only=True)  # Thêm field lesson_count từ annotate()\n    # nếu bạn đã đặt related_name khác trong model Lesson thì thay đổi cho phù hợp.\n    image = serializers.SerializerMethodField()\n    progress = serializers.SerializerMethodField()\n    learner_count = serializers.IntegerField(read_only=True)\n    class Meta:\n        model = Course",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserWordInputSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class UserWordInputSerializer(serializers.Serializer):\n    word_id = serializers.IntegerField(required=True)\n    level = serializers.IntegerField(required=True, min_value=1, max_value=5)\n    streak = serializers.IntegerField(required=True, min_value=1, max_value=10)\n    # is_correct được yêu cầu nếu is_review = true ở cấp cha; để đây tùy chọn:\n    is_correct = serializers.BooleanField(required=False)\n    question_type = serializers.CharField(required=True)\n    def validate_word_id(self, value):\n        if not Word.objects.filter(id=value).exists():\n            raise serializers.ValidationError(\"Từ với ID này không tồn tại.\")",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "UserWordOutputSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class UserWordOutputSerializer(serializers.ModelSerializer):\n    word = WordSerializer()\n    class Meta:\n        model = UserWord\n        fields = '__all__'\nclass LessonWordsInputSerializer(serializers.Serializer):\n    is_review = serializers.BooleanField(required=True)\n    lesson_id = serializers.IntegerField(required=False)  # Bắt buộc nếu is_review == false\n    words = UserWordInputSerializer(many=True, required=True)\n    def validate(self, attrs):",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "LessonWordsInputSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class LessonWordsInputSerializer(serializers.Serializer):\n    is_review = serializers.BooleanField(required=True)\n    lesson_id = serializers.IntegerField(required=False)  # Bắt buộc nếu is_review == false\n    words = UserWordInputSerializer(many=True, required=True)\n    def validate(self, attrs):\n        is_review = attrs.get(\"is_review\")\n        lesson_id = attrs.get(\"lesson_id\")\n        if not is_review and lesson_id is None:\n            raise serializers.ValidationError({\n                \"lesson_id\": \"Trường này là bắt buộc khi is_review là False.\"",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "LearnedWordsSerializer",
+        "kind": 6,
+        "importPath": "backend.api.serializers.user_progress",
+        "description": "backend.api.serializers.user_progress",
+        "peekOfCode": "class LearnedWordsSerializer(serializers.ModelSerializer):\n    word = WordSerializer()\n    class Meta:\n        model = UserWord\n        fields = '__all__'",
+        "detail": "backend.api.serializers.user_progress",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_next_review",
+        "kind": 2,
+        "importPath": "backend.api.utils.calculate_next_review",
+        "description": "backend.api.utils.calculate_next_review",
+        "peekOfCode": "def calculate_next_review(level, streak, question_type):\n    \"\"\"\n    Tính toán thời gian ôn tập tiếp theo dựa trên level, streak và question_type,\n    cộng thêm một số phút ngẫu nhiên.\n    :param level: int, ví dụ từ 1 đến 5\n    :param streak: int, số lần ôn tập liên tục\n    :param question_type: str, ví dụ \"L1\", \"L2\", ...\n    :return: datetime, thời điểm next_review\n    \"\"\"\n    # Tính số giờ cơ bản",
+        "detail": "backend.api.utils.calculate_next_review",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_time_until_next_review",
+        "kind": 2,
+        "importPath": "backend.api.utils.calculate_next_review",
+        "description": "backend.api.utils.calculate_next_review",
+        "peekOfCode": "def calculate_time_until_next_review(cutoff_time):\n    \"\"\"\n    Tính toán thời gian còn lại cho đến lần ôn tập tiếp theo.\n    :param cutoff_time: datetime, thời điểm ôn tập tiếp theo\n    :return: dict, chứa hours, minutes, seconds còn lại\n    \"\"\"\n    delta = cutoff_time - timezone.now()\n    total_seconds = int(delta.total_seconds())\n    hours, remainder = divmod(total_seconds, 3600)\n    minutes, seconds = divmod(remainder, 60)",
+        "detail": "backend.api.utils.calculate_next_review",
+        "documentation": {}
+    },
+    {
+        "label": "level_time",
+        "kind": 5,
+        "importPath": "backend.api.utils.calculate_next_review",
+        "description": "backend.api.utils.calculate_next_review",
+        "peekOfCode": "level_time = [0.5, 2.5, 12.5, 62.5, 312.5]  # Giá trị cơ bản theo level (1-5)\nquestion_type_times = {\n    \"L1\": 1,\n    \"L2\": 1.1,\n    \"L3\": 1.2,\n    \"L4\": 1.3,\n    \"L5\": 1.5,\n}\ndef calculate_next_review(level, streak, question_type):\n    \"\"\"",
+        "detail": "backend.api.utils.calculate_next_review",
+        "documentation": {}
+    },
+    {
+        "label": "question_type_times",
+        "kind": 5,
+        "importPath": "backend.api.utils.calculate_next_review",
+        "description": "backend.api.utils.calculate_next_review",
+        "peekOfCode": "question_type_times = {\n    \"L1\": 1,\n    \"L2\": 1.1,\n    \"L3\": 1.2,\n    \"L4\": 1.3,\n    \"L5\": 1.5,\n}\ndef calculate_next_review(level, streak, question_type):\n    \"\"\"\n    Tính toán thời gian ôn tập tiếp theo dựa trên level, streak và question_type,",
+        "detail": "backend.api.utils.calculate_next_review",
+        "documentation": {}
+    },
+    {
+        "label": "process_model",
+        "kind": 2,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "def process_model(word):\n    global m_index\n    while True:\n        model = models[m_index]\n        try:\n            prompt = f\"\"\"Hãy phân loại từ vựng \"{word}\" thành các mức độ như:\n            A1, A2, B1, B2, C1, C2\n            Chỉ trả lời một từ: A1, A2, B1, B2, C1, C2\"\"\"\n            response = model.generate_content(prompt)\n            return response.text.strip()",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "classify_words",
+        "kind": 2,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "def classify_words():\n    w_index = 0\n    while w_index < len(words):\n        word = words[w_index]\n        if word.cefr:\n            print(f\"⚠️ Từ {word} đã được phân loại\")\n            w_index += 1\n            continue\n        sleep_time = sleep_times[m_index]\n        try:",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "API_KEY",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "API_KEY = \"AIzaSyCd99aR3QixOsQNV9V1kIWi7g3SasGBtQQ\"\ngenai.configure(api_key=API_KEY)\n# Danh sách model và RPM\nmodel_rpm = {\n    \"gemini-2.0-flash-lite\": 30,\n    \"gemini-2.0-flash-lite-001\": 30,\n    \"gemini-2.0-flash-lite-preview-02-05\": 30,\n    \"gemini-2.0-flash-lite-preview\": 30,\n    \"gemma-3-27b-it\": 30,\n    \"gemini-2.0-flash\": 15,",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "model_rpm",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "model_rpm = {\n    \"gemini-2.0-flash-lite\": 30,\n    \"gemini-2.0-flash-lite-001\": 30,\n    \"gemini-2.0-flash-lite-preview-02-05\": 30,\n    \"gemini-2.0-flash-lite-preview\": 30,\n    \"gemma-3-27b-it\": 30,\n    \"gemini-2.0-flash\": 15,\n    \"gemini-2.0-flash-001\": 15,\n    \"gemini-1.5-flash\": 15,\n    \"gemini-1.5-flash-002\": 15,",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "sorted_models",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "sorted_models = sorted(model_rpm.keys(), key=lambda x: model_rpm[x], reverse=True)\nmodels = [genai.GenerativeModel(name) for name in sorted_models]\n# Tính toán thời gian sleep cho từng model\nsleep_times = [2 / rpm for rpm in model_rpm.values()]\n# Lấy danh sách từ vựng cần xử lý\nwords = list(Word.objects.all())\nm_index = 0\n# Hàm xử lý từng model\ndef process_model(word):\n    global m_index",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "models = [genai.GenerativeModel(name) for name in sorted_models]\n# Tính toán thời gian sleep cho từng model\nsleep_times = [2 / rpm for rpm in model_rpm.values()]\n# Lấy danh sách từ vựng cần xử lý\nwords = list(Word.objects.all())\nm_index = 0\n# Hàm xử lý từng model\ndef process_model(word):\n    global m_index\n    while True:",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "sleep_times",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "sleep_times = [2 / rpm for rpm in model_rpm.values()]\n# Lấy danh sách từ vựng cần xử lý\nwords = list(Word.objects.all())\nm_index = 0\n# Hàm xử lý từng model\ndef process_model(word):\n    global m_index\n    while True:\n        model = models[m_index]\n        try:",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "words",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "words = list(Word.objects.all())\nm_index = 0\n# Hàm xử lý từng model\ndef process_model(word):\n    global m_index\n    while True:\n        model = models[m_index]\n        try:\n            prompt = f\"\"\"Hãy phân loại từ vựng \"{word}\" thành các mức độ như:\n            A1, A2, B1, B2, C1, C2",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "m_index",
+        "kind": 5,
+        "importPath": "backend.api.utils.classify_word",
+        "description": "backend.api.utils.classify_word",
+        "peekOfCode": "m_index = 0\n# Hàm xử lý từng model\ndef process_model(word):\n    global m_index\n    while True:\n        model = models[m_index]\n        try:\n            prompt = f\"\"\"Hãy phân loại từ vựng \"{word}\" thành các mức độ như:\n            A1, A2, B1, B2, C1, C2\n            Chỉ trả lời một từ: A1, A2, B1, B2, C1, C2\"\"\"",
+        "detail": "backend.api.utils.classify_word",
+        "documentation": {}
+    },
+    {
+        "label": "process_course",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_courses",
+        "description": "backend.api.utils.fetch_courses",
+        "peekOfCode": "def process_course(course):\n    if course['id'] != 16 and course['id'] != 17:\n        return\n    \"\"\"Xử lý từng course: upload ảnh và lưu vào database.\"\"\"\n    image_url = course.get(\"image\", None)\n    uploaded_image = None\n    if image_url:\n        try:\n            print(f\"🔹 Đang upload ảnh cho bài học {course['title']}: {image_url}\")\n            uploaded_image = cloudinary.uploader.upload(image_url, folder=\"courses\")",
+        "detail": "backend.api.utils.fetch_courses",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_courses",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_courses",
+        "description": "backend.api.utils.fetch_courses",
+        "peekOfCode": "def fetch_courses():\n    \"\"\"Lấy danh sách bài học và xử lý chúng bằng đa luồng.\"\"\"\n    response = requests.get(courses_url, headers=headers)\n    if response.status_code == 200:\n        courses_data = response.json()[\"data\"]\n        with ThreadPoolExecutor(max_workers=5) as executor:  # Sử dụng tối đa 5 luồng\n            executor.map(process_course, courses_data)\n        print(\"✅ Tất cả bài học đã được xử lý xong!\")\n    else:\n        print(f\"❌ Lỗi lấy dữ liệu Lesson: {response.status_code} - {response.text}\")",
+        "detail": "backend.api.utils.fetch_courses",
+        "documentation": {}
+    },
+    {
+        "label": "courses_url",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_courses",
+        "description": "backend.api.utils.fetch_courses",
+        "peekOfCode": "courses_url = \"https://mochien-server.mochidemy.com/v3.0/course/get-course-ios\"\nheaders = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef process_course(course):\n    if course['id'] != 16 and course['id'] != 17:\n        return\n    \"\"\"Xử lý từng course: upload ảnh và lưu vào database.\"\"\"",
+        "detail": "backend.api.utils.fetch_courses",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_courses",
+        "description": "backend.api.utils.fetch_courses",
+        "peekOfCode": "headers = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef process_course(course):\n    if course['id'] != 16 and course['id'] != 17:\n        return\n    \"\"\"Xử lý từng course: upload ảnh và lưu vào database.\"\"\"\n    image_url = course.get(\"image\", None)",
+        "detail": "backend.api.utils.fetch_courses",
+        "documentation": {}
+    },
+    {
+        "label": "process_lesson",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "def process_lesson(lesson):\n    \"\"\"Xử lý từng lesson: upload ảnh và lưu vào database.\"\"\"\n    image_url = lesson.get(\"image\", None)\n    uploaded_image = None\n    if image_url:\n        try:\n            print(f\"🔹 Đang upload ảnh cho bài học {lesson['title']}: {image_url}\")\n            uploaded_image = cloudinary.uploader.upload(image_url, folder=\"lessons\")\n        except Exception as e:\n            print(f\"❌ Lỗi upload ảnh {image_url}: {e}\")",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_lessons",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "def fetch_lessons():\n    \"\"\"Lấy danh sách bài học và xử lý chúng bằng đa luồng.\"\"\"\n    course_ids = [16, 17, 11]  # ID của các course cần lấy bài học\n    for course_id in course_ids:\n        url = lesson_url.format(course_id=course_id)\n        response = requests.get(url, headers=headers)\n        if response.status_code == 200:\n            lessons_data = response.json()[\"pageProps\"][\"courseData\"]\n            with ThreadPoolExecutor(max_workers=5) as executor:  # Sử dụng tối đa 5 luồng\n                executor.map(process_lesson, lessons_data)",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "process_lessons_course",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "def process_lessons_course(lesson, course):\n    # if course.id != 16 and course.id != 17:\n    #     print(f\"⚠️ Bỏ qua Course {course.title}\")\n    #     return\n    # print(f\"🔄 DEBUG: Đang vào process_lessons_course() với bài học ID: {lesson.get('id', 'N/A')}\")\n    print(f\"🔹 Đang xử lý bài học: {lesson['title']}\")\n    try:\n        lesson_db = Lesson.objects.get(id=lesson[\"id\"])\n        if lesson_db.course:\n            print(f\"⚠️ Bài học {lesson['title']} đã có course {lesson_db.course.title}. Bỏ qua!\")",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "update_lessons_course",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "def update_lessons_course():\n    \"\"\"Cập nhật course cho từng lesson.\"\"\"\n    course_ids = [16, 17, 11]  # ID của các course cần cập nhật\n    course_id = 8\n    # for _ in range(3):\n    for course_id in course_ids:\n        course = Course.objects.get(id=course_id)\n    #     for course in Course.objects.all():\n        url = lesson_url.format(course_id=course.id)\n        response = requests.get(url, headers=headers)",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "lesson_url",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "lesson_url = \"https://learn.mochidemy.com/_next/data/jqRIFJk7WgjBGC9nBJxa0/vi/learn/{course_id}.json?courseId={course_id}\"\nheaders = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef process_lesson(lesson):\n    \"\"\"Xử lý từng lesson: upload ảnh và lưu vào database.\"\"\"\n    image_url = lesson.get(\"image\", None)\n    uploaded_image = None",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_lessons",
+        "description": "backend.api.utils.fetch_lessons",
+        "peekOfCode": "headers = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef process_lesson(lesson):\n    \"\"\"Xử lý từng lesson: upload ảnh và lưu vào database.\"\"\"\n    image_url = lesson.get(\"image\", None)\n    uploaded_image = None\n    if image_url:",
+        "detail": "backend.api.utils.fetch_lessons",
+        "documentation": {}
+    },
+    {
+        "label": "upload_to_cloudinary",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "def upload_to_cloudinary(url, folder, resource_type=\"image\"):\n    \"\"\"Upload file lên Cloudinary\"\"\"\n    if not url:\n        return None\n    try:\n        response = cloudinary.uploader.upload(url, folder=folder, resource_type=resource_type)\n        return response[\"secure_url\"]\n    except Exception as e:\n        print(f\"❌ Lỗi upload {resource_type}: {e}\")\n        return None",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "process_lesson",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "def process_lesson(lesson):\n    if lesson.course_id not in [16, 17, 11, 8]:\n        return\n    if lesson.words.count() > 0:\n        print(f\"🔹 Bài học {lesson.title} đã có từ vựng, bỏ qua!\")\n    \"\"\"Xử lý từ vựng cho từng bài học\"\"\"\n    print(f\"🔹 Đang xử lý bài học: {lesson.title}\")\n    word_url = word_api_template.format(lesson_id=lesson.id)\n    response = requests.get(word_url, headers=headers)\n    if response.status_code != 200:",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "add_pos_to_words",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "def add_pos_to_words(lesson):\n    word_url = word_api_template.format(lesson_id=lesson.id)\n    response = requests.get(word_url, headers=headers)\n    if response.status_code != 200:\n        print(f\"❌ Lỗi API {response.status_code} - {response.text}\")\n        return\n    try:\n        words_data = response.json().get(\"data\", [])\n    except requests.exceptions.JSONDecodeError:\n        print(\"❌ Lỗi: API không trả về JSON hợp lệ!\")",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_words",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "def fetch_words():\n    \"\"\"Hàm chính để tải toàn bộ từ vựng\"\"\"\n    lessons = Lesson.objects.all()\n    with ThreadPoolExecutor(max_workers=10) as executor:  # Giới hạn 3 luồng tải bài học\n        executor.map(add_pos_to_words, lessons)\ndef update_audio(word_id, url):\n    word = Word.objects.get(id=word_id)\n    audio = upload_to_cloudinary(url, \"audio\", \"video\")\n    word.audio = audio\n    word.save()",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "update_audio",
+        "kind": 2,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "def update_audio(word_id, url):\n    word = Word.objects.get(id=word_id)\n    audio = upload_to_cloudinary(url, \"audio\", \"video\")\n    word.audio = audio\n    word.save()\n    print(f\"✅ Đã cập nhật audio cho từ {word.word} với URL: {audio}\")",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "word_api_template",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "word_api_template = \"https://mochien-server-release.mochidemy.com/api/v5.0/lesson/words?lesson_id={lesson_id}\"\n# Headers cho request\nheaders = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef upload_to_cloudinary(url, folder, resource_type=\"image\"):\n    \"\"\"Upload file lên Cloudinary\"\"\"\n    if not url:",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "backend.api.utils.fetch_words",
+        "description": "backend.api.utils.fetch_words",
+        "peekOfCode": "headers = {\n    \"Authorization\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxMTg3MzcyLCJlbWFpbCI6ImRvdHVhbmd2QGdtYWlsLmNvbSIsInRva2VuIjoiNjdjNWJjM2U5ZDdjYSIsImlwIjoiMTE4LjcxLjIyMS4xOTciLCJleHAiOjE3NzI1NDgwMzB9.7McKOsunhE8UaoV-ADrxLwCuPHlYzekV345CqjQ4sBA\",\n    \"PrivateKey\": \"M0ch1M0ch1_En_$ecret_k3y\",\n    \"Accept\": \"application/json\"\n}\ndef upload_to_cloudinary(url, folder, resource_type=\"image\"):\n    \"\"\"Upload file lên Cloudinary\"\"\"\n    if not url:\n        return None\n    try:",
+        "detail": "backend.api.utils.fetch_words",
+        "documentation": {}
+    },
+    {
+        "label": "get_review_ready_words",
+        "kind": 2,
+        "importPath": "backend.api.utils.get_review_ready_words",
+        "description": "backend.api.utils.get_review_ready_words",
+        "peekOfCode": "def get_review_ready_words(user):\n    \"\"\"\n    Trả về tuple (cutoff_time, queryset) với:\n      - cutoff_time = max(min(next_review) + 180 phút, now)\n      - queryset các từ của user có next_review <= cutoff_time\n    \"\"\"\n    now = timezone.now()\n    result = UserWord.objects.filter(user=user).aggregate(min_next=Min('next_review'))\n    min_next_review = result.get('min_next')\n    if min_next_review is None:",
+        "detail": "backend.api.utils.get_review_ready_words",
+        "documentation": {}
+    },
+    {
+        "label": "CourseViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.course_views",
+        "description": "backend.api.views.course_views",
+        "peekOfCode": "class CourseViewSet(viewsets.ModelViewSet):\n    queryset = Course.objects.all().order_by('id')\n    serializer_class = CourseSerializer\n    permission_classes = [AllowAny]  \n    pagination_class = CustomPagination\n    @action(detail=True, methods=['GET'], url_path='lessons')\n    def get_lessons(self, request, pk=None):\n        course = get_object_or_404(Course, pk=pk)\n        lessons = course.lesson_set.all()\n        serializer = LessonSerializer(lessons, many=True)",
+        "detail": "backend.api.views.course_views",
+        "documentation": {}
+    },
+    {
+        "label": "LeaderBoardViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.leader_board_views",
+        "description": "backend.api.views.leader_board_views",
+        "peekOfCode": "class LeaderBoardViewSet(viewsets.ReadOnlyModelViewSet):\n    \"\"\"\n    API trả về bảng xếp hạng người dùng.\n    \"\"\"\n    serializer_class = LeaderBoardSerializer\n    # permission_classes = [IsAuthenticated]\n    pagination_class = LeaderBoardPagination\n    def get_queryset(self):\n        return LeaderBoard.objects.all()\n    def list(self, request, *args, **kwargs):",
+        "detail": "backend.api.views.leader_board_views",
+        "documentation": {}
+    },
+    {
+        "label": "LessonViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.lesson_views",
+        "description": "backend.api.views.lesson_views",
+        "peekOfCode": "class LessonViewSet(viewsets.ModelViewSet):\n    queryset = Lesson.objects.all().select_related('course').annotate(word_count=Count('word')).order_by('id')\n    serializer_class = LessonSerializer\n    @action(detail=False, methods=['GET'], url_path='top')\n    def get_top_n_lessons(self, request):\n        n = request.query_params.get('n', 3)\n        try:\n            n = int(n)\n        except ValueError:\n            return Response({\"error\": \"Invalid number format\"}, status=400)",
+        "detail": "backend.api.views.lesson_views",
+        "documentation": {}
+    },
+    {
+        "label": "UserCourseViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.user_course_views",
+        "description": "backend.api.views.user_course_views",
+        "peekOfCode": "class UserCourseViewSet(viewsets.ReadOnlyModelViewSet):\n    serializer_class = UserCourseSerializer\n    pagination_class = CustomPagination\n    def get_queryset(self):\n        queryset = Course.objects.all().order_by('id').annotate(\n            lesson_count=Coalesce(Subquery(lesson_count_subquery, output_field=IntegerField()), Value(0)),\n            learner_count=Coalesce(Subquery(learner_count_subquery, output_field=IntegerField()), Value(0))\n        )\n        return queryset\n    def get_serializer_context(self):",
+        "detail": "backend.api.views.user_course_views",
+        "documentation": {}
+    },
+    {
+        "label": "lesson_count_subquery",
+        "kind": 5,
+        "importPath": "backend.api.views.user_course_views",
+        "description": "backend.api.views.user_course_views",
+        "peekOfCode": "lesson_count_subquery = Lesson.objects.filter(course=OuterRef('pk')) \\\n    .values('course') \\\n    .annotate(cnt=Count('id')) \\\n    .values('cnt')\n# Subquery để đếm số user course của một Course\nlearner_count_subquery = UserCourse.objects.filter(course=OuterRef('pk')) \\\n    .values('course') \\\n    .annotate(cnt=Count('id')) \\\n    .values('cnt')\n# @permission_classes([IsAuthenticated])",
+        "detail": "backend.api.views.user_course_views",
+        "documentation": {}
+    },
+    {
+        "label": "learner_count_subquery",
+        "kind": 5,
+        "importPath": "backend.api.views.user_course_views",
+        "description": "backend.api.views.user_course_views",
+        "peekOfCode": "learner_count_subquery = UserCourse.objects.filter(course=OuterRef('pk')) \\\n    .values('course') \\\n    .annotate(cnt=Count('id')) \\\n    .values('cnt')\n# @permission_classes([IsAuthenticated])\nclass UserCourseViewSet(viewsets.ReadOnlyModelViewSet):\n    serializer_class = UserCourseSerializer\n    pagination_class = CustomPagination\n    def get_queryset(self):\n        queryset = Course.objects.all().order_by('id').annotate(",
+        "detail": "backend.api.views.user_course_views",
+        "documentation": {}
+    },
+    {
+        "label": "UserLessonViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.user_lesson_views",
+        "description": "backend.api.views.user_lesson_views",
+        "peekOfCode": "class UserLessonViewSet(viewsets.ReadOnlyModelViewSet):\n    queryset = Lesson.objects.all().order_by('id').annotate(word_count=Count('word')).prefetch_related('word_set')\n    serializer_class = UserLessonSerializer\n    pagination_class = CustomPagination\n    def get_serializer_context(self):\n        context = super().get_serializer_context()\n        context.update({\"request\": self.request})\n        return context\n    @action(detail=True, methods=['get'], url_path='words')\n    def get_words(self, request, pk=None):",
+        "detail": "backend.api.views.user_lesson_views",
+        "documentation": {}
+    },
+    {
+        "label": "UserWordViewSet",
+        "kind": 6,
+        "importPath": "backend.api.views.user_word_views",
+        "description": "backend.api.views.user_word_views",
+        "peekOfCode": "class UserWordViewSet(viewsets.ModelViewSet):\n    queryset = UserWord.objects.all()\n    serializer_class = UserWordOutputSerializer\n    def get_queryset(self):\n        # Chỉ lấy dữ liệu của user hiện tại và lấy luôn thông tin của word\n        return UserWord.objects.filter(user=self.request.user).select_related('word')\n    @action(detail=False, methods=['post'], url_path='submit-words')\n    def submit_words(self, request):\n        \"\"\"\n        Input:",
+        "detail": "backend.api.views.user_word_views",
+        "documentation": {}
+    },
+    {
+        "label": "ApiConfig",
+        "kind": 6,
+        "importPath": "backend.api.apps",
+        "description": "backend.api.apps",
+        "peekOfCode": "class ApiConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'api'",
+        "detail": "backend.api.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Course",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class Course(models.Model):\n    id = models.AutoField(primary_key=True)\n    title = models.CharField(max_length=255)\n    en_title = models.CharField(max_length=255, null=True, blank=True)\n    description = models.TextField(blank=True, null=True)\n    image = CloudinaryField('image', blank=True, null=True)  \n    created_at = models.DateTimeField(auto_now_add=True) \n    updated_at = models.DateTimeField(auto_now=True)  \n    icon = models.CharField(max_length=10, blank=True, null=True)\n    def __str__(self):",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Lesson",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class Lesson(models.Model):\n    id = models.AutoField(primary_key=True)\n    title = models.CharField(max_length=255)\n    description = models.TextField(blank=True, null=True)\n    image = CloudinaryField('image', blank=True, null=True)  # Hình ảnh bài học\n    created_at = models.DateTimeField(auto_now_add=True)  # Lưu thời gian khi tạo\n    updated_at = models.DateTimeField(auto_now=True)  # Lưu thời gian khi cập nhật\n    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)\n    def __str__(self):\n        return self.title",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "Word",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class Word(models.Model):\n    id = models.AutoField(primary_key=True)\n    lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, blank=True)\n    word = models.CharField(max_length=255)\n    pronunciation = models.CharField(max_length=255, blank=True, null=True)\n    pos = models.CharField(max_length=255, blank=True, null=True)\n    meaning = models.TextField()\n    example = models.TextField(blank=True, null=True)\n    example_vi = models.TextField(blank=True, null=True)\n    image = CloudinaryField('image', blank=True, null=True)  # Hình ảnh từ vựng",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserCourse",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class UserCourse(models.Model):\n    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='course_progress')\n    course = models.ForeignKey(Course, on_delete=models.CASCADE)\n    date_started = models.DateTimeField(auto_now_add=True)\n    date_completed = models.DateTimeField(null=True, blank=True)\n    class Meta:\n        constraints = [\n            models.UniqueConstraint(fields=['user', 'course'], name='unique_user_course')\n        ]\n        ordering = ['-date_started']  # Ví dụ: sắp xếp theo ngày bắt đầu giảm dần",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserLesson",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class UserLesson(models.Model):\n    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='lesson_progress')\n    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)\n    date_started = models.DateTimeField(auto_now_add=True)\n    date_completed = models.DateTimeField(null=True, blank=True)\n    class Meta:\n        constraints = [\n            models.UniqueConstraint(fields=['user', 'lesson'], name='unique_user_lesson')\n        ]\n        ordering = ['-date_started']",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserWord",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class UserWord(models.Model):\n    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_words')\n    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_words')\n    level = models.PositiveSmallIntegerField(default=1)  \n    next_review = models.DateTimeField(default=timezone.now) \n    last_review = models.DateTimeField(auto_now=True)\n    streak = models.PositiveIntegerField(default=1)\n    learned_at = models.DateTimeField(auto_now_add=True)\n    class Meta:\n        constraints = [",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "LeaderBoard",
+        "kind": 6,
+        "importPath": "backend.api.models",
+        "description": "backend.api.models",
+        "peekOfCode": "class LeaderBoard(models.Model):\n    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)\n    total_score = models.IntegerField(default=0)  # Điểm số tổng hợp từ các bài học\n    date_updated = models.DateTimeField(auto_now=True)  # Thời gian cập nhật điểm số\n    class Meta:\n        ordering = ['-total_score']\n    def __str__(self):\n        return f\"{self.user.username} - {self.total_score}\"",
+        "detail": "backend.api.models",
+        "documentation": {}
+    },
+    {
+        "label": "CustomPagination",
+        "kind": 6,
+        "importPath": "backend.api.pagination",
+        "description": "backend.api.pagination",
+        "peekOfCode": "class CustomPagination(PageNumberPagination):\n    page_size = 9\n    page_size_query_param = 'page_size'\n    max_page_size = 20\nclass LearnedWordsPagination(PageNumberPagination):\n    page_size = 2  \n    page_size_query_param = 'page_size'  \n    max_page_size = 50\nclass LeaderBoardPagination(PageNumberPagination):\n    page_size = 10",
+        "detail": "backend.api.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "LearnedWordsPagination",
+        "kind": 6,
+        "importPath": "backend.api.pagination",
+        "description": "backend.api.pagination",
+        "peekOfCode": "class LearnedWordsPagination(PageNumberPagination):\n    page_size = 2  \n    page_size_query_param = 'page_size'  \n    max_page_size = 50\nclass LeaderBoardPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = 'page_size'\n    max_page_size = 10",
+        "detail": "backend.api.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "LeaderBoardPagination",
+        "kind": 6,
+        "importPath": "backend.api.pagination",
+        "description": "backend.api.pagination",
+        "peekOfCode": "class LeaderBoardPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = 'page_size'\n    max_page_size = 10",
+        "detail": "backend.api.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "backend.api.urls",
+        "description": "backend.api.urls",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'lessons', LessonViewSet)\nrouter.register(r'courses', CourseViewSet)\nrouter.register(r'user-courses', UserCourseViewSet, basename='user-course')\nrouter.register(r'user-lessons', UserLessonViewSet, basename='user-lesson') \nrouter.register(r'user-words', UserWordViewSet, basename='user-word')\nrouter.register(r'leaderboard', LeaderBoardViewSet, basename='leaderboard')\nurlpatterns = [\n    path('', include(router.urls)),\n    # Endpoint trả về schema OpenAPI (JSON)",
+        "detail": "backend.api.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.api.urls",
+        "description": "backend.api.urls",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    # Endpoint trả về schema OpenAPI (JSON)\n    path('schema/', SpectacularAPIView.as_view(), name='schema'),\n    # Giao diện Swagger UI\n    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),\n    # Giao diện Redoc UI (tùy chọn)\n    path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),\n]",
+        "detail": "backend.api.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.backend.asgi",
+        "description": "backend.backend.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "backend.backend.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\nload_dotenv()\n# load_dotenv(os.path.join(BASE_DIR, './backend/.env.local'))\n# print(os.getenv(\"SSLMODE\"))\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# Đọc SECRET_KEY từ .env\nSECRET_KEY = os.getenv(\"SECRET_KEY\")",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SECRET_KEY = os.getenv(\"SECRET_KEY\")\nFE_URL = os.getenv(\"FE_URL\")\n# google oauth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "FE_URL",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "FE_URL = os.getenv(\"FE_URL\")\n# google oauth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "GOOGLE_OAUTH_CLIENT_ID",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "GOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "GOOGLE_OAUTH_CLIENT_SECRET",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "GOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "GOOGLE_OAUTH_CALLBACK_URL",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "GOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "FACEBOOK_OAUTH_CLIENT_ID",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "FACEBOOK_OAUTH_CLIENT_SECRET",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "DEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_USER_MODEL",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "AUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_BACKEND",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_PORT",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_USE_TLS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST_USER",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EMAIL_HOST_PASSWORD",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "EMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],\n    api_secret=CLOUDINARY_STORAGE['API_SECRET'],",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CLOUDINARY_STORAGE",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "CLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],\n    api_secret=CLOUDINARY_STORAGE['API_SECRET'],\n    secure=True",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',\n    'rest_framework_simplejwt',\n    'rest_framework_simplejwt.token_blacklist',",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "REST_FRAMEWORK",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 10,\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n}\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n    \"allauth.account.middleware.AccountMiddleware\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGIN",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "CORS_ALLOWED_ORIGIN = os.getenv(\"CORS_ALLOWED_ORIGIN\")\nCORS_ALLOWED_ORIGINS = [\n    CORS_ALLOWED_ORIGIN,\n    \"http://localhost:3000\",\n]\nROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    CORS_ALLOWED_ORIGIN,\n    \"http://localhost:3000\",\n]\nROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SOCIALACCOUNT_PROVIDERS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SOCIALACCOUNT_PROVIDERS = {\n    \"google\": {\n        \"APP\": {\n            \"client_id\": GOOGLE_OAUTH_CLIENT_ID,\n            \"secret\": GOOGLE_OAUTH_CLIENT_SECRET,\n            \"key\": \"\",\n        },\n        \"SCOPE\": [\"profile\", \"email\"],\n        \"AUTH_PARAMS\": {\n            \"access_type\": \"online\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'backend.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.1/ref/settings/#databases\nSSLMODE = os.getenv(\"SSLMODE\")\n# Đọc thông tin DATABASE từ .env\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SSLMODE",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SSLMODE = os.getenv(\"SSLMODE\")\n# Đọc thông tin DATABASE từ .env\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),\n        'OPTIONS': {\n            'sslmode': SSLMODE,",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SIMPLE_JWT",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites\nSITE_ID = 1",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTHENTICATION_BACKENDS",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "AUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites\nSITE_ID = 1\n# # django-allauth\n# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True\n# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'\n# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SITE_ID",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SITE_ID = 1\n# # django-allauth\n# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True\n# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'\n# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1\n# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECTS = True\n# Email addresses coming from social authentication providers are considered verified, therefore, for the sake of this tutorial, we can disable email verification.\nACCOUNT_AUTHENTICATION_METHOD = \"email\"  # Use Email / Password authentication\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ACCOUNT_AUTHENTICATION_METHOD",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ACCOUNT_AUTHENTICATION_METHOD = \"email\"  # Use Email / Password authentication\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ACCOUNT_USERNAME_REQUIRED",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ACCOUNT_EMAIL_REQUIRED",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ACCOUNT_EMAIL_VERIFICATION",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ACCOUNT_UNIQUE_EMAIL",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "ACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SOCIALACCOUNT_EMAIL_AUTHENTICATION",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }\n}",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CACHES",
+        "kind": 5,
+        "importPath": "backend.backend.settings",
+        "description": "backend.backend.settings",
+        "peekOfCode": "CACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }\n}",
+        "detail": "backend.backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.backend.urls",
+        "description": "backend.backend.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include('api.urls')),\n    path('api/accounts/', include('accounts.urls')),\n]",
+        "detail": "backend.backend.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.backend.wsgi",
+        "description": "backend.backend.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "backend.backend.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "workers",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "workers = multiprocessing.cpu_count() * 2 + 1\nbind = \"0.0.0.0:8000\"\ntimeout = 30\nloglevel = \"info\"\naccesslog = \"-\"       # ghi log truy cập ra stdout\nerrorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "bind",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "bind = \"0.0.0.0:8000\"\ntimeout = 30\nloglevel = \"info\"\naccesslog = \"-\"       # ghi log truy cập ra stdout\nerrorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "timeout",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "timeout = 30\nloglevel = \"info\"\naccesslog = \"-\"       # ghi log truy cập ra stdout\nerrorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "loglevel",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "loglevel = \"info\"\naccesslog = \"-\"       # ghi log truy cập ra stdout\nerrorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "accesslog",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "accesslog = \"-\"       # ghi log truy cập ra stdout\nerrorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "errorlog",
+        "kind": 5,
+        "importPath": "backend.gunicorn_conf",
+        "description": "backend.gunicorn_conf",
+        "peekOfCode": "errorlog = \"-\"        # ghi log lỗi ra stdout",
+        "detail": "backend.gunicorn_conf",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "backend.manage",
+        "description": "backend.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "backend.manage",
+        "documentation": {}
+    }
+]

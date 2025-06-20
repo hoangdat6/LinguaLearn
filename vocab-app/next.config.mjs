@@ -22,6 +22,16 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  onDemandEntries: {
+    // Keep server-side compiled pages in memory for longer
+    maxInactiveAge: 60 * 1000,
+    // More aggressive polling for development
+    pagesBufferLength: 5,
+  },
+  logging: {
+    detailed: process.env.NODE_ENV === 'development',
+    stats: process.env.NODE_ENV === 'development',
+  },
 }
 
 mergeConfig(nextConfig, userConfig)

@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,9 +16,8 @@ import { Bell, Diamond, FlameIcon, Heart, LogOut } from "lucide-react";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "../theme/theme-toggle";
-import { USER_INFO_KEY } from "@/constants/status";
 import { Owl2 } from "../owl2";
+import { ThemeToggle } from "../theme/theme-toggle";
 
 
 export function UserNav() {
@@ -68,14 +67,6 @@ export function UserNav() {
             <div className="flex items-center gap-1 text-sm font-bold">
               <FlameIcon className="h-5 w-5 duolingo-orange" />
               <span>7</span>
-            </div>
-            <div className="flex items-center gap-1 text-sm font-bold">
-              <Heart className="h-5 w-5 duolingo-red" fill="currentColor" />
-              <span>5</span>
-            </div>
-            <div className="flex items-center gap-1 text-sm font-bold">
-              <Diamond className="h-5 w-5 duolingo-blue" fill="currentColor" />
-              <span>345</span>
             </div>
           </div>
 
