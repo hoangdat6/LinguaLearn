@@ -19,7 +19,6 @@ const publicApi = axios.create({
 // **Interceptor Request**: Thêm Access Token vào Header - CHỈ cho api, KHÔNG cho publicApi
 api.interceptors.request.use(async (config) => {
     const session = await getSession();
-    console.log("Current session:", session);
     if (session?.accessToken) {
         config.headers.Authorization = `Bearer ${session.accessToken}`;
     }
@@ -38,7 +37,6 @@ api.interceptors.response.use(
             
             // Check if the session has an error indicating token refresh failed
             const session = await getSession();
-            console.log("Current session:", session);
             if (session?.error === "RefreshAccessTokenError") {
                 console.error("Refresh token error, signing out...");
                 signOut({ callbackUrl: '/auth?tab=login' });
@@ -48,7 +46,6 @@ api.interceptors.response.use(
             // If there's no refresh error, try to get a new session with refreshed tokens
             // NextAuth will handle the token refresh in the JWT callback
             const newSession = await getSession();
-            console.log("New session after refresh:", newSession);
             
             if (newSession?.accessToken) {
                 originalRequest.headers.Authorization = `Bearer ${newSession.accessToken}`;
