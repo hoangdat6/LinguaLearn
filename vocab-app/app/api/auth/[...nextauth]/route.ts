@@ -130,12 +130,12 @@ const handler = NextAuth({
           }
         }
         
-        // For credentials provider, user already contains tokens
+        
         return {
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour from now
+          accessTokenExpires: Date.now() + 60 * 60 * 1000 * 24 * 7, // 7 days
           user: {
             id: user.id,
             name: user.name,
