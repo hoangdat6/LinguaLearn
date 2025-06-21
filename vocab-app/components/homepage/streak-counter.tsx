@@ -10,7 +10,7 @@ export function StreakCounter({ days }: StreakCounterProps) {
       <span className="bounce">
         <Flame className="h-5 w-5 text-amber-500 dark:text-amber-400" />
       </span>
-      <span className="font-bold">{days} ngày</span>
+      <span className="font-bold">{days}</span>
     </div>
   )
 }

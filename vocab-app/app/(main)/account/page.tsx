@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { User, Lock, Bell, CreditCard, BookOpen } from 'lucide-react'
 
-import { useAccount } from "./hooks/use-account"
+import { useAccount } from "../../../hooks/use-account"
 import { UserSidebar } from "./components/user-sidebar"
 import { UserProfile } from "./components/user-profile"
 import { SecuritySettings } from "./components/security-settings"

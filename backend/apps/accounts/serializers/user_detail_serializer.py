@@ -14,6 +14,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     learningTime = serializers.DurationField(source='learning_time')
     subscriptionExpiry = serializers.DateTimeField(source='subscription_expiry', allow_null=True)
     paymentMethod = serializers.CharField(source='payment_method', allow_blank=True, allow_null=True)
+    streak = serializers.IntegerField(source='streak', read_only=True)
 
     class Meta:
         model = UserDetail
@@ -29,6 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='user.email', read_only=True)
     avatar = serializers.URLField(source='user.avatar', read_only=True)
     joinedDate = serializers.DateTimeField(source='joined_date', read_only=True)
+    streak = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = UserDetail

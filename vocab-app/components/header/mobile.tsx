@@ -1,59 +1,27 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ACCOUNT_NAV_LINKS, HEADER_NAV_LINKS } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { StreakCounter } from "../homepage/streak-counter";
 import { Owl } from "../owl";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import authService from "@/services/auth-service";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut } from "lucide-react";
 
 
-const MobileSidebar = ({ pathname }: { pathname: string }) => {
+const MobileSidebar = ({ pathname, user, onLogout }: {
+    pathname: string, user: User | null, onLogout: () => void
+}) => {
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const session = await getSession();
-            if (!session || !session.accessToken)
-                return;
-
-            if (session && session.user) {
-                const userFromSession = session.user as User;
-                setUser(userFromSession);
-                return;
-            }
-
-            try {
-                const currentUser = await authService.getUser();
-                setUser(currentUser);
-            } catch (error) {
-                console.error("Không thể lấy thông tin người dùng:", error);
-            }
-        };
-        fetchUser();
-    }, []);
-
-    const handleLogout = async () => {
-        try {
-            await authService.logout();
-            setUser(null);
-            router.replace("/auth");
-        } catch (error) {
-            console.error("Đăng xuất thất bại:", error);
-        }
-    };
 
     return (
         <div className="h-full flex flex-col py-6 pr-6 ">
-            <div className="mb-8 flex items-center">
+            <div className="mb-8 mr-2 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2">
                     <Owl className="h-8 w-8" />
                     <span className="font-bold text-lg font-space-grotesk">LinguaLearn</span>
                 </Link>
+                <StreakCounter days={user?.streak || 0} />
             </div>
             <div className="border-t border-muted" />
 
@@ -102,20 +70,20 @@ const MobileSidebar = ({ pathname }: { pathname: string }) => {
                     <div>
                         <div className="flex items-center gap-3 mb-4">
                             <Avatar className="h-10 w-10 border-2 border-duolingo-green">
-                                <AvatarImage src={user.image || "/placeholder.svg?height=40&width=40"} alt="User" />
+                                <AvatarImage src={user.avatar || "/placeholder.svg?height=40&width=40"} alt="User" />
                                 <AvatarFallback className="bg-duolingo-green text-white">
-                                    {user.name?.charAt(0).toUpperCase() || "U"}
+                                    {user.username?.charAt(0).toUpperCase() || "U"}
                                 </AvatarFallback>
                             </Avatar>
                             <div>
-                                <p className="font-bold text-sm">{user.name}</p>
+                                <p className="font-bold text-sm">{user.username}</p>
                                 <p className="text-xs text-muted-foreground">{user.email}</p>
                             </div>
                         </div>
                         <Button
                             variant="destructive"
                             className="w-full flex items-center gap-2 justify-center"
-                            onClick={handleLogout}
+                            onClick={onLogout}
                         >
                             <LogOut className="h-4 w-4" />
                             <span>Đăng xuất</span>

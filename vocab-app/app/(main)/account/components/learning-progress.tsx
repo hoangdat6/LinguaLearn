@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { User } from "../hooks/use-account"
+import { User } from "../../../../hooks/use-account"
 
 interface LearningProgressProps {
   user: User

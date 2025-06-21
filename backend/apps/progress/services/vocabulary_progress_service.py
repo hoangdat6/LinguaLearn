@@ -1,7 +1,8 @@
+from datetime import timedelta
+
 from django.core.cache import cache
 from django.db.models import Count, Case, When, IntegerField
 from django.utils import timezone
-from rest_framework import status
 
 from apps.gamification.models import LeaderBoard
 from ..models import VocabularyProgress, LessonProgress, CourseProgress
@@ -10,6 +11,7 @@ from ..serializers import (
 )
 from ..utils.calculate_next_review import calculate_next_review, calculate_time_until_next_review
 from ..utils.get_review_ready_words import get_review_ready_words
+from ...accounts.models import UserDetail
 
 
 class VocabularyProgressService:
@@ -41,6 +43,9 @@ class VocabularyProgressService:
             "words": output_serializer.data,
         }
 
+        # Update streak for user
+        VocabularyProgressService.update_streak_for_user(user)
+
         # Clear relevant caches
         VocabularyProgressService.clear_user_caches(user, is_review)
         
@@ -59,24 +64,31 @@ class VocabularyProgressService:
             
             # Calculate new level and streak
             if not is_review:
+                # nếu là lần đầu tiên học từ này
+                # thì mặc định level = 1, streak = 1
                 score += 1
                 new_level = 1
                 new_streak = 1
             else:
+                # nếu là lần review từ này
+                # thì lấy thông tin từ VocabularyProgress
                 level = word_data['level']
                 streak = word_data['streak']
-                
+
+                # nếu người học trả lời sai thì giảm level và streak về 1
                 if is_correct is False:
                     new_streak = 1
                     new_level = max(level - 1, 1)
                 else:
+                    # nếu người học trả lời đúng thì tăng level và streak
                     score += level
                     new_streak = min(10, streak + 1)
                     new_level = min(level + 1, 5)
-            
+
+            # tính toán lần review tiếp theo
             next_review_value = calculate_next_review(new_level, new_streak, question_type)
             
-            # Update or create vocabulary progress
+            # cập nhật hoặc tạo mới VocabularyProgress
             user_word, created = VocabularyProgress.objects.get_or_create(
                 user=user,
                 word_id=word_id,
@@ -86,16 +98,18 @@ class VocabularyProgressService:
                     'next_review': next_review_value,
                 }
             )
-            
+
+            # nếu không phải là lần đầu tiên tạo VocabularyProgress
+            # thì cập nhật các trường level, streak, next_review
             if not created:
                 user_word.level = new_level
                 user_word.streak = new_streak
                 user_word.next_review = next_review_value
                 update_list.append(user_word)
-                
+
             processed_words.append(user_word)
         
-        # Bulk update for efficiency
+        # thực hiện bulk update nếu có từ cần cập nhật
         if update_list:
             VocabularyProgress.objects.bulk_update(update_list, ['level', 'streak', 'next_review'])
             
@@ -103,6 +117,10 @@ class VocabularyProgressService:
     
     @staticmethod
     def update_lesson_progress(user, lesson_id, score):
+        '''
+        Update the lesson progress for the user after submitting words.
+        '''
+
         user_lesson, created_lesson = LessonProgress.objects.get_or_create(
             user=user,
             lesson_id=lesson_id,
@@ -237,3 +255,32 @@ class VocabularyProgressService:
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = LearnedWordsSerializer(paginated_queryset, many=True, context={'request': request})
         return serializer.data
+
+    @staticmethod
+    def update_streak_for_user(user):
+        """
+        Cập nhật streak khi người dùng review hoặc học bài mới.
+        """
+
+        user_detail = UserDetail.objects.get(user=user)
+
+        if user_detail.last_activity_date is None:
+            # If the user has no recorded activity date, reset the streak
+            user_detail.streak = 1
+        elif user_detail.last_activity_date == timezone.now().date() - timedelta(days=1):
+            # User was active yesterday
+            user_detail.streak += 1
+        elif user_detail.last_activity_date < timezone.now().date() - timedelta(days=1):
+            # User was inactive for more than a day
+            user_detail.streak = 1
+        else:
+            # User is already active today
+            user_detail.streak = user_detail.streak
+
+        user_detail.last_activity_date = timezone.now().date()
+        user_detail.save()
+
+        return user_detail.streak
+
+
+

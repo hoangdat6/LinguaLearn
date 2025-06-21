@@ -13,6 +13,8 @@ interface AuthResponse {
 interface User {
     id: string;
     email: string;
-    name: string;
-    image?: string;
+    username: string;
+    avatar?: string;
+    joinedDate?: string;
+    streak?: number;
 }

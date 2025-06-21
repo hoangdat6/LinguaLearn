@@ -2,31 +2,12 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import api from "@/services/api"
 import authService from "@/services/auth-service"
+import { UserDetail } from "@/types/user-detail"
+import { USER_PROFILE } from "@/constants/api-endpoints"
 
-export type User = {
-  name: string
-  email: string
-  avatar: string
-  phone: string
-  birthday: string
-  address: string
-  bio: string
-  language: string
-  joinedDate: string
-  level: string
-  streak: number
-  completedLessons: number
-  totalLessons: number
-  completedTopics: number
-  totalTopics: number
-  learningTime: string
-  subscription: string
-  subscriptionExpiry: string
-  paymentMethod: string
-}
 
 // Initialize with empty/null values instead of default data
-const emptyUser: User = {
+const emptyUser: UserDetail = {
   name: "",
   email: "",
   avatar: "",
@@ -52,7 +33,7 @@ export function useAccount() {
   const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
   const [activeTab, setActiveTab] = useState("profile")
-  const [user, setUser] = useState<User>(emptyUser)
+  const [user, setUser] = useState<UserDetail>(emptyUser)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isProfileComplete, setIsProfileComplete] = useState(true)
@@ -64,7 +45,7 @@ export function useAccount() {
       setError(null)
       
       // Call the API endpoint to get user details
-      const response = await api.get('accounts/profile/me/');
+      const response = await api.get<UserDetail>(USER_PROFILE.GET_PROFILE);
       
       // Check if response data is empty
       if (!response.data) {
@@ -76,7 +57,7 @@ export function useAccount() {
       }
 
       // Extract data directly from response without fallbacks
-      const userData: User = {
+      const userData: UserDetail = {
         name: response.data.name ?? "",
         email: response.data.email ?? "",
         avatar: response.data.avatar ?? "",
@@ -115,7 +96,7 @@ export function useAccount() {
   };
 
   // Function to update user details
-  const updateUserDetails = async (updatedData: Partial<User>) => {
+  const updateUserDetails = async (updatedData: Partial<UserDetail>) => {
     try {
       setError(null);
       
@@ -133,7 +114,7 @@ export function useAccount() {
       };
       
       // Call API to update user details
-      await api.patch('accounts/profile/update/', apiData);
+      await api.put(USER_PROFILE.UPDATE_PROFILE, apiData);
       
       // Update local state with new data
       setUser(prev => ({ ...prev, ...updatedData }));

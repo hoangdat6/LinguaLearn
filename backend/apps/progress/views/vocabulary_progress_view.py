@@ -24,7 +24,7 @@ class VocabularyProgressViewSet(viewsets.ModelViewSet):
     @vocabulary_progress_schema.submit_words_schema
     def submit_words(self, request):
         """
-        Input:
+        request.data:
         {
             "is_review": true,
             "lesson_id": 12,          // Required when is_review is false
@@ -35,13 +35,6 @@ class VocabularyProgressViewSet(viewsets.ModelViewSet):
                     "streak": 3,
                     "is_correct": true,
                     "question_type": "L2"
-                },
-                {
-                    "word_id": 124,
-                    "level": 3,
-                    "streak": 2,
-                    "is_correct": false,
-                    "question_type": "L1"
                 }
             ]
         }

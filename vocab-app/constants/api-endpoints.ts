@@ -46,3 +46,9 @@ export const COURSES = {
 export const LEADERBOARD = {
   GET_LEADERBOARD: `${API_BASE_URL}gamification/leaderboard/`,
 }
+
+export const USER_PROFILE = {
+  GET_PROFILE: `${API_BASE_URL}accounts/user-detail/me/`,
+  UPDATE_PROFILE: `${API_BASE_URL}accounts/user-detail/me/`,
+  GET_USER_STATS: `${API_BASE_URL}accounts/user-detail/stats/`,
+};
