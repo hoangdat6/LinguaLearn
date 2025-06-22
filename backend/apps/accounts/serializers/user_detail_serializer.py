@@ -14,7 +14,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     learningTime = serializers.DurationField(source='learning_time')
     subscriptionExpiry = serializers.DateTimeField(source='subscription_expiry', allow_null=True)
     paymentMethod = serializers.CharField(source='payment_method', allow_blank=True, allow_null=True)
-    streak = serializers.IntegerField(source='streak', read_only=True)
+    streak = serializers.IntegerField( read_only=True)
 
     class Meta:
         model = UserDetail

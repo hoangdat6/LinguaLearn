@@ -11,9 +11,13 @@ import { createLogger } from '@/lib/logger';
 import { publicApi } from '@/services/api';
 const logger = createLogger('auth');
 
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 const CSRF_TOKEN = process.env.NEXT_PUBLIC_CSRF_TOKEN || "";
+
+// Define consistent token expiration times that match the backend
+const ACCESS_TOKEN_EXPIRY = 60 * 60 * 24 * 7; // 7 days in seconds
+const ACCESS_TOKEN_EXPIRY_MS = ACCESS_TOKEN_EXPIRY * 1000; // 7 days in milliseconds
+const REFRESH_TOKEN_EXPIRY = 60 * 60 * 24 * 30; // 30 days in seconds
+const REFRESH_BUFFER = 60 * 60 * 24; // 1 day buffer before expiry to refresh
 
 const handler = NextAuth({
   providers: [
@@ -90,12 +94,11 @@ const handler = NextAuth({
               ...token,
               accessToken: response.data.access,
               refreshToken: response.data.refresh,
+              accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRY_MS,
               user: response.data.user || { username: user.name, email: user.email }
             };
           } catch (error) {
             console.error("Google token exchange error:", error);
-            // Reject authentication by throwing an error
-            // This will redirect to the error page with the appropriate error message
             throw new Error(error instanceof Error ? error.message : "Failed to authenticate with Google");
           }
         }
@@ -116,11 +119,12 @@ const handler = NextAuth({
               }
             );
             
-            // Store tokens from your backend
+            // Store tokens from your backend with consistent expiry
             return {
               ...token,
               accessToken: response.data.access,
               refreshToken: response.data.refresh,
+              accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRY_MS,
               user: response.data.user || { username: user.name, email: user.email }
             };
           } catch (error) {
@@ -130,12 +134,12 @@ const handler = NextAuth({
           }
         }
         
-        
+        // For credentials login
         return {
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-          accessTokenExpires: Date.now() + 60 * 60 * 1000 * 24 * 7, // 7 days
+          accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRY_MS,
           user: {
             id: user.id,
             name: user.name,
@@ -144,12 +148,14 @@ const handler = NextAuth({
         };
       }
 
-      // Return previous token if the access token has not expired
-      if (Date.now() < (token.accessTokenExpires as number)) {
+      // Return previous token if the access token has not expired yet
+      // Add a buffer time to refresh token before it actually expires
+      if (token.accessTokenExpires && Date.now() < (token.accessTokenExpires as number) - REFRESH_BUFFER) {
         return token;
       }
       
-      // Access token has expired, try to refresh it
+      // Access token has expired or is about to expire, try to refresh it
+      logger.info("Access token expired or about to expire, refreshing...");
       return await refreshAccessToken(token);
     },
     async session({ session, token }) {
@@ -158,29 +164,34 @@ const handler = NextAuth({
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
         session.error = token.error;
+        session.accessTokenExpires = token.accessTokenExpires;
       }
       return session;
     }
   },
   pages: {
-    signIn: AUTH.LOGIN,
+    signIn: '/auth?tab=login',
     error: '/auth',
   },
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60, // 1 hour
+    maxAge: REFRESH_TOKEN_EXPIRY, // 30 days - match the refresh token expiry
   },
   debug: process.env.NODE_ENV === 'development',
 });
 
 // Helper function to refresh token
-async function refreshAccessToken(token: any) {
+export async function refreshAccessToken(token: any) {
   try {
+    logger.info("Attempting to refresh access token");
+    
     // Make a request to the token endpoint with the refresh token
     const response = await publicApi.post(AUTH.REFRESH_TOKEN, { 
       refresh: token.refreshToken 
     });
 
+    logger.info("Token refresh successful");
+    
     // Get the new tokens
     const refreshedTokens = response.data;
 
@@ -188,7 +199,7 @@ async function refreshAccessToken(token: any) {
       ...token,
       accessToken: refreshedTokens.access,
       refreshToken: refreshedTokens.refresh || token.refreshToken, // Fall back to old refresh token
-      accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour from now
+      accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRY_MS,
     };
   } catch (error) {
     console.error("Error refreshing access token", error);

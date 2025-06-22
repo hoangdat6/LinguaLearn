@@ -1,4 +1,3 @@
-
 // Base URL from environment
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
@@ -18,7 +17,7 @@ export const AUTH = {
   CHANGE_PASSWORD: `${API_BASE_URL}accounts/change-password/`,
   UPDATE_PROFILE: `${API_BASE_URL}accounts/update-profile/`,
   VERIFY_EMAIL: (token: string) => `${API_BASE_URL}accounts/verify-email/${token}/`,
-  REFRESH_TOKEN: `${API_BASE_URL}accounts/refresh-token/`,
+  REFRESH_TOKEN: `${API_BASE_URL}accounts/token/refresh/`,
 };
 
 // User vocabulary endpoints
