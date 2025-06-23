@@ -13,6 +13,8 @@ from ..utils.calculate_next_review import calculate_next_review, calculate_time_
 from ..utils.get_review_ready_words import get_review_ready_words
 from ...accounts.models import UserDetail
 
+from apps.accounts.services import StreakService
+
 
 class VocabularyProgressService:
     @staticmethod
@@ -43,8 +45,7 @@ class VocabularyProgressService:
             "words": output_serializer.data,
         }
 
-        # Update streak for user
-        VocabularyProgressService.update_streak_for_user(user)
+        StreakService.update_streak(user=user)
 
         # Clear relevant caches
         VocabularyProgressService.clear_user_caches(user, is_review)
@@ -256,31 +257,6 @@ class VocabularyProgressService:
         serializer = LearnedWordsSerializer(paginated_queryset, many=True, context={'request': request})
         return serializer.data
 
-    @staticmethod
-    def update_streak_for_user(user):
-        """
-        Cập nhật streak khi người dùng review hoặc học bài mới.
-        """
-
-        user_detail = UserDetail.objects.get(user=user)
-
-        if user_detail.last_activity_date is None:
-            # If the user has no recorded activity date, reset the streak
-            user_detail.streak = 1
-        elif user_detail.last_activity_date == timezone.now().date() - timedelta(days=1):
-            # User was active yesterday
-            user_detail.streak += 1
-        elif user_detail.last_activity_date < timezone.now().date() - timedelta(days=1):
-            # User was inactive for more than a day
-            user_detail.streak = 1
-        else:
-            # User is already active today
-            user_detail.streak = user_detail.streak
-
-        user_detail.last_activity_date = timezone.now().date()
-        user_detail.save()
-
-        return user_detail.streak
 
 
 

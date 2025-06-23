@@ -16,6 +16,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all().order_by('id')
     serializer_class = CourseSerializer
     permission_classes = [AllowAny]
+    http_method_names = ['get']
 
     @list_courses_schema
     def list(self, request, *args, **kwargs):

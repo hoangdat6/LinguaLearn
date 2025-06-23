@@ -15,6 +15,7 @@ from ..schemas.lesson_schema import (
 
 class LessonViewSet(viewsets.ModelViewSet):
     serializer_class = LessonSerializer
+    http_method_names = ['get']
 
     def get_queryset(self):
         return Lesson.objects.all().select_related('course').annotate(

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
 from django.core.cache import cache
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -10,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.schemas import auth_schema
-from ..models import CustomUser as User
+from ..models import CustomUser as User, UserDetail
 from ..serializers import (
     UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer,
     ResetPasswordSerializer, LogoutSerializer
@@ -18,11 +19,6 @@ from ..serializers import (
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
-@extend_schema(
-    parameters=[
-        OpenApiParameter(name="token", type=str, description="Authentication token")
-    ]
-)
 class AuthViewSet(viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -31,100 +27,37 @@ class AuthViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["post"], url_path="register")
     def register(self, request):
         serializer = UserRegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            user.is_active = False  # Tài khoản chưa được kích hoạt
-            user.save()
+        try:
+            if serializer.is_valid():
+                user = serializer.save()
+                user.is_active = False  # Tài khoản chưa được kích hoạt
+                user.save()
 
-            verification_link = f"{settings.FE_URL}/auth/verify-email/{user.verification_token}/"
+                UserDetail.objects.create(user=user, name=user.username)
 
-            subject = "Xác nhận email của bạn"
-            plain_message = f"Chào {user.username},\nHãy xác nhận email của bạn bằng cách truy cập:\n{verification_link}\n\nNếu bạn không đăng ký, hãy bỏ qua email này."
+                verification_link = f"{settings.FE_URL}/auth/verify-email/{user.verification_token}/"
 
-            # Nội dung HTML email
-            html_message = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <style>
-                body {{
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    margin: 0;
-                    padding: 0;
-                }}
-                .container {{
-                    max-width: 600px;
-                    margin: 30px auto;
-                    background-color: #ffffff;
-                    border-radius: 8px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
-                }}
-                .header {{
-                    background-color: #4CAF50;
-                    color: #ffffff;
-                    text-align: center;
-                    padding: 20px;
-                }}
-                .content {{
-                    padding: 30px;
-                    color: #333333;
-                    line-height: 1.6;
-                }}
-                .button {{
-                    display: inline-block;
-                    padding: 12px 25px;
-                    margin: 20px 0;
-                    background-color: #4CAF50;
-                    color: #ffffff;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    font-size: 16px;
-                }}
-                .footer {{
-                    background-color: #f4f4f4;
-                    color: #777777;
-                    text-align: center;
-                    font-size: 12px;
-                    padding: 10px;
-                }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                <div class="header">
-                    <h2>Xác nhận Email</h2>
-                </div>
-                <div class="content">
-                    <p>Chào {user.username},</p>
-                    <p>Cảm ơn bạn đã đăng ký. Vui lòng xác nhận email của bạn bằng cách nhấn vào nút bên dưới:</p>
-                    <p style="text-align: center;">
-                    <a href="{verification_link}" class="button">Xác nhận Email</a>
-                    </p>
-                    <p>Nếu nút trên không hoạt động, bạn có thể sao chép và dán đường dẫn sau vào trình duyệt của mình:</p>
-                    <p>{verification_link}</p>
-                </div>
-                <div class="footer">
-                    <p>Nếu bạn không đăng ký, hãy bỏ qua email này.</p>
-                </div>
-                </div>
-            </body>
-            </html>
-            """
+                subject = "Xác nhận email của bạn"
+                plain_message = f"Chào {user.username},\nHãy xác nhận email của bạn bằng cách truy cập:\n{verification_link}\n\nNếu bạn không đăng ký, hãy bỏ qua email này."
 
-            send_mail(
-                subject=subject,
-                message=plain_message,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[user.email],
-                html_message=html_message,
-            )
+                # Nội dung HTML email
+                html_message = render_to_string("email/verify_email.html", {
+                    "username": user.username,
+                    "verification_link": verification_link
+                })
 
-            return Response({"message": "Vui lòng kiểm tra email để xác thực tài khoản!"},
-                            status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                send_mail(
+                    subject=subject,
+                    message=plain_message,
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[user.email],
+                    html_message=html_message,
+                )
+
+                return Response({"message": "Vui lòng kiểm tra email để xác thực tài khoản!"},
+                                status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @auth_schema.verify_email_schema
     @action(detail=False, methods=["get"], url_path="verify-email/(?P<token>[^/.]+)")
@@ -220,77 +153,10 @@ class AuthViewSet(viewsets.GenericViewSet):
             )
 
             # Nếu muốn, bạn có thể tạo phiên bản HTML của email
-            html_message = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <style>
-                    body {{
-                        font-family: Arial, sans-serif;
-                        background-color: #f4f4f4;
-                        margin: 0;
-                        padding: 0;
-                    }}
-                    .container {{
-                        max-width: 600px;
-                        margin: 30px auto;
-                        background-color: #ffffff;
-                        border-radius: 8px;
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        overflow: hidden;
-                    }}
-                    .header {{
-                        background-color: #4CAF50;
-                        color: #ffffff;
-                        text-align: center;
-                        padding: 20px;
-                    }}
-                    .content {{
-                        padding: 30px;
-                        color: #333333;
-                        line-height: 1.6;
-                    }}
-                    .button {{
-                        display: inline-block;
-                        padding: 12px 25px;
-                        margin: 20px 0;
-                        background-color: #4CAF50;
-                        color: #ffffff;
-                        text-decoration: none;
-                        border-radius: 5px;
-                        font-size: 16px;
-                    }}
-                    .footer {{
-                        background-color: #f4f4f4;
-                        color: #777777;
-                        text-align: center;
-                        font-size: 12px;
-                        padding: 10px;
-                    }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h2>Đặt lại mật khẩu</h2>
-                    </div>
-                    <div class="content">
-                        <p>Chào {user.username},</p>
-                        <p>Để đặt lại mật khẩu, vui lòng nhấn vào nút bên dưới:</p>
-                        <p style="text-align: center;">
-                            <a href="{reset_link}" class="button">Đặt lại mật khẩu</a>
-                        </p>
-                        <p>Nếu nút trên không hoạt động, hãy sao chép và dán đường link sau vào trình duyệt:</p>
-                        <p>{reset_link}</p>
-                    </div>
-                    <div class="footer">
-                        <p>Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này.</p>
-                    </div>
-                </div>
-            </body>
-            </html>
-            """
+            html_message = render_to_string("email/reset_password.html", {
+                "username": user.username,
+                "reset_link": reset_link
+            })
 
             send_mail(
                 subject=subject,

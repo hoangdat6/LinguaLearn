@@ -39,7 +39,17 @@ class UserDetailViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=['get'], url_path='profile')
     @user_detail_schema.user_profile_schema
     def get_profile(self, request):
-        user_detail = request.user.user_detail
-        serializer = UserProfileSerializer(user_detail)
-        return Response(serializer.data)
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"detail": "User profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            user_detail = request.user.user_detail
+            serializer = UserProfileSerializer(user_detail)
+            return Response(serializer.data)
+        except UserDetail.DoesNotExist:
+            return Response({"detail": "User profile not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

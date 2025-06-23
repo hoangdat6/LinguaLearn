@@ -8,6 +8,8 @@ from google.auth.transport import requests
 from rest_framework_simplejwt.tokens import RefreshToken
 import requests as http_requests
 import cloudinary.uploader
+
+from ..models import UserDetail
 from ..schemas import social_auth_schema
 
 
@@ -48,6 +50,9 @@ class GoogleAuthView(APIView):
                     'is_active': True,
                 }
             )
+
+            if created:
+                UserDetail.objects.create(user=user, name=name)
 
             # Upload avatar từ Google lên Cloudinary
             # Nếu user đã có avatar thì không cần tải lại

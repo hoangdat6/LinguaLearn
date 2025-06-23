@@ -7,6 +7,7 @@ from apps.accounts.views import (
     FacebookAuthView,
     GoogleAuthView
 )
+from apps.accounts.views import ResetStreakAPIView
 
 router = DefaultRouter()
 router.register(r'', AuthViewSet, basename='user')
@@ -16,4 +17,6 @@ urlpatterns = [
     path("", include(router.urls)),
     path("google/login/", GoogleAuthView.as_view()),
     path("facebook/login/", FacebookAuthView.as_view()),  # Chưa có
+    path('api/accounts/update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),
+
 ]
