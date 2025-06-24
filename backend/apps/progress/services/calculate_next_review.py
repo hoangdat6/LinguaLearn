@@ -1,6 +1,7 @@
-from random import randint
-from django.utils import timezone
 from datetime import timedelta
+from random import randint
+
+from django.utils import timezone
 
 # Giả sử bạn đã định nghĩa level_time và question_type_times ở đâu đó, ví dụ:
 level_time = [0.5, 2.5, 12.5, 62.5, 312.5]  # Giá trị cơ bản theo level (1-5)

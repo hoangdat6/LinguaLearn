@@ -1,19 +1,15 @@
-from datetime import timedelta
-
 from django.core.cache import cache
 from django.db.models import Count, Case, When, IntegerField
 from django.utils import timezone
 
+from apps.accounts.services import StreakService
 from apps.gamification.models import LeaderBoard
 from ..models import VocabularyProgress, LessonProgress, CourseProgress
 from ..serializers import (
     VocabularyProgressOutputSerializer, LessonWordsInputSerializer, LearnedWordsSerializer
 )
-from ..utils.calculate_next_review import calculate_next_review, calculate_time_until_next_review
+from apps.progress.services.calculate_next_review import calculate_next_review, calculate_time_until_next_review
 from ..utils.get_review_ready_words import get_review_ready_words
-from ...accounts.models import UserDetail
-
-from apps.accounts.services import StreakService
 
 
 class VocabularyProgressService:

@@ -1,7 +1,0 @@
-# watch.yaml
-version: '1'
-watch:
-  - path: .
-    action: docker-compose -f docker-compose.local.yml up --build
-  - path: ./requirements.txt
-    action: docker-compose -f docker-compose.local.yml build

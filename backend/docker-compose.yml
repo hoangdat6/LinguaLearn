@@ -11,6 +11,7 @@ services:
       - redis
     networks:
       - app_network
+      - web_net
 
   check-db:
     image: alpine:3.18
@@ -37,3 +38,5 @@ services:
 networks:
   app_network:
     driver: bridge
+  web_net:
+    external: true

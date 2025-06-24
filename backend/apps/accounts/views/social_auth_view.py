@@ -74,7 +74,6 @@ class GoogleAuthView(APIView):
                         user.save()
                 except Exception as e:
                     print(f"Lỗi khi upload avatar: {str(e)}")
-                    # Không dừng quá trình - avatar không phải thông tin quan trọng
 
             # Tạo token JWT
             refresh = RefreshToken.for_user(user)
@@ -95,8 +94,6 @@ class GoogleAuthView(APIView):
             return Response(response_data, status=status.HTTP_200_OK)
 
         except ValueError:
-
-            # Invalid token
 
             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -140,6 +137,8 @@ class FacebookAuthView(APIView):
                     'is_active': True,
                 }
             )
+
+
 
             # Upload avatar từ Google lên Cloudinary
             # Nếu user đã có avatar thì không cần tải lại
