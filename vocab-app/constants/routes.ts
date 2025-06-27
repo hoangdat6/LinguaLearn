@@ -35,26 +35,6 @@ export const LESSON_ROUTES = {
   REVIEW: '/review',
 };
 
-// Practice routes
-export const PRACTICE_ROUTES = {
-  HOME: '/practice',
-  FLASHCARDS: '/practice/flashcards',
-  QUIZ: '/practice/quiz',
-  MATCHING: '/practice/matching',
-};
-
-/**
- * Helper để tạo URL với query params
- */
-export const createUrl = (path: string, params: Record<string, string>) => {
-  const url = new URL(path, window.location.origin);
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.append(key, value);
-  });
-  return url.toString();
-};
-
-
 export const HEADER_NAV_LINKS = [
   { name: "Trang chủ", href: "/", icon: Home },
   { name: "Học", href: "/lessons", icon: BookOpen },

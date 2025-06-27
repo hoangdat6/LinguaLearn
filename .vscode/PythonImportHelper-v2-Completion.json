@@ -678,23 +678,15 @@
         "documentation": {}
     },
     {
+        "label": "permissions",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
         "label": "status",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "viewsets",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "mixins",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -718,6 +710,14 @@
         "documentation": {}
     },
     {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
         "label": "status",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -863,6 +863,14 @@
     },
     {
         "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -1171,6 +1179,14 @@
         "description": "rest_framework.permissions",
         "isExtraImport": true,
         "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
         "documentation": {}
     },
     {
@@ -2340,14 +2356,6 @@
         "documentation": {}
     },
     {
-        "label": "get_asgi_application",
-        "importPath": "django.core.asgi",
-        "description": "django.core.asgi",
-        "isExtraImport": true,
-        "detail": "django.core.asgi",
-        "documentation": {}
-    },
-    {
         "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
@@ -2365,20 +2373,28 @@
         "documentation": {}
     },
     {
-        "label": "cloudinary.api",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "cloudinary.api",
-        "description": "cloudinary.api",
-        "detail": "cloudinary.api",
-        "documentation": {}
-    },
-    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
         "isExtraImport": true,
         "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
         "documentation": {}
     },
     {
@@ -2414,21 +2430,61 @@
         "documentation": {}
     },
     {
+        "label": "ObjectDoesNotExist",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "PermissionDenied",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "rest_framework.exceptions",
+        "description": "rest_framework.exceptions",
+        "isExtraImport": true,
+        "detail": "rest_framework.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "APIException",
+        "importPath": "rest_framework.exceptions",
+        "description": "rest_framework.exceptions",
+        "isExtraImport": true,
+        "detail": "rest_framework.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "AuthenticationFailed",
+        "importPath": "rest_framework.exceptions",
+        "description": "rest_framework.exceptions",
+        "isExtraImport": true,
+        "detail": "rest_framework.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
         "label": "multiprocessing",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "multiprocessing",
         "description": "multiprocessing",
         "detail": "multiprocessing",
-        "documentation": {}
-    },
-    {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
         "documentation": {}
     },
     {
@@ -2679,7 +2735,7 @@
         "kind": 6,
         "importPath": "backend.apps.accounts.views.reset_streak_view",
         "description": "backend.apps.accounts.views.reset_streak_view",
-        "peekOfCode": "class ResetStreakAPIView(APIView):\n    def post(self, request, *args, **kwargs):\n        if request.user.is_authenticated:\n            streak = StreakService.reset_streak(user=request.user)\n            if streak is None:\n                return Response({\"error\": \"Failed to reset streak.\"}, status=400)\n            return Response({\"message\": \"Streak reset successfully.\"}, status=200)",
+        "peekOfCode": "class ResetStreakAPIView(APIView):\n    permission_classes = [permissions.IsAuthenticated]\n    def post(self, request, *args, **kwargs):\n        streak = StreakService.reset_streak(user=request.user)\n        if streak is None:\n            return Response({\"error\": \"Failed to reset streak.\"}, status=400)\n        return Response({\"message\": \"Streak reset successfully.\"}, status=200)",
         "detail": "backend.apps.accounts.views.reset_streak_view",
         "documentation": {}
     },
@@ -2751,7 +2807,7 @@
         "kind": 5,
         "importPath": "backend.apps.accounts.urls",
         "description": "backend.apps.accounts.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', AuthViewSet, basename='user')\nrouter.register(r'user-detail', UserDetailViewSet, basename='user-detail')\nurlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),  # Chưa có\n    path('api/accounts/update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', AuthViewSet, basename='user')\nrouter.register(r'user-detail', UserDetailViewSet, basename='user-detail')\nurlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),\n    path('update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),\n]",
         "detail": "backend.apps.accounts.urls",
         "documentation": {}
     },
@@ -2760,7 +2816,7 @@
         "kind": 5,
         "importPath": "backend.apps.accounts.urls",
         "description": "backend.apps.accounts.urls",
-        "peekOfCode": "urlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),  # Chưa có\n    path('api/accounts/update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),\n]",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", include(router.urls)),\n    path(\"google/login/\", GoogleAuthView.as_view()),\n    path(\"facebook/login/\", FacebookAuthView.as_view()),\n    path('update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),\n]",
         "detail": "backend.apps.accounts.urls",
         "documentation": {}
     },
@@ -3638,453 +3694,543 @@
         "documentation": {}
     },
     {
-        "label": "application",
-        "kind": 5,
-        "importPath": "backend.backend.asgi",
-        "description": "backend.backend.asgi",
-        "peekOfCode": "application = get_asgi_application()",
-        "detail": "backend.backend.asgi",
-        "documentation": {}
-    },
-    {
         "label": "BASE_DIR",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\nload_dotenv()\n# load_dotenv(os.path.join(BASE_DIR, './backend/.env.local'))\n# print(os.getenv(\"SSLMODE\"))\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# Đọc SECRET_KEY từ .env\nSECRET_KEY = os.getenv(\"SECRET_KEY\")",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent.parent\nload_dotenv()\nSECRET_KEY = os.getenv(\"SECRET_KEY\")\nFE_URL = os.getenv(\"FE_URL\")\n# OAuth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "SECRET_KEY",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SECRET_KEY = os.getenv(\"SECRET_KEY\")\nFE_URL = os.getenv(\"FE_URL\")\n# google oauth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SECRET_KEY = os.getenv(\"SECRET_KEY\")\nFE_URL = os.getenv(\"FE_URL\")\n# OAuth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "FE_URL",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "FE_URL = os.getenv(\"FE_URL\")\n# google oauth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "FE_URL = os.getenv(\"FE_URL\")\n# OAuth\nGOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "GOOGLE_OAUTH_CLIENT_ID",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "GOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "GOOGLE_OAUTH_CLIENT_ID = os.getenv(\"GOOGLE_OAUTH_CLIENT_ID\")\nGOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "GOOGLE_OAUTH_CLIENT_SECRET",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "GOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "GOOGLE_OAUTH_CLIENT_SECRET = os.getenv(\"GOOGLE_OAUTH_CLIENT_SECRET\")\nGOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "GOOGLE_OAUTH_CALLBACK_URL",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "GOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\n# facebook oauth\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "GOOGLE_OAUTH_CALLBACK_URL = os.getenv(\"GOOGLE_OAUTH_CALLBACK_URL\")\nFACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "FACEBOOK_OAUTH_CLIENT_ID",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_ID = os.getenv(\"FACEBOOK_OAUTH_CLIENT_ID\")\nFACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "FACEBOOK_OAUTH_CLIENT_SECRET",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\n# SECURITY WARNING: don't run with debug turned on in production!api_course\nDEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "DEBUG",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "DEBUG = True  # Đặt thành False trong môi trường production\nALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "ALLOWED_HOSTS",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ALLOWED_HOSTS = [\n    os.getenv(\"ALLOWED_HOSTS\"),\n    \"localhost\",\n    \"127.0.0.1\",\n]\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "FACEBOOK_OAUTH_CLIENT_SECRET = os.getenv(\"FACEBOOK_OAUTH_CLIENT_SECRET\")\nAUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "AUTH_USER_MODEL",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "AUTH_USER_MODEL = 'accounts.CustomUser'\nEMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_BACKEND",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_BACKEND = \"django.core.mail.backends.smtp.EmailBackend\"\nEMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_HOST",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_HOST = os.getenv(\"EMAIL_HOST\")\nEMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_PORT",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_PORT = int(os.getenv(\"EMAIL_PORT\", 587))\nEMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_USE_TLS",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_USE_TLS = os.getenv(\"EMAIL_USE_TLS\") == \"True\"\nEMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_HOST_USER",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_HOST_USER = os.getenv(\"EMAIL_HOST_USER\")\nEMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "EMAIL_HOST_PASSWORD",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "EMAIL_HOST_PASSWORD = os.getenv(\"EMAIL_HOST_PASSWORD\")\nCLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],\n    api_secret=CLOUDINARY_STORAGE['API_SECRET'],",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "CLOUDINARY_STORAGE",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "CLOUDINARY_STORAGE = {\n    'CLOUD_NAME': os.getenv(\"CLOUD_NAME\"),\n    'API_KEY': os.getenv(\"CLOUDINARY_API_KEY\"),\n    'API_SECRET': os.getenv(\"CLOUDINARY_API_SECRET\"),\n}\ncloudinary.config(\n    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],\n    api_key=CLOUDINARY_STORAGE['API_KEY'],\n    api_secret=CLOUDINARY_STORAGE['API_SECRET'],\n    secure=True",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "INSTALLED_APPS",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',\n    'rest_framework_simplejwt',\n    'rest_framework_simplejwt.token_blacklist',",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "REST_FRAMEWORK",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 10,\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n}\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'EXCEPTION_HANDLER': 'backend/core/exceptions.http_exception_handler',\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 10,\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n}\nMIDDLEWARE = [",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "MIDDLEWARE",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
         "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n    \"allauth.account.middleware.AccountMiddleware\",",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "CORS_ALLOWED_ORIGIN",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "CORS_ALLOWED_ORIGIN = os.getenv(\"CORS_ALLOWED_ORIGIN\")\nCORS_ALLOWED_ORIGINS = [\n    CORS_ALLOWED_ORIGIN,\n    \"http://localhost:3000\",\n]\nROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],  # hoặc thêm path phù hợp",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "CORS_ALLOWED_ORIGINS",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    CORS_ALLOWED_ORIGIN,\n    \"http://localhost:3000\",\n]\nROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],  # hoặc thêm path phù hợp\n        'APP_DIRS': True,",
-        "detail": "backend.backend.settings",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ROOT_URLCONF",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ROOT_URLCONF = 'backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],  # hoặc thêm path phù hợp\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ROOT_URLCONF = 'config.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "TEMPLATES",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],  # hoặc thêm path phù hợp\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "SOCIALACCOUNT_PROVIDERS",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SOCIALACCOUNT_PROVIDERS = {\n    \"google\": {\n        \"APP\": {\n            \"client_id\": GOOGLE_OAUTH_CLIENT_ID,\n            \"secret\": GOOGLE_OAUTH_CLIENT_SECRET,\n            \"key\": \"\",\n        },\n        \"SCOPE\": [\"profile\", \"email\"],\n        \"AUTH_PARAMS\": {\n            \"access_type\": \"online\",",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR / \"templates\"],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "WSGI_APPLICATION",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "WSGI_APPLICATION = 'backend.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.1/ref/settings/#databases\nSSLMODE = os.getenv(\"SSLMODE\")\n# Đọc thông tin DATABASE từ .env\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "SSLMODE",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SSLMODE = os.getenv(\"SSLMODE\")\n# Đọc thông tin DATABASE từ .env\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),",
-        "detail": "backend.backend.settings",
-        "documentation": {}
-    },
-    {
-        "label": "DATABASES",
-        "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),\n        'OPTIONS': {\n            'sslmode': SSLMODE,",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "WSGI_APPLICATION = 'config.wsgi.application'\nAUTH_PASSWORD_VALIDATORS = [\n    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},\n]\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "AUTH_PASSWORD_VALIDATORS",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},\n    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},\n]\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "LANGUAGE_CODE",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\nSTATIC_URL = 'static/'\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "TIME_ZONE",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\nSTATIC_URL = 'static/'\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "USE_I18N",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\nSTATIC_URL = 'static/'\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "USE_TZ",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Thời gian sống của refresh token",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "USE_TZ = True\nSTATIC_URL = 'static/'\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "STATIC_URL",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "STATIC_URL = 'static/'\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "DEFAULT_AUTO_FIELD",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\nSITE_ID = 1",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "SIMPLE_JWT",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Thời gian sống của access token\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Thời gian sống của refresh token\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites\nSITE_ID = 1",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),\n}\nAUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\nSITE_ID = 1\nACCOUNT_AUTHENTICATION_METHOD = \"email\"",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "AUTHENTICATION_BACKENDS",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "AUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\n# django.contrib.sites\nSITE_ID = 1\n# # django-allauth\n# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True\n# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'\n# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "AUTHENTICATION_BACKENDS = (\n    'django.contrib.auth.backends.ModelBackend',\n    'allauth.account.auth_backends.AuthenticationBackend',\n)\nSITE_ID = 1\nACCOUNT_AUTHENTICATION_METHOD = \"email\"\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "SITE_ID",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SITE_ID = 1\n# # django-allauth\n# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True\n# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'\n# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1\n# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECTS = True\n# Email addresses coming from social authentication providers are considered verified, therefore, for the sake of this tutorial, we can disable email verification.\nACCOUNT_AUTHENTICATION_METHOD = \"email\"  # Use Email / Password authentication\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SITE_ID = 1\nACCOUNT_AUTHENTICATION_METHOD = \"email\"\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ACCOUNT_AUTHENTICATION_METHOD",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ACCOUNT_AUTHENTICATION_METHOD = \"email\"  # Use Email / Password authentication\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ACCOUNT_AUTHENTICATION_METHOD = \"email\"\nACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ACCOUNT_USERNAME_REQUIRED",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ACCOUNT_USERNAME_REQUIRED = False\nACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ACCOUNT_EMAIL_REQUIRED",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ACCOUNT_EMAIL_REQUIRED = True\nACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ACCOUNT_EMAIL_VERIFICATION",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ACCOUNT_EMAIL_VERIFICATION = \"none\"  # Do not require email confirmation\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ACCOUNT_EMAIL_VERIFICATION = \"none\"\nACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},\n    }",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "ACCOUNT_UNIQUE_EMAIL",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "ACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "ACCOUNT_UNIQUE_EMAIL = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},\n    }\n}",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "SOCIALACCOUNT_EMAIL_AUTHENTICATION",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION = True\nSOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},\n    }\n}\nSOCIALACCOUNT_PROVIDERS = {",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }\n}",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},\n    }\n}\nSOCIALACCOUNT_PROVIDERS = {\n    \"google\": {",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
         "label": "CACHES",
         "kind": 5,
-        "importPath": "backend.backend.settings",
-        "description": "backend.backend.settings",
-        "peekOfCode": "CACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\n            \"CLIENT_CLASS\": \"django_redis.client.DefaultClient\",\n        }\n    }\n}",
-        "detail": "backend.backend.settings",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "CACHES = {\n    \"default\": {\n        \"BACKEND\": \"django_redis.cache.RedisCache\",\n        \"LOCATION\": os.getenv(\"REDIS_URL\"),\n        \"OPTIONS\": {\"CLIENT_CLASS\": \"django_redis.client.DefaultClient\"},\n    }\n}\nSOCIALACCOUNT_PROVIDERS = {\n    \"google\": {\n        \"APP\": {",
+        "detail": "backend.config.settings.base",
         "documentation": {}
     },
     {
-        "label": "urlpatterns",
+        "label": "SOCIALACCOUNT_PROVIDERS",
         "kind": 5,
-        "importPath": "backend.backend.urls",
-        "description": "backend.backend.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),\n    # Giao diện Swagger UI\n    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),\n    # Giao diện Redoc UI (tùy chọn)\n    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),\n    path('api/progress/', include('apps.progress.urls')),\n    path('api/learning/', include('apps.learning.urls')),\n    path('api/gamification/', include('apps.gamification.urls')),",
-        "detail": "backend.backend.urls",
+        "importPath": "backend.config.settings.base",
+        "description": "backend.config.settings.base",
+        "peekOfCode": "SOCIALACCOUNT_PROVIDERS = {\n    \"google\": {\n        \"APP\": {\n            \"client_id\": GOOGLE_OAUTH_CLIENT_ID,\n            \"secret\": GOOGLE_OAUTH_CLIENT_SECRET,\n            \"key\": \"\",\n        },\n        \"SCOPE\": [\"profile\", \"email\"],\n        \"AUTH_PARAMS\": {\"access_type\": \"online\"},\n    },",
+        "detail": "backend.config.settings.base",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.config.settings.dev",
+        "description": "backend.config.settings.dev",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = [\"localhost\", \"127.0.0.1\", os.getenv(\"ALLOWED_HOSTS\")]\nCORS_ALLOWED_ORIGINS = [\n    os.getenv(\"CORS_ALLOWED_ORIGIN\"),\n    \"http://localhost:3000\",\n]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),",
+        "detail": "backend.config.settings.dev",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.config.settings.dev",
+        "description": "backend.config.settings.dev",
+        "peekOfCode": "ALLOWED_HOSTS = [\"localhost\", \"127.0.0.1\", os.getenv(\"ALLOWED_HOSTS\")]\nCORS_ALLOWED_ORIGINS = [\n    os.getenv(\"CORS_ALLOWED_ORIGIN\"),\n    \"http://localhost:3000\",\n]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),",
+        "detail": "backend.config.settings.dev",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.config.settings.dev",
+        "description": "backend.config.settings.dev",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    os.getenv(\"CORS_ALLOWED_ORIGIN\"),\n    \"http://localhost:3000\",\n]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),",
+        "detail": "backend.config.settings.dev",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.config.settings.dev",
+        "description": "backend.config.settings.dev",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),\n        'OPTIONS': {\n            'sslmode': os.getenv(\"SSLMODE\", \"prefer\"),",
+        "detail": "backend.config.settings.dev",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.config.settings.prod",
+        "description": "backend.config.settings.prod",
+        "peekOfCode": "DEBUG = False\nALLOWED_HOSTS = [os.getenv(\"ALLOWED_HOSTS\")]\nCORS_ALLOWED_ORIGINS = [os.getenv(\"CORS_ALLOWED_ORIGIN\")]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),",
+        "detail": "backend.config.settings.prod",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.config.settings.prod",
+        "description": "backend.config.settings.prod",
+        "peekOfCode": "ALLOWED_HOSTS = [os.getenv(\"ALLOWED_HOSTS\")]\nCORS_ALLOWED_ORIGINS = [os.getenv(\"CORS_ALLOWED_ORIGIN\")]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),",
+        "detail": "backend.config.settings.prod",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.config.settings.prod",
+        "description": "backend.config.settings.prod",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [os.getenv(\"CORS_ALLOWED_ORIGIN\")]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),\n        'OPTIONS': {",
+        "detail": "backend.config.settings.prod",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.config.settings.prod",
+        "description": "backend.config.settings.prod",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': os.getenv(\"DB_NAME\"),\n        'USER': os.getenv(\"DB_USER\"),\n        'PASSWORD': os.getenv(\"DB_PASSWORD\"),\n        'HOST': os.getenv(\"DB_HOST\"),\n        'PORT': os.getenv(\"DB_PORT\"),\n        'OPTIONS': {\n            'sslmode': os.getenv(\"SSLMODE\", \"require\"),",
+        "detail": "backend.config.settings.prod",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.config.settings.test",
+        "description": "backend.config.settings.test",
+        "peekOfCode": "DEBUG = False\nALLOWED_HOSTS = [\"*\"]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / \"test_db.sqlite3\",\n    }\n}\nPASSWORD_HASHERS = [\n    'django.contrib.auth.hashers.MD5PasswordHasher',",
+        "detail": "backend.config.settings.test",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.config.settings.test",
+        "description": "backend.config.settings.test",
+        "peekOfCode": "ALLOWED_HOSTS = [\"*\"]\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / \"test_db.sqlite3\",\n    }\n}\nPASSWORD_HASHERS = [\n    'django.contrib.auth.hashers.MD5PasswordHasher',\n]",
+        "detail": "backend.config.settings.test",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.config.settings.test",
+        "description": "backend.config.settings.test",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / \"test_db.sqlite3\",\n    }\n}\nPASSWORD_HASHERS = [\n    'django.contrib.auth.hashers.MD5PasswordHasher',\n]",
+        "detail": "backend.config.settings.test",
+        "documentation": {}
+    },
+    {
+        "label": "PASSWORD_HASHERS",
+        "kind": 5,
+        "importPath": "backend.config.settings.test",
+        "description": "backend.config.settings.test",
+        "peekOfCode": "PASSWORD_HASHERS = [\n    'django.contrib.auth.hashers.MD5PasswordHasher',\n]",
+        "detail": "backend.config.settings.test",
         "documentation": {}
     },
     {
         "label": "application",
         "kind": 5,
-        "importPath": "backend.backend.wsgi",
-        "description": "backend.backend.wsgi",
+        "importPath": "backend.config.asgi",
+        "description": "backend.config.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "backend.config.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.config.urls",
+        "description": "backend.config.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),\n    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),\n    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),\n    path('api/progress/', include('apps.progress.urls')),\n    path('api/learning/', include('apps.learning.urls')),\n    path('api/gamification/', include('apps.gamification.urls')),\n    path('api/accounts/', include('apps.accounts.urls')),\n]",
+        "detail": "backend.config.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.config.wsgi",
+        "description": "backend.config.wsgi",
         "peekOfCode": "application = get_wsgi_application()",
-        "detail": "backend.backend.wsgi",
+        "detail": "backend.config.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "CustomException",
+        "kind": 6,
+        "importPath": "backend.core.exceptions",
+        "description": "backend.core.exceptions",
+        "peekOfCode": "class CustomException(Exception):\n    code: int\n    message: str\n    def __init__(self, http_code: int, code: int, message: str):\n        self.http_code = http_code if http_code else 500\n        self.code = code if code else http_code\n        self.message = message\ndef build_error_response(code, message, status_code, details=None):\n    \"\"\"\n    Hàm chuẩn để đóng gói lỗi trả về JSON thống nhất",
+        "detail": "backend.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "build_error_response",
+        "kind": 2,
+        "importPath": "backend.core.exceptions",
+        "description": "backend.core.exceptions",
+        "peekOfCode": "def build_error_response(code, message, status_code, details=None):\n    \"\"\"\n    Hàm chuẩn để đóng gói lỗi trả về JSON thống nhất\n    \"\"\"\n    response_data = {\n        \"code\": code,\n        \"message\": message\n    }\n    if details is not None:\n        response_data[\"details\"] = details",
+        "detail": "backend.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "http_exception_handler",
+        "kind": 2,
+        "importPath": "backend.core.exceptions",
+        "description": "backend.core.exceptions",
+        "peekOfCode": "def http_exception_handler(exc, context):\n    \"\"\"\n    Custom exception handler trả về JSON lỗi đồng nhất\n    \"\"\"\n    if isinstance(exc, CustomException):\n        return build_error_response(exc.code, exc.message, exc.http_code)\n    if isinstance(exc, ValidationError):\n        return build_error_response(\n            status.HTTP_400_BAD_REQUEST,\n            \"Validation failed\",",
+        "detail": "backend.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "backend.core.exceptions",
+        "description": "backend.core.exceptions",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CustomException(Exception):\n    code: int\n    message: str\n    def __init__(self, http_code: int, code: int, message: str):\n        self.http_code = http_code if http_code else 500\n        self.code = code if code else http_code\n        self.message = message\ndef build_error_response(code, message, status_code, details=None):\n    \"\"\"",
+        "detail": "backend.core.exceptions",
         "documentation": {}
     },
     {
@@ -4146,7 +4292,7 @@
         "kind": 2,
         "importPath": "backend.manage",
         "description": "backend.manage",
-        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
         "detail": "backend.manage",
         "documentation": {}
     }

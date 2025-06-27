@@ -1,0 +1,2728 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "",
+        "version": "0.0.0"
+    },
+    "paths": {
+        "/api/accounts/change-password/": {
+            "post": {
+                "operationId": "accounts_change_password_create",
+                "description": "Đổi mật khẩu cho user đã đăng nhập.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePassword"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePassword"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Đổi mật khẩu thành công."
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ."
+                    }
+                }
+            }
+        },
+        "/api/accounts/facebook/login/": {
+            "post": {
+                "operationId": "accounts_facebook_login_create",
+                "description": "Đăng nhập với tài khoản Facebook",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string",
+                                        "description": "Facebook OAuth access token"
+                                    }
+                                },
+                                "required": [
+                                    "access_token"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "refresh": {
+                                            "type": "string"
+                                        },
+                                        "access": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Xác thực thành công"
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ hoặc thiếu thông tin"
+                    },
+                    "500": {
+                        "description": "Lỗi máy chủ"
+                    }
+                }
+            }
+        },
+        "/api/accounts/google/login/": {
+            "post": {
+                "operationId": "accounts_google_login_create",
+                "description": "Đăng nhập với tài khoản Google",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id_token": {
+                                        "type": "string",
+                                        "description": "Google OAuth2 ID token"
+                                    }
+                                },
+                                "required": [
+                                    "id_token"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "refresh": {
+                                            "type": "string"
+                                        },
+                                        "access": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Xác thực thành công"
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ hoặc thiếu thông tin"
+                    },
+                    "500": {
+                        "description": "Lỗi máy chủ"
+                    }
+                }
+            }
+        },
+        "/api/accounts/login/": {
+            "post": {
+                "operationId": "accounts_login_create",
+                "description": "Đăng nhập và nhận JWT token.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Đăng nhập thành công."
+                    },
+                    "401": {
+                        "description": "Sai thông tin đăng nhập."
+                    },
+                    "403": {
+                        "description": "Tài khoản chưa xác minh."
+                    }
+                }
+            }
+        },
+        "/api/accounts/logout/": {
+            "post": {
+                "operationId": "accounts_logout_create",
+                "description": "Logout bằng cách blacklist refresh token.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Logout"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Logout"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Logout"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "205": {
+                        "description": "Logout thành công."
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ."
+                    }
+                }
+            }
+        },
+        "/api/accounts/refresh-token/": {
+            "post": {
+                "operationId": "accounts_refresh_token_create",
+                "description": "Làm mới access token bằng refresh token.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "refresh": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "refresh"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token mới được tạo thành công."
+                    },
+                    "401": {
+                        "description": "Token không hợp lệ hoặc đã hết hạn."
+                    }
+                }
+            }
+        },
+        "/api/accounts/register/": {
+            "post": {
+                "operationId": "accounts_register_create",
+                "description": "Đăng ký tài khoản mới và gửi email xác minh.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRegister"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRegister"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRegister"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Đăng ký thành công. Yêu cầu xác minh email."
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ."
+                    }
+                }
+            }
+        },
+        "/api/accounts/reset-password/": {
+            "post": {
+                "operationId": "accounts_reset_password_create",
+                "description": "Gửi email đặt lại mật khẩu.",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gửi link đặt lại mật khẩu."
+                    },
+                    "400": {
+                        "description": "Email không tồn tại."
+                    }
+                }
+            }
+        },
+        "/api/accounts/reset-password-confirm/{uid}/{token}/": {
+            "post": {
+                "operationId": "accounts_reset_password_confirm_create",
+                "description": "Xác nhận đặt lại mật khẩu với token hợp lệ.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token đặt lại mật khẩu",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "uid",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^\\d+$"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "uid",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "User ID",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "new_password": {
+                                        "type": "string"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "new_password",
+                                    "confirm_password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Đặt lại mật khẩu thành công."
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ hoặc mật khẩu không khớp."
+                    }
+                }
+            }
+        },
+        "/api/accounts/reset-password-validate/{uid}/{token}/": {
+            "get": {
+                "operationId": "accounts_reset_password_validate_retrieve",
+                "description": "Kiểm tra tính hợp lệ của token đặt lại mật khẩu.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token đặt lại mật khẩu",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "uid",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^\\d+$"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "uid",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "User ID",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token hợp lệ."
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ hoặc đã hết hạn."
+                    }
+                }
+            }
+        },
+        "/api/accounts/update-streak/": {
+            "post": {
+                "operationId": "accounts_update_streak_create",
+                "tags": [
+                    "accounts"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "No response body"
+                    }
+                }
+            }
+        },
+        "/api/accounts/user-detail/me/": {
+            "get": {
+                "operationId": "accounts_user_detail_me_retrieve",
+                "description": "Get the current user's profile",
+                "tags": [
+                    "accounts"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDetail"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "accounts_user_detail_me_update",
+                "description": "Update the current user's profile",
+                "tags": [
+                    "accounts"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserDetail"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserDetail"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserDetail"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDetail"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/accounts/user-detail/profile/": {
+            "get": {
+                "operationId": "accounts_user_detail_profile_retrieve",
+                "tags": [
+                    "accounts"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDetail"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/accounts/verify-email/{token}/": {
+            "get": {
+                "operationId": "accounts_verify_email_retrieve",
+                "description": "Kích hoạt tài khoản khi người dùng nhấn vào link xác thực.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token xác thực email",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xác thực email thành công."
+                    },
+                    "400": {
+                        "description": "Token không hợp lệ hoặc tài khoản đã được kích hoạt."
+                    }
+                }
+            }
+        },
+        "/api/gamification/leaderboard/": {
+            "get": {
+                "operationId": "gamification_leaderboard_list",
+                "description": "Lấy danh sách xếp hạng người dùng theo điểm số",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số trang (bắt đầu từ 1)"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page_size",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số lượng item mỗi trang"
+                    }
+                ],
+                "tags": [
+                    "gamification"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "count",
+                                        "results"
+                                    ],
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=4"
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uri",
+                                            "example": "http://api.example.org/accounts/?page=2"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "count": {
+                                                        "type": "integer",
+                                                        "description": "Tổng số bản ghi"
+                                                    },
+                                                    "next": {
+                                                        "type": "string",
+                                                        "format": "uri",
+                                                        "nullable": true,
+                                                        "description": "Link trang tiếp theo"
+                                                    },
+                                                    "previous": {
+                                                        "type": "string",
+                                                        "format": "uri",
+                                                        "nullable": true,
+                                                        "description": "Link trang trước"
+                                                    },
+                                                    "results": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "$ref": "#/components/schemas/LeaderBoard"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Danh sách xếp hạng người dùng"
+                    }
+                }
+            }
+        },
+        "/api/gamification/leaderboard/{id}/": {
+            "get": {
+                "operationId": "gamification_leaderboard_retrieve",
+                "description": "Lấy thông tin xếp hạng của một người dùng cụ thể",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this leader board.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "gamification"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaderBoard"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy bản ghi"
+                    }
+                }
+            }
+        },
+        "/api/learning/courses/": {
+            "get": {
+                "operationId": "learning_courses_list",
+                "description": "Lấy danh sách tất cả các khóa học.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "required": false,
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedCourseList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/learning/courses/{id}/": {
+            "get": {
+                "operationId": "learning_courses_retrieve",
+                "description": "Lấy thông tin chi tiết của một khóa học cụ thể.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Course.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Course"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy khóa học"
+                    }
+                }
+            }
+        },
+        "/api/learning/courses/{id}/lessons/": {
+            "get": {
+                "operationId": "learning_courses_lessons_list",
+                "description": "Lấy danh sách các bài học của một khóa học cụ thể.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Course.",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "required": false,
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedLessonList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy khóa học"
+                    }
+                }
+            }
+        },
+        "/api/learning/lessons/": {
+            "get": {
+                "operationId": "learning_lessons_list",
+                "description": "Lấy danh sách tất cả các bài học.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedLessonList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/learning/lessons/{id}/": {
+            "get": {
+                "operationId": "learning_lessons_retrieve",
+                "description": "Lấy thông tin chi tiết của một bài học cụ thể.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Lesson.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lesson"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy bài học"
+                    }
+                }
+            }
+        },
+        "/api/learning/lessons/{id}/words/": {
+            "get": {
+                "operationId": "learning_lessons_words_list",
+                "description": "Lấy danh sách từ vựng của một bài học cụ thể.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Lesson.",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "learning"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedWordList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy bài học"
+                    }
+                }
+            }
+        },
+        "/api/progress/courses/": {
+            "get": {
+                "operationId": "progress_courses_list",
+                "description": "Lấy danh sách các khóa học của người dùng (có phân trang).",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số trang"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page_size",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số lượng phần tử mỗi trang"
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedCourseProgressList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/courses/{id}/": {
+            "get": {
+                "operationId": "progress_courses_retrieve",
+                "description": "Lấy thông tin khóa học cụ thể của người dùng.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Course.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CourseProgress"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy khóa học"
+                    }
+                }
+            }
+        },
+        "/api/progress/courses/{id}/lessons/": {
+            "get": {
+                "operationId": "progress_courses_lessons_list",
+                "description": "Lấy danh sách các bài học của khóa học cụ thể (có phân trang).",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Course.",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số trang"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page_size",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số lượng phần tử mỗi trang"
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedLessonProgressList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy khóa học"
+                    }
+                }
+            }
+        },
+        "/api/progress/lessons/": {
+            "get": {
+                "operationId": "progress_lessons_list",
+                "description": "Lấy danh sách tiến độ bài học của người dùng hiện tại.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số trang"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page_size",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Số lượng phần tử mỗi trang"
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedLessonProgressList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/lessons/{id}/": {
+            "get": {
+                "operationId": "progress_lessons_retrieve",
+                "description": "Lấy thông tin tiến độ của một bài học cụ thể.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Lesson.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LessonProgress"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Không tìm thấy bài học"
+                    }
+                }
+            }
+        },
+        "/api/progress/lessons/{id}/words/": {
+            "get": {
+                "operationId": "progress_lessons_words_retrieve",
+                "description": "Lấy danh sách từ vựng của một bài học cụ thể, bao gồm cả thông tin bài học.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this Lesson.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "lesson_id": {
+                                            "type": "integer"
+                                        },
+                                        "lesson_title": {
+                                            "type": "string"
+                                        },
+                                        "lesson_description": {
+                                            "type": "string"
+                                        },
+                                        "words": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Word"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Danh sách từ vựng của bài học"
+                    },
+                    "404": {
+                        "description": "Không tìm thấy bài học"
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/": {
+            "get": {
+                "operationId": "progress_vocabularies_list",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedVocabularyProgressOutputList"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "operationId": "progress_vocabularies_create",
+                "tags": [
+                    "progress"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/{id}/": {
+            "get": {
+                "operationId": "progress_vocabularies_retrieve",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this vocabulary progress.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "progress_vocabularies_update",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this vocabulary progress.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "progress_vocabularies_partial_update",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this vocabulary progress.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedVocabularyProgressOutput"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedVocabularyProgressOutput"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedVocabularyProgressOutput"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "progress_vocabularies_destroy",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "A unique integer value identifying this vocabulary progress.",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No response body"
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/count_words-by-level/": {
+            "get": {
+                "operationId": "progress_vocabularies_count_words_by_level_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/get-words/": {
+            "get": {
+                "operationId": "progress_vocabularies_get_words_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/learned-words/": {
+            "get": {
+                "operationId": "progress_vocabularies_learned_words_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/learned-words-pagination/": {
+            "get": {
+                "operationId": "progress_vocabularies_learned_words_pagination_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/review-words/": {
+            "get": {
+                "operationId": "progress_vocabularies_review_words_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/progress/vocabularies/submit-words/": {
+            "post": {
+                "operationId": "progress_vocabularies_submit_words_create",
+                "description": "request.data:\n{\n    \"is_review\": true,\n    \"lesson_id\": 12,          // Required when is_review is false\n    \"words\": [\n        {\n            \"word_id\": 123,\n            \"level\": 2,\n            \"streak\": 3,\n            \"is_correct\": true,\n            \"question_type\": \"L2\"\n        }\n    ]\n}",
+                "tags": [
+                    "progress"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VocabularyProgressOutput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VocabularyProgressOutput"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/schema/": {
+            "get": {
+                "operationId": "schema_retrieve",
+                "description": "OpenApi3 schema for this API. Format can be selected via content negotiation.\n\n- YAML: application/vnd.oai.openapi\n- JSON: application/vnd.oai.openapi+json",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "lang",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "af",
+                                "ar",
+                                "ar-dz",
+                                "ast",
+                                "az",
+                                "be",
+                                "bg",
+                                "bn",
+                                "br",
+                                "bs",
+                                "ca",
+                                "ckb",
+                                "cs",
+                                "cy",
+                                "da",
+                                "de",
+                                "dsb",
+                                "el",
+                                "en",
+                                "en-au",
+                                "en-gb",
+                                "eo",
+                                "es",
+                                "es-ar",
+                                "es-co",
+                                "es-mx",
+                                "es-ni",
+                                "es-ve",
+                                "et",
+                                "eu",
+                                "fa",
+                                "fi",
+                                "fr",
+                                "fy",
+                                "ga",
+                                "gd",
+                                "gl",
+                                "he",
+                                "hi",
+                                "hr",
+                                "hsb",
+                                "hu",
+                                "hy",
+                                "ia",
+                                "id",
+                                "ig",
+                                "io",
+                                "is",
+                                "it",
+                                "ja",
+                                "ka",
+                                "kab",
+                                "kk",
+                                "km",
+                                "kn",
+                                "ko",
+                                "ky",
+                                "lb",
+                                "lt",
+                                "lv",
+                                "mk",
+                                "ml",
+                                "mn",
+                                "mr",
+                                "ms",
+                                "my",
+                                "nb",
+                                "ne",
+                                "nl",
+                                "nn",
+                                "os",
+                                "pa",
+                                "pl",
+                                "pt",
+                                "pt-br",
+                                "ro",
+                                "ru",
+                                "sk",
+                                "sl",
+                                "sq",
+                                "sr",
+                                "sr-latn",
+                                "sv",
+                                "sw",
+                                "ta",
+                                "te",
+                                "tg",
+                                "th",
+                                "tk",
+                                "tr",
+                                "tt",
+                                "udm",
+                                "ug",
+                                "uk",
+                                "ur",
+                                "uz",
+                                "vi",
+                                "zh-hans",
+                                "zh-hant"
+                            ]
+                        }
+                    }
+                ],
+                "tags": [
+                    "schema"
+                ],
+                "security": [
+                    {
+                        "jwtAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/vnd.oai.openapi+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {}
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {}
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChangePassword": {
+                "type": "object",
+                "properties": {
+                    "old_password": {
+                        "type": "string"
+                    },
+                    "new_password": {
+                        "type": "string"
+                    },
+                    "confirm_new_password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "confirm_new_password",
+                    "new_password",
+                    "old_password"
+                ]
+            },
+            "Course": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "en_title": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 10
+                    }
+                },
+                "required": [
+                    "created_at",
+                    "id",
+                    "image",
+                    "title",
+                    "updated_at"
+                ]
+            },
+            "CourseProgress": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "en_title": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 10
+                    },
+                    "is_learned": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "lesson_count": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "progress": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "learner_count": {
+                        "type": "integer",
+                        "readOnly": true
+                    }
+                },
+                "required": [
+                    "id",
+                    "image",
+                    "is_learned",
+                    "learner_count",
+                    "lesson_count",
+                    "progress",
+                    "title"
+                ]
+            },
+            "LeaderBoard": {
+                "type": "object",
+                "description": "Serializer cho bảng xếp hạng người dùng.",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "total_score": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "readOnly": true
+                    }
+                },
+                "required": [
+                    "avatar",
+                    "total_score",
+                    "username"
+                ]
+            },
+            "Lesson": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "words": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Word"
+                        },
+                        "readOnly": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "course": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "created_at",
+                    "id",
+                    "image",
+                    "title",
+                    "updated_at",
+                    "words"
+                ]
+            },
+            "LessonProgress": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "is_learned": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "word_count": {
+                        "type": "integer",
+                        "readOnly": true
+                    }
+                },
+                "required": [
+                    "created_at",
+                    "id",
+                    "image",
+                    "is_learned",
+                    "title",
+                    "updated_at",
+                    "word_count"
+                ]
+            },
+            "Logout": {
+                "type": "object",
+                "properties": {
+                    "refresh": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "refresh"
+                ]
+            },
+            "PaginatedCourseList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Course"
+                        }
+                    }
+                }
+            },
+            "PaginatedCourseProgressList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CourseProgress"
+                        }
+                    }
+                }
+            },
+            "PaginatedLessonList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Lesson"
+                        }
+                    }
+                }
+            },
+            "PaginatedLessonProgressList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LessonProgress"
+                        }
+                    }
+                }
+            },
+            "PaginatedVocabularyProgressOutputList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/VocabularyProgressOutput"
+                        }
+                    }
+                }
+            },
+            "PaginatedWordList": {
+                "type": "object",
+                "required": [
+                    "count",
+                    "results"
+                ],
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "next": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=4"
+                    },
+                    "previous": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uri",
+                        "example": "http://api.example.org/accounts/?page=2"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Word"
+                        }
+                    }
+                }
+            },
+            "PatchedVocabularyProgressOutput": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "word": {
+                        "$ref": "#/components/schemas/Word"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "maximum": 32767,
+                        "minimum": 0
+                    },
+                    "next_review": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "last_review": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "streak": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": 0
+                    },
+                    "learned_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "user": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "ResetPassword": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "required": [
+                    "email"
+                ]
+            },
+            "UserDetail": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "readOnly": true
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "format": "uri",
+                        "readOnly": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 20
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "bio": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "language": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "joinedDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "level": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "streak": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "completedLessons": {
+                        "type": "integer"
+                    },
+                    "totalLessons": {
+                        "type": "integer"
+                    },
+                    "completedTopics": {
+                        "type": "integer"
+                    },
+                    "totalTopics": {
+                        "type": "integer"
+                    },
+                    "learningTime": {
+                        "type": "string"
+                    },
+                    "subscription": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 50
+                    },
+                    "subscriptionExpiry": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "avatar",
+                    "completedLessons",
+                    "completedTopics",
+                    "email",
+                    "joinedDate",
+                    "learningTime",
+                    "paymentMethod",
+                    "streak",
+                    "subscriptionExpiry",
+                    "totalLessons",
+                    "totalTopics"
+                ]
+            },
+            "UserLogin": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string",
+                        "writeOnly": true
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "UserRegister": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+                        "pattern": "^[\\w.@+-]+$",
+                        "maxLength": 150
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "title": "Email address",
+                        "maxLength": 254
+                    },
+                    "password": {
+                        "type": "string",
+                        "maxLength": 128
+                    },
+                    "confirm_password": {
+                        "type": "string",
+                        "writeOnly": true
+                    }
+                },
+                "required": [
+                    "confirm_password",
+                    "password",
+                    "username"
+                ]
+            },
+            "VocabularyProgressOutput": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "word": {
+                        "$ref": "#/components/schemas/Word"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "maximum": 32767,
+                        "minimum": 0
+                    },
+                    "next_review": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "last_review": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "streak": {
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": 0
+                    },
+                    "learned_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "user": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "id",
+                    "last_review",
+                    "learned_at",
+                    "user",
+                    "word"
+                ]
+            },
+            "Word": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "word": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "pronunciation": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "pos": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 255
+                    },
+                    "meaning": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "example_vi": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "audio": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "cefr": {
+                        "type": "string",
+                        "nullable": true,
+                        "maxLength": 10
+                    }
+                },
+                "required": [
+                    "audio",
+                    "id",
+                    "image",
+                    "meaning",
+                    "word"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "jwtAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

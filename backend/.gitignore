@@ -3,7 +3,7 @@ venv/
 __pycache__/
 
 # Bỏ qua file cấu hình môi trường
-backend/.env
+.env
 
 # Bỏ qua database SQLite
 db.sqlite3
@@ -11,4 +11,4 @@ db.sqlite3
 **/.venv/
 .idea
 
-backend/.env
+.env

@@ -16,7 +16,7 @@ router.register(r'user-detail', UserDetailViewSet, basename='user-detail')
 urlpatterns = [
     path("", include(router.urls)),
     path("google/login/", GoogleAuthView.as_view()),
-    path("facebook/login/", FacebookAuthView.as_view()),  # Chưa có
-    path('api/accounts/update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),
+    path("facebook/login/", FacebookAuthView.as_view()),
+    path('update-streak/', ResetStreakAPIView.as_view(), name='update-streak'),
 
 ]
