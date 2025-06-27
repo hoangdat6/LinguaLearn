@@ -2398,14 +2398,6 @@
         "documentation": {}
     },
     {
-        "label": "SpectacularAPIView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
         "label": "SpectacularSwaggerView",
         "importPath": "drf_spectacular.views",
         "description": "drf_spectacular.views",
@@ -2415,6 +2407,14 @@
     },
     {
         "label": "SpectacularRedocView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularJSONAPIView",
         "importPath": "drf_spectacular.views",
         "description": "drf_spectacular.views",
         "isExtraImport": true,
@@ -4184,7 +4184,7 @@
         "kind": 5,
         "importPath": "backend.config.urls",
         "description": "backend.config.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),\n    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),\n    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),\n    path('api/progress/', include('apps.progress.urls')),\n    path('api/learning/', include('apps.learning.urls')),\n    path('api/gamification/', include('apps.gamification.urls')),\n    path('api/accounts/', include('apps.accounts.urls')),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/schema/', SpectacularJSONAPIView.as_view(), name='schema'),\n    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),\n    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),\n    path('api/progress/', include('apps.progress.urls')),\n    path('api/learning/', include('apps.learning.urls')),\n    path('api/gamification/', include('apps.gamification.urls')),\n    path('api/accounts/', include('apps.accounts.urls')),\n]",
         "detail": "backend.config.urls",
         "documentation": {}
     },

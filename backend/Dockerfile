@@ -36,4 +36,4 @@ USER appuser
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate && exec gunicorn backend.wsgi:application --config gunicorn_conf.py"]
+CMD ["sh", "-c", "python manage.py migrate && exec gunicorn config.wsgi:application --config gunicorn_conf.py"]
