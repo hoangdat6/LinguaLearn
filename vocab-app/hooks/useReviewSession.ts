@@ -156,7 +156,7 @@ export function useReviewSession() {
   const updateResultsForAnswer = useCallback((isCorrect: boolean, isSkipped: boolean, wordId: number) => {
     const word = reviewWords.find(w => w.id === wordId);
     if (!word) return;
-    
+
     setResults(prevResults => {
       // Create a new result entry for this word
       const newResult = {
@@ -165,10 +165,10 @@ export function useReviewSession() {
         time: isSkipped ? 0 : 3.0, // Placeholder timing
         wordId: wordId
       };
-      
+
       // Check if this word already exists in results (in case of re-answer)
       const existingIndex = prevResults.questionResults.findIndex(r => r.wordId === wordId);
-      
+
       let newQuestionResults = [...prevResults.questionResults];
       if (existingIndex >= 0) {
         // Update existing result
@@ -177,12 +177,12 @@ export function useReviewSession() {
         // Add new result
         newQuestionResults.push(newResult);
       }
-      
+
       // Update correct/incorrect/skipped counts
       let correctCount = isCorrect ? prevResults.correct + 1 : prevResults.correct;
       let incorrectCount = (!isCorrect && !isSkipped) ? prevResults.incorrect + 1 : prevResults.incorrect;
       let skippedCount = isSkipped ? prevResults.skipped + 1 : prevResults.skipped;
-      
+
       // If updating an existing entry, adjust the counts
       if (existingIndex >= 0) {
         const oldResult = prevResults.questionResults[existingIndex];
@@ -190,7 +190,7 @@ export function useReviewSession() {
         else if (oldResult.time === 0) skippedCount--;
         else incorrectCount--;
       }
-      
+
       const newResults = {
         ...prevResults,
         correct: correctCount,
@@ -199,10 +199,10 @@ export function useReviewSession() {
         totalTime: prevResults.totalTime + (existingIndex >= 0 ? 0 : 3.0), // Add time only for new entries
         questionResults: newQuestionResults
       };
-      
+
       // Immediately update sessionStorage with the latest results
       sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
-      
+
       return newResults;
     });
   }, [reviewWords]);
@@ -215,11 +215,11 @@ export function useReviewSession() {
 
     // Create word ID to index map for faster lookups
     const wordIdToIndex = new Map(reviewWords.map(word => [word.id, word]));
-    
+
     // Track unique words that have been answered
     const processedWords = new Set();
     const questionResults: { word: string; correct: boolean; time: number; wordId?: number }[] = [];
-    
+
     let correctCount = 0;
     let incorrectCount = 0;
     let skippedCount = 0;
@@ -228,26 +228,26 @@ export function useReviewSession() {
     // Process review queue to extract statistics
     reviewQueue.forEach(item => {
       if (!item.is_reviewed) return;
-      
+
       const word = wordIdToIndex.get(item.word_state_id);
       if (!word) return;
 
       // For results display purposes, we want each unique word only once
       if (!processedWords.has(item.word_state_id)) {
         processedWords.add(item.word_state_id);
-        
+
         // We don't have actual time tracking per word in the current implementation
         // Using a placeholder value (could be enhanced with actual timing)
         const timeSpent = 3.0; // Placeholder for per-word timing
         totalTime += timeSpent;
-        
+
         questionResults.push({
           word: word.word.word,
           correct: item.is_correct === true,
           time: item.is_skipped ? 0 : timeSpent,
           wordId: item.word_state_id
         });
-        
+
         if (item.is_correct === true) {
           correctCount++;
         } else if (item.is_skipped) {
@@ -257,7 +257,7 @@ export function useReviewSession() {
         }
       }
     });
-    
+
     const newResults = {
       correct: correctCount,
       incorrect: incorrectCount,
@@ -265,11 +265,11 @@ export function useReviewSession() {
       totalTime,
       questionResults
     };
-    
+
     // Store results in session storage for persistence
     sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
     setResults(newResults);
-    
+
     return newResults;
   }, [reviewWords, reviewQueue]);
 
@@ -279,16 +279,16 @@ export function useReviewSession() {
   const completeSession = useCallback(() => {
     // First update results to ensure they're complete
     const finalResults = calculateResults();
-    
+
     // Use setTimeout to ensure state updates happen after the current execution context
     setTimeout(() => {
       setSessionState("completed");
       setProgress(100);
-      
+
       if (finalResults) {
         setResults(finalResults);
       }
-      
+
     }, 100);
   }, [calculateResults]);
 
@@ -372,7 +372,7 @@ export function useReviewSession() {
       console.warn("No review words available");
       return
     }
-    
+
     // Set all state updates before setting current word to avoid flicker
     setReviewWords(words)
 
@@ -403,7 +403,7 @@ export function useReviewSession() {
 
       // Create review queue first
       const newReviewQueue = createRandomReviewQueue(words)
-      
+
       // Then set current word as the last step
       if (newReviewQueue.length > 0) {
         const firstWordIndex = newReviewQueue[0]?.word_index
@@ -522,7 +522,7 @@ export function useReviewSession() {
     setIsLoading(true)
     // Clear current word to prevent flashing of wrong word
     setCurrentWord(null)
-    
+
     const loadSession = async () => {
       try {
         // Get stored session if exists
@@ -602,14 +602,14 @@ export function useReviewSession() {
           sessionStorage.removeItem("reviewSession")
           sessionStorage.removeItem("reviewWords")
           // Reset session state
-          
+
         })
         .catch((error) => {
           console.error("Error submitting review session:", error)
         })
     }
   }, [sessionState, prepareSessionResults])
-  
+
   /**
    * Handles back navigation while ensuring data is saved
    */
@@ -620,22 +620,21 @@ export function useReviewSession() {
       // Update the results state directly
       setResults(finalResults);
     }
-    
+
     // Only proceed if there are words to submit
     const results = prepareSessionResults();
     if (results.words.length) {
       try {
         // Submit results directly and wait for completion
         await ReviewService.submitReviewSession(results);
-        
-        // Clear session storage after successful submission
-        sessionStorage.removeItem("reviewSession");
-        sessionStorage.removeItem("reviewWords");
       } catch (error) {
         console.error("Error submitting review session:", error);
       }
     }
-    
+
+    sessionStorage.removeItem("reviewSession");
+    sessionStorage.removeItem("reviewWords");
+
     // Update session state with a small delay to ensure results are displayed
     setTimeout(() => {
       setSessionState("completed");
@@ -660,7 +659,7 @@ export function useReviewSession() {
     isLoading,
     error,
     results,
-    
+
     // Actions
     handleBack,
     handleAnswer,

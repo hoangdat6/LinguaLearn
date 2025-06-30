@@ -19,7 +19,6 @@ type BackConfirmDialogProps = {
 
 export function BackConfirmDialog({ onBack }: BackConfirmDialogProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
-    const router = useRouter();
 
     const handleBack = () => {
         setDialogOpen(true);
@@ -28,7 +27,6 @@ export function BackConfirmDialog({ onBack }: BackConfirmDialogProps) {
     const handleConfirm = () => {
         if (onBack) {
             onBack();
-            router.push("/review");
         }
         setDialogOpen(false);
     };

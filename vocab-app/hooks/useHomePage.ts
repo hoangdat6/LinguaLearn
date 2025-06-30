@@ -50,20 +50,6 @@ const useHomePage = () => {
         timeUntilNextReview: data.time_until_next_review
       });
 
-      // Update local storage with the new data
-      sessionStorage.setItem(WORD_LEVELS_KEY, JSON.stringify({
-        totalWords: total,
-        countLevels: {
-          countLevel1: data.level_counts.count_level1,
-          countLevel2: data.level_counts.count_level2,
-          countLevel3: data.level_counts.count_level3,
-          countLevel4: data.level_counts.count_level4,
-          countLevel5: data.level_counts.count_level5,
-        },
-        reviewWordCount: data.review_word_count,
-        timeUntilNextReview: data.time_until_next_review,
-      }));
-      
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred')
     } finally {
