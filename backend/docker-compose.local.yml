@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - ./.env
+      - ./.env.local
     ports:
       - "8000:8000"
     depends_on:

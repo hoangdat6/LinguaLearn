@@ -7,13 +7,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password", "confirm_password"]
+        fields = ["email", "password", "confirm_password"]
 
     def validate(self, attrs):
         if attrs["password"] != attrs["confirm_password"]:
             raise serializers.ValidationError({"password": "Mật khẩu không khớp!"})
-        if CustomUser.objects.filter(username=attrs['username']).exists():
-            raise serializers.ValidationError({"username": "Tên đăng nhập đã tồn tại!"})
         if CustomUser.objects.filter(email=attrs["email"]).exists():
             raise serializers.ValidationError({"email": "Email đã được sử dụng!"})
         return attrs

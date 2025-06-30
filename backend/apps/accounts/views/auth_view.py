@@ -30,6 +30,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         try:
             if serializer.is_valid():
                 user = serializer.save()
+                user.username = user.email.split('@')[0]
                 user.is_active = False  # Tài khoản chưa được kích hoạt
                 user.save()
 

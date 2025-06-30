@@ -32,7 +32,7 @@ function useAuth() {
   });
 
   const registerSchema = Yup.object().shape({
-    username: Yup.string().required("Bắt buộc"),
+    // username: Yup.string().required("Bắt buộc"),
     email: Yup.string().email("Email không hợp lệ").required("Bắt buộc"),
     password: Yup.string()
       .min(8, "Mật khẩu ít nhất 8 ký tự")
@@ -74,12 +74,12 @@ function useAuth() {
   };
 
   // Xử lý đăng ký
-  const handleRegister = async (username: string, email: string, password: string, confirmPassword: string) => {
+  const handleRegister = async (email: string, password: string, confirmPassword: string) => {
     setIsLoading(true);
     setMessage("");
     setError("");
     try {
-      authService.register(username, email, password, confirmPassword);
+      await authService.register(email, password, confirmPassword);
       setMessage("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.");
       return true;
     } catch (err: any) {
@@ -133,12 +133,26 @@ function useAuth() {
 
   // Khởi tạo formik cho đăng ký
   const registerFormik = useFormik({
-    initialValues: { username: "", email: "", password: "", confirmPassword: "" },
+    initialValues: { email: "", password: "", confirmPassword: "" },
     validationSchema: registerSchema,
     onSubmit: async (values) => {
-      await handleRegister(values.username, values.email, values.password, values.confirmPassword);
+      return await handleRegister(values.email, values.password, values.confirmPassword);
     },
   });
+
+  // Helper functions to check if forms are valid and complete
+  const isLoginFormValid = () => {
+    return loginFormik.values.username.trim() !== "" && 
+           loginFormik.values.password.trim() !== "" && 
+           loginFormik.isValid;
+  };
+
+  const isRegisterFormValid = () => {
+    return registerFormik.values.email.trim() !== "" && 
+           registerFormik.values.password.trim() !== "" && 
+           registerFormik.values.confirmPassword.trim() !== "" && 
+           registerFormik.isValid;
+  };
 
   return {
     isLoading,
@@ -149,7 +163,9 @@ function useAuth() {
     handleGoogleLogin,
     handleFacebookLogin,
     setMessage,
-    setError
+    setError,
+    isLoginFormValid,
+    isRegisterFormValid
   };
 }
 

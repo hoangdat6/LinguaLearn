@@ -6,7 +6,6 @@ import { UserDetail } from "@/types/user-detail"
 import { USER_PROFILE } from "@/constants/api-endpoints"
 
 
-// Initialize with empty/null values instead of default data
 const emptyUser: UserDetail = {
   name: "",
   email: "",
@@ -38,16 +37,13 @@ export function useAccount() {
   const [error, setError] = useState<string | null>(null)
   const [isProfileComplete, setIsProfileComplete] = useState(true)
   
-  // Function to fetch user details from API
   const fetchUserDetails = async () => {
     try {
       setIsLoading(true)
       setError(null)
       
-      // Call the API endpoint to get user details
       const response = await api.get<UserDetail>(USER_PROFILE.GET_PROFILE);
       
-      // Check if response data is empty
       if (!response.data) {
         console.warn("Empty user data received from API.");
         setIsProfileComplete(false);
@@ -56,7 +52,6 @@ export function useAccount() {
         return;
       }
 
-      // Extract data directly from response without fallbacks
       const userData: UserDetail = {
         name: response.data.name ?? "",
         email: response.data.email ?? "",

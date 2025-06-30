@@ -39,11 +39,11 @@ const logout = async () => {
 };
 
 
-const register = async (username: string, email: string, password: string, confirm_password: string): Promise<void> => {
+const register = async (email: string, password: string, confirm_password: string): Promise<void> => {
   try {
     await publicApi.post(
       AUTH.REGISTER,
-      { username, email, password, confirm_password },
+      { email, password, confirm_password },
       {
         headers: {
           "Accept": "application/json",

@@ -19,25 +19,43 @@ export default function LoginPage() {
     loginFormik,
     registerFormik,
     handleGoogleLogin,
-    handleFacebookLogin
+    handleFacebookLogin,
+    isLoginFormValid,
+    isRegisterFormValid,
+    setMessage,
+    setError
   } = useAuth();
   
-  // Lấy tham số từ URL
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
 
-  // Xác định tab mặc định từ URL param
   const [activeTab, setActiveTab] = useState<string>("login");
   
-  // Cập nhật tab khi URL thay đổi
   useEffect(() => {
-    // Nếu có param 'tab' trong URL và giá trị là 'register', hiển thị tab đăng ký
     if (tabParam === "register") {
       setActiveTab("register");
     } else {
       setActiveTab("login");
     }
   }, [tabParam]);
+
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!isRegisterFormValid()) {
+      return;
+    }
+    
+    const success = await registerFormik.submitForm();
+    
+    if (success) {
+      setError("");
+      setTimeout(() => {
+        setActiveTab("login");
+        setMessage(""); 
+      }, 2000);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -85,7 +103,11 @@ export default function LoginPage() {
               </CardContent>
               
               <CardFooter className="flex flex-col gap-4">
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={isLoading || !isLoginFormValid()}
+                >
                   {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
                 </Button>
                 
@@ -136,19 +158,12 @@ export default function LoginPage() {
 
           {/* ĐĂNG KÝ */}
           <TabsContent value="register">
-            <form onSubmit={registerFormik.handleSubmit}>
+            <form onSubmit={handleRegisterSubmit}>
               <CardHeader>
                 <CardTitle>Tạo tài khoản</CardTitle>
                 <CardDescription>Nhập thông tin để tạo tài khoản mới</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Tên đăng nhập</Label>
-                  <Input id="username" {...registerFormik.getFieldProps("username")} />
-                  {registerFormik.touched.username && registerFormik.errors.username && (
-                    <p className="text-red-500 text-sm">{registerFormik.errors.username}</p>
-                  )}
-                </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" {...registerFormik.getFieldProps("email")} />
@@ -174,7 +189,11 @@ export default function LoginPage() {
                 {error && <p className="text-red-500">{error}</p>}
               </CardContent>
               <CardFooter className="flex flex-col gap-4">
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={isLoading || !isRegisterFormValid()}
+                >
                   {isLoading ? "Đang tạo tài khoản..." : "Tạo tài khoản"}
                 </Button>
                 
