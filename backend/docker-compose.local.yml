@@ -1,9 +1,7 @@
-# docker-compose.yml (root)
-version: '3.8'
+version: '3'
 
 services:
   web:
-#    image: ${DOCKER_IMAGE}
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,19 +11,30 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - check-db
       - redis
+      - db
     networks:
       - app_network
+      - web_net
 
-  check-db:
-    image: alpine:3.18
-    command: >
-      sh -c "
-      until nc -z -v -w30 ${DATABASE_HOST} ${DATABASE_PORT};
-      do sleep 5;
-      done
-      "
+  db:
+    image: postgres:17
+    container_name: lingual_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - lingual_db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+      - web_net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
       
   redis:
     image: redis:latest
@@ -40,3 +49,8 @@ services:
 networks:
   app_network:
     driver: bridge
+  web_net:
+    external: true
+
+volumes:
+  lingual_db_data:
