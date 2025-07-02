@@ -31,7 +31,6 @@ export const AudioButton = forwardRef<HTMLButtonElement, AudioButtonProps>(
     const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
-      // Reset the flag when the component props change
       hasPlayedRef.current = false;
 
       // Only play if it hasn't been played yet
@@ -47,11 +46,7 @@ export const AudioButton = forwardRef<HTMLButtonElement, AudioButtonProps>(
       setIsPlaying(true);
 
       try {
-        // if (audioUrl && audioUrl !== "") {
-        //   await playAudioByUrl(audioUrl);
-        // } else {
         await playAudioByWord(word, lang);
-        // }
       } catch (error) {
         console.error("Error during audio playback:", error);
       } finally {

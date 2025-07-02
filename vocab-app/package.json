@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "latest",
-    "ai": "latest",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "^1.2.2",
@@ -66,6 +65,9 @@
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tailwindcss/typography": "latest",
+    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query-devtools": "^5.81.5",
+    "ai": "latest",
     "autoprefixer": "^10.4.20",
     "axios": "^1.8.4",
     "canvas-confetti": "latest",

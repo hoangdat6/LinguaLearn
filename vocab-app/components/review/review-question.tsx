@@ -1,13 +1,13 @@
 "use client"
 
-import { FillInBlankQuestion } from "@/components/review/review-session/fill-in-blank-question"
-import { ListeningQuestion } from "@/components/review/review-session/listening-question"
-import { MultipleChoiceQuestion } from "@/components/review/review-session/multiple-choice-question"
-import { TranslationQuestion } from "@/components/review/review-session/translation-question"
+import { FillInBlankQuestion } from "@/components/review-session/wrappers/fill-in-blank-question"
+import { ListeningQuestion } from "@/components/review-session/wrappers/listening-question"
+import { MultipleChoiceQuestion } from "@/components/review-session/wrappers/multiple-choice-question"
+import { TranslationQuestion } from "@/components/review-session/wrappers/translation-question"
 import { ReviewService } from "@/services/review-service"
 import { Word } from "@/types/lesson-types"
 import type { QuestionType, WordReviewState as ReviewWord } from "@/types/review"
-import { ListeningMultipleChoiceQuestion } from "./review-session/listening-multiple-choice-question"
+import { ListeningMultipleChoiceQuestion } from "../review-session/wrappers/listening-multiple-choice-question"
 
 interface ReviewQuestionProps {
   questionType: QuestionType
@@ -18,9 +18,6 @@ interface ReviewQuestionProps {
 }
 
 export function ReviewQuestion({ questionType, vocabularyItem, reviewWords , onAnswer, onSkip }: ReviewQuestionProps) {
-  // Generate options for multiple choice
-
-  // Check if the vocabulary item is null
   if (!vocabularyItem) {
     return null
   }

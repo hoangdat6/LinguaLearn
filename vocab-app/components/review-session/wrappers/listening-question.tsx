@@ -1,8 +1,8 @@
 "use client"
 
-import type { BaseQuestionProps } from "@/components/review/review-session/base-question"
-import { BaseQuestion } from "@/components/review/review-session/base-question"
-import ListeningQuestionContent from "./contents/listening-question-content"
+import type { BaseQuestionProps } from "@/components/review-session/base-question"
+import { BaseQuestion } from "@/components/review-session/base-question"
+import ListeningQuestionContent from "../contents/listening-question-content"
 
 export function ListeningQuestion({ vocabularyItem, onAnswer, onSkip }: BaseQuestionProps) {
   

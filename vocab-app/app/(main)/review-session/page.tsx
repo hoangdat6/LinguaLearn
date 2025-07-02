@@ -2,13 +2,15 @@
 
 import { BackConfirmDialog } from "@/components/review/back-confirm-dialog"
 import { ReviewQuestion } from "@/components/review/review-question"
-import { ReviewSessionResults } from "@/components/review/review-session-results"
+import { ReviewSessionResults } from "@/components/review-session/review-session-results"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SESSION_STATE } from "@/constants/status"
 import { useReviewSession } from "@/hooks/useReviewSession"
+import { QuestionResult } from "@/types/review"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowLeft, CheckCircle, Trophy, Volume2, XCircle } from "lucide-react"
 import Link from "next/link"
@@ -128,7 +130,7 @@ export default function ReviewSessionPage() {
       <div className="mx-auto max-w-3xl">
         <AnimatePresence mode="wait">
       
-          {sessionState === "in-progress" ? (
+          {sessionState === SESSION_STATE.IN_PROGRESS ? (
             <motion.div key="in-progress" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="mb-8 space-y-4">
                 <div className="flex items-center justify-between">
@@ -201,7 +203,7 @@ export default function ReviewSessionPage() {
                       <div className="space-y-6">
                         <h3 className="text-lg font-medium">Kết quả từng câu hỏi</h3>
                         <div className="space-y-3">
-                          {results?.questionResults.map((result, index) => (
+                          {results?.questionResults.map((result: QuestionResult, index) => (
                             <div
                               key={index}
                               className={`p-3 rounded-lg border flex items-center justify-between ${

@@ -1,12 +1,10 @@
 // FillInBlankQuestion.tsx
 "use client";
 
-import { BaseQuestion, BaseQuestionProps } from "./base-question";
-import FillInBlankQuestionContent from "./contents/fill-in-black-question-content";
+import { BaseQuestion, BaseQuestionProps } from "../base-question";
+import FillInBlankQuestionContent from "../contents/fill-in-black-question-content";
 
 export function FillInBlankQuestion({ vocabularyItem, onAnswer, onSkip }: BaseQuestionProps) {
-
-  // Tạo câu với chỗ trống
 
   return (
     <BaseQuestion

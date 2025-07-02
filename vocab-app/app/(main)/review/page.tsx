@@ -70,7 +70,7 @@ export default function ReviewPage() {
             <Card>
               <CardContent className="p-6 px-4">
                 <Tabs defaultValue="all">
-                  <ReviewWordList />
+                  <ReviewWordList key="main-word-list" />
                 </Tabs>
               </CardContent>
             </Card>

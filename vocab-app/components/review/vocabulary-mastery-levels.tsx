@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import React from "react"
 
 interface VocabularyMasteryLevelsProps {
-  onLevelSelect?: (level: number) => void
+  onLevelSelect: (level: number) => void
   selectedLevel?: number | null
   showCounts?: boolean
   counts?: number[]
@@ -104,7 +104,7 @@ export const VocabularyMasteryLevels = React.memo(function VocabularyMasteryLeve
                   `}
                   onMouseEnter={() => setHoveredLevel(level.level)}
                   onMouseLeave={() => setHoveredLevel(null)}
-                  onClick={() => onLevelSelect?.(level.level)}
+                  onClick={() => onLevelSelect(level.level)}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >

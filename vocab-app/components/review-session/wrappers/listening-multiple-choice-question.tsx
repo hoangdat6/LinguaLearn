@@ -1,8 +1,8 @@
 "use client"
 
-import type { BaseQuestionProps } from "@/components/review/review-session/base-question"
-import { BaseQuestion } from "@/components/review/review-session/base-question"
-import { ListeningMultipleChoiceQuestionContent } from "./contents/listening-multiple-choice-content"
+import type { BaseQuestionProps } from "@/components/review-session/base-question"
+import { BaseQuestion } from "@/components/review-session/base-question"
+import { ListeningMultipleChoiceQuestionContent } from "../contents/listening-multiple-choice-content"
 import { Word } from "@/types/lesson-types"
 
 interface MultipleChoiceQuestionProps extends BaseQuestionProps {

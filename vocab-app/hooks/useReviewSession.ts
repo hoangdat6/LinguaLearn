@@ -1,7 +1,8 @@
 "use client"
 
+import { REVIEW_RESULT_KEY, REVIEW_SESSION_KEY, REVIEW_WORDS_KEY, SESSION_STATE, SessionState } from "@/constants/status"
 import { QUESTION_TYPES, ReviewService } from "@/services/review-service"
-import type { QuestionType, ReviewSession, ReviewSessionResults, WordReviewResult, WordReviewState } from "@/types/review"
+import type { QuestionType, ReviewResults, QuestionResult, ReviewSession, ReviewSessionResults, WordReviewResult, WordReviewState } from "@/types/review"
 import { useCallback, useEffect, useState } from "react"
 
 export function useReviewSession() {
@@ -17,7 +18,7 @@ export function useReviewSession() {
   const [currentQuestionType, setCurrentQuestionType] = useState<QuestionType>(QUESTION_TYPES[0])
 
   // Progress states
-  const [sessionState, setSessionState] = useState<"in-progress" | "completed">("in-progress")
+  const [sessionState, setSessionState] = useState<SessionState>(SESSION_STATE.IN_PROGRESS)
   const [progress, setProgress] = useState(0)
   const [correctAnswers, setCorrectAnswers] = useState(0)
   const [sessionStartTime] = useState(Date.now())
@@ -27,13 +28,7 @@ export function useReviewSession() {
   const [error, setError] = useState<Error | null>(null)
 
   // Results state
-  const [results, setResults] = useState<{
-    correct: number;
-    incorrect: number;
-    skipped: number;
-    totalTime: number;
-    questionResults: { word: string; correct: boolean; time: number; wordId?: number }[];
-  }>({
+  const [results, setResults] = useState<ReviewResults>({
     correct: 0,
     incorrect: 0,
     skipped: 0,
@@ -50,7 +45,7 @@ export function useReviewSession() {
     return new Promise(async (resolve, reject) => {
       try {
         setIsLoading(true)
-        const cachedWords = sessionStorage.getItem("reviewWords")
+        const cachedWords = sessionStorage.getItem(REVIEW_WORDS_KEY)
 
         if (cachedWords) {
           const parsedWords = JSON.parse(cachedWords)
@@ -60,7 +55,7 @@ export function useReviewSession() {
         }
 
         const items = await ReviewService.fetchReviewWords()
-        sessionStorage.setItem("reviewWords", JSON.stringify(items))
+        sessionStorage.setItem(REVIEW_WORDS_KEY, JSON.stringify(items))
         setReviewWords(items)
         setError(null)
         resolve({ fromCache: false, words: items })
@@ -159,7 +154,7 @@ export function useReviewSession() {
 
     setResults(prevResults => {
       // Create a new result entry for this word
-      const newResult = {
+      const newResult: QuestionResult = {
         word: word.word.word,
         correct: isCorrect,
         time: isSkipped ? 0 : 3.0, // Placeholder timing
@@ -191,7 +186,7 @@ export function useReviewSession() {
         else incorrectCount--;
       }
 
-      const newResults = {
+      const newResults: ReviewResults = {
         ...prevResults,
         correct: correctCount,
         incorrect: incorrectCount,
@@ -201,7 +196,7 @@ export function useReviewSession() {
       };
 
       // Immediately update sessionStorage with the latest results
-      sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
+      sessionStorage.setItem(REVIEW_RESULT_KEY, JSON.stringify(newResults));
 
       return newResults;
     });
@@ -218,7 +213,7 @@ export function useReviewSession() {
 
     // Track unique words that have been answered
     const processedWords = new Set();
-    const questionResults: { word: string; correct: boolean; time: number; wordId?: number }[] = [];
+    const questionResults: QuestionResult[] = [];
 
     let correctCount = 0;
     let incorrectCount = 0;
@@ -258,7 +253,7 @@ export function useReviewSession() {
       }
     });
 
-    const newResults = {
+    const newResults: ReviewResults = {
       correct: correctCount,
       incorrect: incorrectCount,
       skipped: skippedCount,
@@ -267,7 +262,7 @@ export function useReviewSession() {
     };
 
     // Store results in session storage for persistence
-    sessionStorage.setItem("reviewResults", JSON.stringify(newResults));
+    sessionStorage.setItem(REVIEW_RESULT_KEY, JSON.stringify(newResults));
     setResults(newResults);
 
     return newResults;
@@ -282,7 +277,7 @@ export function useReviewSession() {
 
     // Use setTimeout to ensure state updates happen after the current execution context
     setTimeout(() => {
-      setSessionState("completed");
+      setSessionState(SESSION_STATE.COMPLETED);
       setProgress(100);
 
       if (finalResults) {
@@ -333,13 +328,13 @@ export function useReviewSession() {
       reviewQueue,
     }
 
-    sessionStorage.setItem("reviewSession", JSON.stringify(sessionData))
+    sessionStorage.setItem(REVIEW_SESSION_KEY, JSON.stringify(sessionData))
   }, [reviewWords, reviewQueue, sessionState, sessionStartTime, progress, currentWordIndex])
 
   // Restore results from session storage if session is completed
   useEffect(() => {
-    if (sessionState === "completed") {
-      const storedResults = sessionStorage.getItem("reviewResults");
+    if (sessionState === SESSION_STATE.COMPLETED) {
+      const storedResults = sessionStorage.getItem(REVIEW_RESULT_KEY);
       if (storedResults) {
         try {
           setResults(JSON.parse(storedResults));
@@ -356,7 +351,7 @@ export function useReviewSession() {
    * Resets session to initial state
    */
   const resetSession = useCallback(() => {
-    setSessionState("in-progress")
+    setSessionState(SESSION_STATE.IN_PROGRESS)
     setProgress(0)
     setCorrectAnswers(0)
     setCurrentQuestionType(QUESTION_TYPES[0])
@@ -379,7 +374,7 @@ export function useReviewSession() {
     // Check explicitly if storedSession exists and has a valid reviewQueue
     if (storedSession && storedSession.reviewQueue && storedSession.reviewQueue.length > 0) {
       // Load existing session
-      setSessionState(storedSession.session_state)
+      setSessionState(storedSession.session_state as SessionState)
       setProgress(storedSession.progress)
       setReviewQueue(storedSession.reviewQueue)
       setCurrentWordIndex(storedSession.current_word_index)
@@ -396,7 +391,7 @@ export function useReviewSession() {
       }
     } else {
       // Create a new session
-      setSessionState("in-progress")
+      setSessionState(SESSION_STATE.IN_PROGRESS)
       setProgress(0)
       setCorrectAnswers(0)
       setCurrentWordIndex(0)
@@ -526,7 +521,7 @@ export function useReviewSession() {
     const loadSession = async () => {
       try {
         // Get stored session if exists
-        const storedSession = sessionStorage.getItem("reviewSession")
+        const storedSession = sessionStorage.getItem(REVIEW_SESSION_KEY)
         const parsedSession = storedSession ? JSON.parse(storedSession) as ReviewSession : null
 
         // Get review words (from cache or API)
@@ -542,6 +537,15 @@ export function useReviewSession() {
 
     loadSession()
   }, [fetchReviewWords, initReviewSession])
+
+  // ========== STORAGE MANAGEMENT ==========
+  /**
+   * Clears review session data from sessionStorage
+   */
+  const clearReviewSessionStorage = useCallback(() => {
+    sessionStorage.removeItem(REVIEW_SESSION_KEY);
+    sessionStorage.removeItem(REVIEW_WORDS_KEY);
+  }, []);
 
   // ========== RESULTS MANAGEMENT ==========
   /**
@@ -582,12 +586,11 @@ export function useReviewSession() {
 
   // Submit results when session is completed
   useEffect(() => {
-    if (sessionState === "completed") {
+    if (sessionState === SESSION_STATE.COMPLETED) {
       const results = prepareSessionResults()
       // Check if there are words to submit
       if (!results.words.length) {
-        sessionStorage.removeItem("reviewSession")
-        sessionStorage.removeItem("reviewWords")
+        clearReviewSessionStorage();
         console.warn("No words to submit")
         return
       }
@@ -599,16 +602,14 @@ export function useReviewSession() {
             console.error("Failed to submit review session")
           }
           // Clear session storage
-          sessionStorage.removeItem("reviewSession")
-          sessionStorage.removeItem("reviewWords")
+          clearReviewSessionStorage();
           // Reset session state
-
         })
         .catch((error) => {
           console.error("Error submitting review session:", error)
         })
     }
-  }, [sessionState, prepareSessionResults])
+  }, [sessionState, prepareSessionResults, clearReviewSessionStorage])
 
   /**
    * Handles back navigation while ensuring data is saved
@@ -632,15 +633,14 @@ export function useReviewSession() {
       }
     }
 
-    sessionStorage.removeItem("reviewSession");
-    sessionStorage.removeItem("reviewWords");
+    clearReviewSessionStorage();
 
     // Update session state with a small delay to ensure results are displayed
     setTimeout(() => {
-      setSessionState("completed");
+      setSessionState(SESSION_STATE.COMPLETED);
       setProgress(100);
     }, 100);
-  }, [calculateResults, prepareSessionResults]);
+  }, [calculateResults, prepareSessionResults, clearReviewSessionStorage]);
 
   // ========== RETURN VALUES ==========
 
