@@ -172,6 +172,30 @@
         "documentation": {}
     },
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "django.db",
         "description": "django.db",
@@ -767,6 +791,22 @@
     },
     {
         "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -2081,6 +2121,14 @@
         "documentation": {}
     },
     {
+        "label": "EnglishWordViewSet",
+        "importPath": "apps.learning.t_english_word.english_word_view",
+        "description": "apps.learning.t_english_word.english_word_view",
+        "isExtraImport": true,
+        "detail": "apps.learning.t_english_word.english_word_view",
+        "documentation": {}
+    },
+    {
         "label": "LessonViewSet",
         "importPath": "apps.learning.views.lesson_view",
         "description": "apps.learning.views.lesson_view",
@@ -2654,7 +2702,7 @@
         "kind": 6,
         "importPath": "backend.apps.accounts.serializers.auth_serializer",
         "description": "backend.apps.accounts.serializers.auth_serializer",
-        "peekOfCode": "class UserRegisterSerializer(serializers.ModelSerializer):\n    confirm_password = serializers.CharField(write_only=True)\n    class Meta:\n        model = CustomUser\n        fields = [\"username\", \"email\", \"password\", \"confirm_password\"]\n    def validate(self, attrs):\n        if attrs[\"password\"] != attrs[\"confirm_password\"]:\n            raise serializers.ValidationError({\"password\": \"Mật khẩu không khớp!\"})\n        if CustomUser.objects.filter(username=attrs['username']).exists():\n            raise serializers.ValidationError({\"username\": \"Tên đăng nhập đã tồn tại!\"})",
+        "peekOfCode": "class UserRegisterSerializer(serializers.ModelSerializer):\n    confirm_password = serializers.CharField(write_only=True)\n    class Meta:\n        model = CustomUser\n        fields = [\"email\", \"password\", \"confirm_password\"]\n    def validate(self, attrs):\n        if attrs[\"password\"] != attrs[\"confirm_password\"]:\n            raise serializers.ValidationError({\"password\": \"Mật khẩu không khớp!\"})\n        if CustomUser.objects.filter(email=attrs[\"email\"]).exists():\n            raise serializers.ValidationError({\"email\": \"Email đã được sử dụng!\"})",
         "detail": "backend.apps.accounts.serializers.auth_serializer",
         "documentation": {}
     },
@@ -2920,6 +2968,15 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.learning.migrations.0002_englishword",
+        "description": "backend.apps.learning.migrations.0002_englishword",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('learning', '0001_initial'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='EnglishWord',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('word', models.CharField(max_length=100, unique=True)),",
+        "detail": "backend.apps.learning.migrations.0002_englishword",
+        "documentation": {}
+    },
+    {
         "label": "Course",
         "kind": 6,
         "importPath": "backend.apps.learning.models.course",
@@ -2935,6 +2992,15 @@
         "description": "backend.apps.learning.models.lesson",
         "peekOfCode": "class Lesson(models.Model):\n    id = models.AutoField(primary_key=True)\n    title = models.CharField(max_length=255)\n    description = models.TextField(blank=True, null=True)\n    image = CloudinaryField('image', blank=True, null=True)  # Hình ảnh bài học\n    created_at = models.DateTimeField(auto_now_add=True)  # Lưu thời gian khi tạo\n    updated_at = models.DateTimeField(auto_now=True)  # Lưu thời gian khi cập nhật\n    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)\n    def __str__(self):\n        return self.title",
         "detail": "backend.apps.learning.models.lesson",
+        "documentation": {}
+    },
+    {
+        "label": "EnglishWord",
+        "kind": 6,
+        "importPath": "backend.apps.learning.models.t_english_word",
+        "description": "backend.apps.learning.models.t_english_word",
+        "peekOfCode": "class EnglishWord(models.Model):\n    word = models.CharField(max_length=100, unique=True)  # Từ tiếng Anh\n    meaning = models.TextField(blank=True)  # Nghĩa của từ\n    example = models.TextField(blank=True)  # Ví dụ sử dụng từ\n    created_at = models.DateTimeField(auto_now_add=True)  # Ngày tạo\n    def __str__(self):\n        return self.word",
+        "detail": "backend.apps.learning.models.t_english_word",
         "documentation": {}
     },
     {
@@ -3082,6 +3148,24 @@
         "documentation": {}
     },
     {
+        "label": "EnglishWordViewSet",
+        "kind": 6,
+        "importPath": "backend.apps.learning.t_english_word.english_word_view",
+        "description": "backend.apps.learning.t_english_word.english_word_view",
+        "peekOfCode": "class EnglishWordViewSet(viewsets.ModelViewSet):\n    queryset = EnglishWord.objects.all().order_by('-created_at')\n    serializer_class = EnglishWordSerializer",
+        "detail": "backend.apps.learning.t_english_word.english_word_view",
+        "documentation": {}
+    },
+    {
+        "label": "EnglishWordSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.learning.t_english_word.serializers",
+        "description": "backend.apps.learning.t_english_word.serializers",
+        "peekOfCode": "class EnglishWordSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = EnglishWord\n        fields = '__all__'",
+        "detail": "backend.apps.learning.t_english_word.serializers",
+        "documentation": {}
+    },
+    {
         "label": "CourseViewSet",
         "kind": 6,
         "importPath": "backend.apps.learning.views.course_view",
@@ -3113,7 +3197,7 @@
         "kind": 5,
         "importPath": "backend.apps.learning.urls",
         "description": "backend.apps.learning.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'courses', CourseViewSet, basename='course')\nrouter.register(r'lessons', LessonViewSet, basename='lesson')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'courses', CourseViewSet, basename='course')\nrouter.register(r'lessons', LessonViewSet, basename='lesson')\nrouter.register(r'words', EnglishWordViewSet, basename='word')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.learning.urls",
         "documentation": {}
     },
@@ -3851,7 +3935,7 @@
         "kind": 5,
         "importPath": "backend.config.settings.base",
         "description": "backend.config.settings.base",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'EXCEPTION_HANDLER': 'backend/core/exceptions.http_exception_handler',\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 10,\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n}\nMIDDLEWARE = [",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.http_exception_handler',\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 10,\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n}\nMIDDLEWARE = [",
         "detail": "backend.config.settings.base",
         "documentation": {}
     },

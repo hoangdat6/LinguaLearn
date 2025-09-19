@@ -1,5 +1,5 @@
 import { AUTH } from "@/constants/api-endpoints";
-import { AUTH_ROUTES } from "@/constants/routes";
+import { AUTH_ROUTES } from "@/constants/routers";
 import axios from "axios";
 import { signOut } from "next-auth/react";
 import api, { publicApi } from "./api";

@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ACCOUNT_NAV_LINKS } from "@/constants/routes";
+import { ACCOUNT_NAV_LINKS } from "@/constants/routers";
 import { Bell, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { StreakCounter } from "../homepage/streak-counter";

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ACCOUNT_NAV_LINKS, HEADER_NAV_LINKS } from "@/constants/routes";
+import { ACCOUNT_NAV_LINKS, HEADER_NAV_LINKS } from "@/constants/routers";
 import { cn } from "@/lib/utils";
 import { LogOut } from "lucide-react";
 import Link from "next/link";

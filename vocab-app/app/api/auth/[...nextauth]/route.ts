@@ -22,7 +22,7 @@ const REFRESH_BUFFER = 60 * 60 * 24; // 1 day buffer before expiry to refresh
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID || '',
+      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || '',
     }),
     // Facebook provider can be added similarly

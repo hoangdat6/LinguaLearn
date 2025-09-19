@@ -1,7 +1,6 @@
 "use client"
 
 import { useWordLevelStore } from "@/stores/wordLevelStore"
-import { WordReviewState } from "@/types/review"
 import { AnimatePresence } from "framer-motion"
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { VocabularyMasteryLevels } from "./vocabulary-mastery-levels"

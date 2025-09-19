@@ -12,34 +12,10 @@ export const AUTH_ROUTES = {
   RESET_PASSWORD: (token: string) => `/auth/reset-password/${token}`,
 };
 
-// Dashboard routes
-export const DASHBOARD_ROUTES = {
-  HOME: '/',
-  PROFILE: '/profile',
-  SETTINGS: '/settings',
-};
-
-// Vocabulary routes
-export const VOCABULARY_ROUTES = {
-  LIST: '/vocabulary',
-  DETAILS: (id: string | number) => `/vocabulary/${id}`,
-  ADD: '/vocabulary/add',
-  EDIT: (id: string | number) => `/vocabulary/${id}/edit`,
-};
-
-// Lesson routes
-export const LESSON_ROUTES = {
-  LIST: '/lessons',
-  DETAILS: (id: string | number) => `/lessons/${id}`,
-  START: (id: string | number) => `/lessons/${id}/learn`,
-  REVIEW: '/review',
-};
-
 export const HEADER_NAV_LINKS = [
   { name: "Trang chủ", href: "/", icon: Home },
   { name: "Học", href: "/lessons", icon: BookOpen },
   { name: "Ôn tập", href: "/review", icon: Dumbbell },
-  // { name: "Cửa hàng", href: "/shop", icon: ShoppingBag },
   { name: "Từ điển", href: "/dictionary", icon: Book },
   { name: "Luyện viết", href: "/writing", icon: Edit },
 ]

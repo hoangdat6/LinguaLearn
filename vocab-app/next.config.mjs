@@ -32,6 +32,7 @@ const nextConfig = {
     detailed: process.env.NODE_ENV === 'development',
     stats: process.env.NODE_ENV === 'development',
   },
+  output: 'standalone',
 }
 
 mergeConfig(nextConfig, userConfig)

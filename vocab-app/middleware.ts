@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   const protectedRoutes = [
     '/review-session',
     '/account',
-    '/review',
+    // '/review',
     '/vocabulary-learning'
   ];
 
