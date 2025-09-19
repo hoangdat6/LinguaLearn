@@ -14,6 +14,7 @@ services:
       - app_network
       - web_net
 
+
   db:
     image: postgres:17
     container_name: lingual_db

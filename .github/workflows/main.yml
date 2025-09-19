@@ -115,7 +115,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.PROD_SSH_PORT }} ${{ secrets.PROD_USER }}@${{ secrets.PROD_SERVER }} "
             cd ${{ secrets.PROD_PATH }} &&
             sudo cp nginx.conf /etc/nginx/sites-available/lingualearn &&
-            docker restart nginx &&
             docker-compose pull web &&
             docker-compose down &&
             docker-compose up -d --remove-orphans
